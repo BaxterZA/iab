@@ -16,15 +16,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 
-class CloseableLayout extends FrameLayout {
+public class CloseableLayout extends FrameLayout {
     private final static int CLOSE_REGION_SIZE = 50;
     private final static int PROGRESS_TIMER_INTERVAL = 50;
 
-    interface OnCloseListener {
+    public interface OnCloseListener {
         void onClose();
     }
 
-    interface SkippableStateListener {
+    public interface SkippableStateListener {
         void onSkippableStateChange();
     }
 
@@ -33,7 +33,7 @@ class CloseableLayout extends FrameLayout {
     private SkippableStateListener skippableStateListener;
     private CircleCountdownView closeButton;
 
-    CloseableLayout(@NonNull Context context) {
+    public CloseableLayout(@NonNull Context context) {
         super(context);
         closeButton = new CircleCountdownView(getContext());
         int closeButtonSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, CLOSE_REGION_SIZE, context.getResources().getDisplayMetrics());
@@ -53,7 +53,7 @@ class CloseableLayout extends FrameLayout {
         addView(closeButton);
     }
 
-     void setOnCloseListener(@NonNull OnCloseListener onCloseListener) {
+    public void setOnCloseListener(@NonNull OnCloseListener onCloseListener) {
         closeListener = onCloseListener;
     }
 
@@ -78,7 +78,7 @@ class CloseableLayout extends FrameLayout {
         return closeRect;
     }
 
-    void startTimer(final int timeInMills) {
+    public void startTimer(final int timeInMills) {
         startTimer(timeInMills, 0);
     }
 
@@ -111,7 +111,7 @@ class CloseableLayout extends FrameLayout {
         }, PROGRESS_TIMER_INTERVAL);
     }
 
-    void showCloseButton() {
+    public void showCloseButton() {
         closeButton.changePercentage(100, 0);
         closeButton.setImage(getBitmapFromBase64(close));
         if (skippableStateListener != null) {

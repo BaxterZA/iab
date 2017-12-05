@@ -11,45 +11,85 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.appodeal.mraid.CloseableLayout;
+
 @SuppressLint("ViewConstructor")
 public class CompanionLayer extends RelativeLayout {
     private CompanionListener listener;
+    private int closeTime;
+    private CloseableLayout closeableLayout;
+    private boolean canClose;
 
     interface CompanionListener {
-        void onCompanionClicked(@Nullable Companion companion);
         void onCompanionShown(@Nullable Companion companion);
+        void onCompanionClicked(@Nullable Companion companion, String url);
+        void onCompanionClosed(@Nullable Companion companion);
     }
 
     private Companion companion;
 
-    public CompanionLayer(Context context, @NonNull VastConfig vastConfig, @NonNull final CompanionListener listener) {
+    public CompanionLayer(Context context, @NonNull final VastConfig vastConfig, @NonNull final CompanionListener listener) {
         super(context);
         this.listener = listener;
-        if (vastConfig.getExtensions() != null && vastConfig.getExtensions().getCompanion() != null) {
-            companion = vastConfig.getExtensions().getCompanion();
+        Extensions extensions = vastConfig.getExtensions();
+        if (extensions != null) {
+            if (extensions.getCompanion() != null){
+                companion = extensions.getCompanion();
+            } else{
+                companion = vastConfig.getCompanion();
+            }
+            closeTime = extensions.getCompanionCloseTime();
         } else {
             companion = vastConfig.getCompanion();
         }
 
+        closeableLayout = new CloseableLayout(context);
         View companionView;
         if (companion == null) {
             companionView = getCompanionFromFrame(context, vastConfig);
+            companionView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCompanionClicked(companion, vastConfig.getVideoClicks().getClickThrough());
+                }
+            });
         } else {
-            companionView = companion.getView(context);
-
+            companionView = companion.getView(context, listener);
         }
-        addView(companionView, new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        companionView.setOnClickListener(new OnClickListener() {
+        RelativeLayout.LayoutParams layoutParams =  new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        closeableLayout.addView(companionView, 0, layoutParams);
+        closeableLayout.setOnCloseListener(new CloseableLayout.OnCloseListener() {
             @Override
-            public void onClick(View v) {
-                listener.onCompanionClicked(companion);
+            public void onClose() {
+                listener.onCompanionClosed(companion);
             }
         });
+        addView(closeableLayout, layoutParams);
+
     }
 
-    void showCompanion() {
-        this.setVisibility(VISIBLE);
+    boolean canClose() {
+        return canClose;
+    }
+
+    void showCompanion(VastType vastType) {
+        setVisibility(VISIBLE);
         listener.onCompanionShown(companion);
+
+        if (vastType == VastType.FULLSCREEN) {
+            if (closeTime > 0) {
+                closeableLayout.startTimer(closeTime);
+                closeableLayout.setSkippableStateListener(new CloseableLayout.SkippableStateListener() {
+                    @Override
+                    public void onSkippableStateChange() {
+                        canClose = true;
+                    }
+                });
+            } else {
+                canClose = true;
+                closeableLayout.showCloseButton();
+            }
+        }
     }
 
     boolean hasCompanion() {

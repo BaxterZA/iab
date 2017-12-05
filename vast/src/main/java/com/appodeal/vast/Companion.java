@@ -80,16 +80,32 @@ class Companion {
         return getWidth() > 0 && getHeight() > 0;
     }
 
-    View getView(Context context) {
-        WebView webView = new WebView(context);
-        if (staticResource != null && hasValidStaticResource()) {
-            webView.loadDataWithBaseURL("http://localhost", staticResource.getHtml(clickThrough), "text/html", "UTF-8", null);
-        } else if (htmlResource != null) {
-            webView.loadDataWithBaseURL("http://localhost", htmlResource.getHtml(), "text/html", "UTF-8", null);
+    View getView(Context context, final CompanionLayer.CompanionListener listener) {
+        ResourceViewBuilder viewBuilder = new ResourceViewBuilder();
+        View mraidView;
+        if (htmlResource != null) {
+            mraidView = viewBuilder.createView(context, htmlResource, new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onCompanionClicked(Companion.this, url);
+                }
+            });
+        } else if (staticResource != null && hasValidStaticResource()) {
+            mraidView = viewBuilder.createView(context, staticResource, clickThrough, new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onCompanionClicked(Companion.this, url);
+                }
+            });
         } else {
-            webView.loadUrl(iFrameResource.getUri());
+            mraidView = viewBuilder.createView(context, iFrameResource, new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onCompanionClicked(Companion.this, url);
+                }
+            });
         }
-        return webView;
+        return mraidView;
     }
 
     static class Builder {

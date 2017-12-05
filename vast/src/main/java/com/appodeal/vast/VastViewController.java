@@ -263,8 +263,10 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
                 }
                 break;
             case COMPANION_SHOWING:
-                listener.onClosed();
-                changeState(VastViewControllerState.DESTROYED);
+                if (companionLayer == null || companionLayer.canClose()) {
+                    listener.onClosed();
+                    changeState(VastViewControllerState.DESTROYED);
+                }
                 break;
         }
     }
@@ -273,11 +275,13 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         destroyMediaFileTracker();
         controlsLayer.videoComplete();
         mediaFileLayer.destroy();
+        if (iconsLayer != null) {
+            iconsLayer.destroy();
+        }
 
-
-        companionLayer.showCompanion();
+        companionLayer.showCompanion(vastType);
         if (!companionLayer.hasCompanion()) {
-            controlsLayer.showCompanionControls(vastType);
+            controlsLayer.showCompanionControls();
         }
         changeState(VastViewControllerState.COMPANION_SHOWING);
     }
@@ -368,11 +372,7 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         VastLog.i("Icon clicked");
         fireUrls(icon.getIconClicks().getClickTracking());
         if (listener != null) {
-            if (url == null) {
-                listener.onClicked(icon.getIconClicks().getClickThrough());
-            } else {
-                listener.onClicked(url);
-            }
+            listener.onClicked(url);
         }
 
     }
@@ -385,12 +385,12 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
 
 
     @Override
-    public void onCompanionClicked(Companion companion) {
+    public void onCompanionClicked(Companion companion, String url) {
         VastLog.i("Companion clicked");
         if (companion != null) {
             fireUrls(companion.getClickTracking());
             if (listener != null) {
-                listener.onClicked(companion.getClickThrough());
+                listener.onClicked(url);
             }
         } else {
             fireUrls(vastConfig.getVideoClicks().getClickTracking());
@@ -398,6 +398,12 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
                 listener.onClicked(vastConfig.getVideoClicks().getClickThrough());
             }
         }
+    }
+
+    @Override
+    public void onCompanionClosed(@Nullable Companion companion) {
+        VastLog.i("Companion closed");
+        attemptToClose();
     }
 
     @Override

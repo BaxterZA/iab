@@ -250,11 +250,8 @@ public class ControlsLayer extends RelativeLayout {
         progressBar.setVisibility(GONE);
     }
 
-    void showCompanionControls(VastType vastType) {
+    void showCompanionControls() {
         ctaButton.setVisibility(VISIBLE);
-        if (vastType == VastType.FULLSCREEN) {
-            closeButton.setVisibility(VISIBLE);
-        }
     }
 
     void destroy() {

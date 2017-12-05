@@ -1,9 +1,14 @@
 package com.appodeal.vast;
 
 import android.content.Context;
+import android.location.Location;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.RelativeLayout;
+
+import com.appodeal.mraid.MraidNativeFeature;
+import com.appodeal.mraid.MraidNativeFeatureListener;
+import com.appodeal.mraid.MraidView;
+import com.appodeal.mraid.MraidViewListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,14 +114,30 @@ class Icon {
         return playerPositionInMills > offset && playerPositionInMills < (offset + duration);
     }
 
-    View getView(Context context) {
-        WebView webView = new WebView(context);
-        if (staticResource != null && hasValidStaticResource()) {
-            webView.loadDataWithBaseURL("http://localhost", staticResource.getHtml(iconClicks.getClickThrough()), "text/html", "UTF-8", null);
-        } else if (htmlResource != null) {
-            webView.loadDataWithBaseURL("http://localhost", htmlResource.getHtml(), "text/html", "UTF-8", null);
+    View getView(Context context, final IconsLayer.IconsLayerListener listener) {
+        ResourceViewBuilder viewBuilder = new ResourceViewBuilder();
+        View mraidView;
+        if (htmlResource != null) {
+            mraidView = viewBuilder.createView(context, htmlResource, new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onIconClicked(Icon.this, url);
+                }
+            });
+        } else if (staticResource != null && hasValidStaticResource()) {
+            mraidView = viewBuilder.createView(context, staticResource, iconClicks.getClickThrough(), new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onIconClicked(Icon.this, url);
+                }
+            });
         } else {
-            webView.loadUrl(iFrameResource.getUri());
+            mraidView = viewBuilder.createView(context, iFrameResource, new ResourceViewBuilder.onClickListener() {
+                @Override
+                public void onClick(String url) {
+                    listener.onIconClicked(Icon.this, url);
+                }
+            });
         }
         int viewWidth = Math.round(width * VastTools.getScreenDensity(context));
         int viewHeight = Math.round(height * VastTools.getScreenDensity(context));
@@ -141,8 +162,8 @@ class Icon {
             default:
                 iconViewParams.topMargin = yPosition;
         }
-        webView.setLayoutParams(iconViewParams);
-        return webView;
+        mraidView.setLayoutParams(iconViewParams);
+        return mraidView;
     }
 
     static class Builder {

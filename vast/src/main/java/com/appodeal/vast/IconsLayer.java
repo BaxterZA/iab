@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.appodeal.mraid.MraidView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +33,7 @@ public class IconsLayer extends RelativeLayout {
         if (icons != null && icons.size() > 0) {
             iconsMap = new HashMap<>(icons.size());
             for (final Icon icon : icons) {
-                View iconView = icon.getView(context);
+                View iconView = icon.getView(context, listener);
                 iconView.setVisibility(GONE);
                 iconView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -60,7 +62,16 @@ public class IconsLayer extends RelativeLayout {
     }
 
     void destroy() {
-        iconsMap = null;
+        if (iconsMap != null) {
+            for (View view : iconsMap.values()) {
+                if (view instanceof MraidView) {
+                    ((MraidView) view).destroy();
+                }
+            }
+            iconsMap = null;
+        }
         listener = null;
+        setVisibility(View.GONE);
+        removeAllViews();
     }
 }

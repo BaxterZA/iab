@@ -109,7 +109,7 @@ class Extensions {
         private int MuteXPosition = RelativeLayout.ALIGN_PARENT_LEFT;
         private int MuteYPosition = RelativeLayout.ALIGN_PARENT_TOP;
         private int assetsColor = VastTools.assetsColor;
-        private int assetsBackgroundColor = Color.TRANSPARENT;
+        private int assetsBackgroundColor = VastTools.backgroundColor;
         private Companion companion;
 
         Builder() {
