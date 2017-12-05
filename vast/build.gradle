@@ -32,3 +32,39 @@ dependencies {
 
     compile project(':mraid')
 }
+
+def javaDocDir = new File(rootDir, 'docs/vast')
+
+task prepareJavaDocDir() {
+    doFirst {
+        if (javaDocDir.exists()) {
+            javaDocDir.deleteDir()
+        }
+        javaDocDir.mkdirs()
+    }
+}
+
+task generateJavaDocs(dependsOn: [prepareJavaDocDir, 'bundleDebug'], type: Javadoc, group: 'doc') {
+    source = android.sourceSets.main.java.srcDirs
+    title = "Appodeal VAST SDK"
+    destinationDir = javaDocDir
+    classpath += files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
+    classpath += files("${projectDir}/build/intermediates/bundles/debug/classes.jar")
+    failOnError = false
+    options.use = false
+    options.author = false
+    options.version = false
+    options.noDeprecated
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.memberLevel = JavadocMemberLevel.PUBLIC
+    options {
+        links "http://docs.oracle.com/javase/7/docs/api/"
+        linksOffline "https://developer.android.com/reference","${android.sdkDirectory}/docs/reference"
+    }
+}
+
+afterEvaluate {
+    generateJavaDocs.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompile.classpath.files
+    })
+}
