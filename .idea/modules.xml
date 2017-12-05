@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/IAB.iml" filepath="$PROJECT_DIR$/IAB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mraid/mraid.iml" filepath="$PROJECT_DIR$/mraid/mraid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mraid_app/mraid_app.iml" filepath="$PROJECT_DIR$/mraid_app/mraid_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vast/vast.iml" filepath="$PROJECT_DIR$/vast/vast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vast_app/vast_app.iml" filepath="$PROJECT_DIR$/vast_app/vast_app.iml" />
+    </modules>
+  </component>
+</project>

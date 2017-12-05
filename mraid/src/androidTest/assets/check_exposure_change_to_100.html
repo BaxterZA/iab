@@ -1,0 +1,17 @@
+<script src="mraid.js"></script>
+<script type="text/javascript">
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        if (!mraid.isViewable()) {
+            mraid.addEventListener("exposureChange", handleExposureChange);
+        }
+    }
+    function handleExposureChange(percent, visibleRectangle, occlusionRectangles) {
+        if (percent == 100) {
+            mraid.removeEventListener("exposureChange", handleExposureChange);
+            alert('pass');
+        } else {
+            alert('fail');
+        }
+    }
+</script>

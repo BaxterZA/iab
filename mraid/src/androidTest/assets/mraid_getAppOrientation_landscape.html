@@ -1,0 +1,13 @@
+<script src="mraid.js"></script>
+<script>
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        var properties = mraid.getCurrentAppOrientation();
+        console.log(JSON.stringify(properties));
+        if (properties.orientation == "landscape") {
+            alert('pass');
+        } else {
+            alert('fail');
+        }
+    }
+</script>

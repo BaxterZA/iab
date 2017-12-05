@@ -1,0 +1,14 @@
+<script src="mraid.js"></script>
+<script type="text/javascript">
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        if (!mraid.isViewable()) {
+            mraid.addEventListener("exposureChange", handleExposureChange);
+        }
+    }
+    function handleExposureChange(percent, visibleRectangle, occlusionRectangles) {
+        mraid.removeEventListener("exposureChange", handleExposureChange);
+        console.log(JSON.stringify(visibleRectangle));
+        alert(JSON.stringify(visibleRectangle));
+    }
+</script>

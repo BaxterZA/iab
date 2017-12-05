@@ -1,0 +1,103 @@
+<script src="mraid.js"></script>
+<div id='mraidCreative' style='display: none; color: #016add'><h1>VPAID NOT supported - show static MRAID</h1></div>
+<div id='vpaidCreative' style='display: none; color: #016add'>
+    <h1>VPAID supported</h1>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdImpression')">AdImpression</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdPaused')">AdPaused</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdPlaying')">AdPlaying</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdVideoComplete')">AdVideoComplete</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdVideoFirstQuartile')">AdVideoFirstQuartile</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdVideoMidpoint')">AdVideoMidpoint</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdVideoStart')">AdVideoStart</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdVideoThirdQuartile')">AdVideoThirdQuartile</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdError', 'error message')">AdError</button>
+    <br/>
+    <button onclick="javascript:VPAIDCreative.fireEvent('AdClickThru', 'http://vpaid.url', 'id0', false)">AdClickThru</button>
+</div>
+<script>
+
+    var VPAIDCreative = (function () {
+        var _this = this;
+
+        _this.subscribes = {};
+
+        _this.startAd = function () {
+            console.log('VPAID startAd');
+        };
+
+        _this.getAdDuration = function () {
+            return 15;
+        };
+
+        _this.getAdRemainingTime = function (state) {
+            return 2;
+        };
+
+        _this.subscribe = function (callback, eventName) {
+            if (!_this.subscribes[eventName]) {
+                _this.subscribes[eventName] = callback;
+            } else {
+                console.log("Subscription already set");
+            }
+        };
+
+        _this.unsubscribe = function (eventName) {
+            if (_this.subscribes[eventName]) {
+                _this.subscribes[eventName] = null;
+                delete _this.subscribes[eventName];
+            } else {
+                console.log("subscription not set");
+            }
+        };
+
+        _this.fireEvent = function (eventName) {
+            if (_this.subscribes[eventName]) {
+                var eventListener = _this.subscribes[eventName];
+                if (eventListener) {
+                    var args = Array.prototype.slice.call(arguments);
+                    eventListener.apply(null, args);
+                } else {
+                    console.log("no listeners found for " + eventName);
+                }
+            }
+        };
+
+        return _this;
+    })();
+
+    function mraidIsReady() {
+        mraid.removeEventListener('ready', mraidIsReady);
+
+        showMyAd();
+    }
+    function showMyAd() {
+        if (mraid.supports('vpaid')) {
+            console.log('VPAID supported');
+            var el = document.getElementById('vpaidCreative');
+            el.style.display = 'block';
+            el.innerHTML = el.innerHTML + '</br>' + 'Ad duration: ' + VPAIDCreative.getAdDuration();
+            mraid.initVpaid(VPAIDCreative)
+        } else {
+            document.getElementById('mraidCreative').style.display = 'block';
+        }
+    }
+    function doReadyCheck() {
+        if (mraid.getState() == 'loading') {
+            mraid.addEventListener('ready', mraidIsReady);
+        }
+        else {
+            showMyAd();
+        }
+    }
+
+    doReadyCheck();
+</script>

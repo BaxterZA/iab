@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Vast</string>
+    <string name="view">view</string>
+    <string name="fullscreen">fullscreen</string>
+    <string name="load">Load</string>
+    <string name="show">Show</string>
+    <string name="destroy">Destroy</string>
+</resources>

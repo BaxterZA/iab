@@ -1,0 +1,30 @@
+<script src="mraid.js"></script>
+<script type="text/javascript">
+    var expectedValues = [];
+    expectedValues.unshift(100);
+    expectedValues.unshift(0);
+
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        if (!mraid.isViewable()) {
+            mraid.addEventListener("exposureChange", handleExposureChange);
+        }
+    }
+    function handleExposureChange(percent, visibleRectangle, occlusionRectangles) {
+        var expectedValue = expectedValues.pop();
+        console.log("expectedValue: " + expectedValue);
+        if (expectedValue == percent) {
+            if (expectedValues.length == 0) {
+                mraid.removeEventListener("exposureChange", handleExposureChange);
+                alert('pass');
+            } else {
+                console.log("NEXT STEP");
+                alert('next');
+            }
+        } else {
+            if (expectedValue != undefined) {
+                alert('fail');
+            }
+        }
+    }
+</script>

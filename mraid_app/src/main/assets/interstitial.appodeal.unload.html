@@ -1,0 +1,33 @@
+<script src='mraid.js'></script>
+
+<div id='normal' style='display: none; width: 320px; height: 50px; margin: auto; position: relative; top: 0px; left: 0px;'>
+    <div style='display: inline-block; width:50%; height:50px; text-align: center; line-height: 50px; background-color:#f15d23' onclick="javascript:mraid.open('http://appodeal.com');">OPEN</div>
+    <div style='display: inline-block; width:50%; height:50px; text-align: center; line-height: 50px; background-color:#f15d23' onclick="javascript:mraid.unload();">UNLOAD</div>
+</div>
+<script>
+function mraidIsReady()
+{
+	mraid.removeEventListener('ready', mraidIsReady);
+
+	showMyAd();
+}
+function showMyAd()
+{
+	var el = document.getElementById('normal');
+    el.style.display = 'table';
+}
+function doReadyCheck()
+{
+	if (mraid.getState() == 'loading')
+	{
+		mraid.addEventListener('ready', mraidIsReady);
+	}
+	else
+	{
+		showMyAd();
+	}
+}
+
+doReadyCheck();
+
+</script>

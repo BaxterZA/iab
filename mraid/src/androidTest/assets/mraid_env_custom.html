@@ -1,0 +1,14 @@
+<script>
+    if (!!MRAID_ENV) {
+        if (MRAID_ENV.version == '3.0' && MRAID_ENV.sdk == 'Appodeal MRAID SDK' && MRAID_ENV.sdkVersion == '0.0.1'
+                && MRAID_ENV.ifa == 'ifa' && MRAID_ENV.appId == 'com.appodeal.mraid' && MRAID_ENV.limitAdTracking && MRAID_ENV.coppa) {
+            alert('pass');
+        } else {
+            console.log(JSON.stringify(MRAID_ENV));
+            alert('fail');
+        }
+    } else {
+        console.log('No MRAID_ENV object');
+        alert('fail');
+    }
+</script>

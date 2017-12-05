@@ -1,0 +1,34 @@
+<script src='mraid.js'></script>
+<div style='width: 100%; height: 100%; background-color: red; font-size: 20px; text-align: center;'>
+    LANDSCAPE
+</div>
+<script>
+    function mraidIsReady()
+    {
+        mraid.removeEventListener('ready', mraidIsReady);
+
+        prepareMyAd();
+    }
+
+    function prepareMyAd()
+    {
+        mraid.setOrientationProperties({
+            'allowOrientationChange' : false,
+            'forceOrientation' : 'landscape'
+        })
+    }
+
+    function doReadyCheck()
+    {
+        if (mraid.getState() == 'loading')
+        {
+            mraid.addEventListener('ready', mraidIsReady);
+        }
+        else
+        {
+            prepareMyAd();
+        }
+    }
+
+    doReadyCheck();
+</script>

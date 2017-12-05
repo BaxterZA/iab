@@ -1,0 +1,11 @@
+<script src="mraid.js"></script>
+<script>
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        if (mraid.getPlacementType() == 'inline') {
+            alert('pass');
+        } else {
+            alert('fail');
+        }
+    }
+</script>

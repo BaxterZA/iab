@@ -1,0 +1,31 @@
+<!-- AdPlacement : interstitial_320_480_bid_1_0 -->
+<script src='mraid.js'></script>
+<script type='text/javascript'>(function() {var nex_displayed = false;function nex_getXMLHttpRequest() {if (window.XMLHttpRequest) {return new XMLHttpRequest();} else {return new ActiveXObject('Microsoft.XMLHTTP');}} function nex_callDisplay() {if (!nex_displayed) {nex_displayed = true;var displayUrl='http://wdc8.nexage.com:80/admax/adEvent.do?tidi=770446106&posi=553632&grp=%3F%3F%3F&nl=1512384975766&pix=1&et=1&a=64b6d589bc80464da8aac3b9a3d4817d&m=bjhhMTEwcw..&xdi=Tm9uLU1vYmlsZXw_Pz98Pz8_fDA.&xoi=MXxSVVM.';var xhr=nex_getXMLHttpRequest();xhr.open('GET', displayUrl, false);xhr.send();}}function nex_view(viewable) {if (viewable === true || viewable === 'true'){nex_callDisplay();}} function nex_ready() {if (mraid.isViewable() === true || mraid.isViewable() === 'true'){nex_view(true);} else {mraid.addEventListener('viewableChange', nex_view);}}function nex_init() {if (window.mraid && mraid.getState && mraid.addEventListener) {if (mraid.getState() === 'loading') {mraid.addEventListener('ready', nex_ready);} else {nex_ready();}} else {nex_callDisplay();}}nex_init();})();</script>
+<div id="nexageDiv_efe49efe19cf49c294fe4f08fd00a7af">
+    <html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link href="http://lp.mydas.mobi/sdk_test_creatives/sample_app/style.css" type="text/css" rel="stylesheet"/>
+    </head>
+    <body>
+    <img id="portraitImage" class="page"/>
+    <img id="landscapeImage" class="page"/>
+    <script src="http://lp.mydas.mobi/sdk_test_creatives/sample_app/interstitial.js"></script>
+    </body>
+    </html>
+</div>
+<script type="text/javascript">
+document.getElementById('nexageDiv_efe49efe19cf49c294fe4f08fd00a7af').addEventListener("click", function () {
+var clickCountingUrl = "http://wdc8.nexage.com:80/admax/adClick.do?dcn=2c9d2b4f015f5fbae511e35cb54b04bf&n=Z-TEST&ec=eNrLKCkp0CsvSiwoSE0BAB_gBOI.&a=64b6d589bc80464da8aac3b9a3d4817d&id=4f1c3485cd8c4119acca409e5fad47d0&tid=2c9d2b5001606002f4292118c0cf022a&nid=8a808aee32b23b0e013311fe47710e86&pos=interstitial_320_480_bid_1_0&grp=%3F%3F%3F&nl=1512384975766";
+var xhr = getXMLHttpRequest();
+xhr.open("GET", clickCountingUrl, false);
+xhr.send();
+}, true);
+function getXMLHttpRequest () {
+if (window.XMLHttpRequest)
+return new XMLHttpRequest();
+else
+return new ActiveXObject("Microsoft.XMLHTTP");
+}
+</script>
+<!-- Ads by Z-TEST Integration - Optimized by NEXAGE - Monday, December 4, 2017 5:56:15 AM EST -->

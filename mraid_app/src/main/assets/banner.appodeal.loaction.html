@@ -1,0 +1,36 @@
+<script src='mraid.js'></script>
+
+<div id='normal' style='display: none; width: 320px; height: 50px; margin: auto; position: relative; top: 0px; left: 0px;'>
+    <div id='inner' style='display: inline-block; width:320px; height:50px; text-align: center; background-color:#f15d23'></div>
+</div>
+<script>
+function mraidIsReady()
+{
+	mraid.removeEventListener('ready', mraidIsReady);
+
+	showMyAd();
+}
+function showMyAd()
+{
+	var el = document.getElementById('normal');
+    el.style.display = 'table';
+
+    var location = mraid.getLocation();
+    document.getElementById('inner').innerHTML  = 'lat: ' + location.lat + '; lon: ' + location.lon + '; type: ' + location.type + '; accuracy: ' +
+        location.accuracy + '; lastfix: ' + location.lastfix + '; ipservice: ' + location.ipservice;
+}
+function doReadyCheck()
+{
+	if (mraid.getState() == 'loading')
+	{
+		mraid.addEventListener('ready', mraidIsReady);
+	}
+	else
+	{
+		showMyAd();
+	}
+}
+
+doReadyCheck();
+
+</script>

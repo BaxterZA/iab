@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_banner"
+        android:enabled="true"
+        android:icon="@drawable/banner_logo"
+        android:title="@string/banner"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_interstitial"
+        android:enabled="true"
+        android:icon="@drawable/interstitial_logo"
+        android:title="@string/interstitial"
+        app:showAsAction="ifRoom"/>
+</menu>

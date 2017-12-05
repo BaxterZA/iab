@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<VAST version="4.0">
+    <Ad id="189486">
+        <InLine>
+            <AdSystem>Virool</AdSystem>
+            <AdTitle>Introducing Virool's InLine for mobile web for iOS and Android</AdTitle>
+            <Description>The launch of InLine on mobile has revolutionized the mobile video landscape by sidestepping Apple&amp;rsquo;s requirement to play video in full</Description>
+            <Error>
+                <![CDATA[http://myTrackingURL/VideoError?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]&error=[ERRORCODE]]]>
+            </Error>
+            <Error>
+                <![CDATA[http://myTrackingURL/VideoError?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D&error=%5BERRORCODE%5D]]>
+            </Error>
+            <ViewableImpression>
+                <Viewable><![CDATA[http://myTrackingURL/ViewableImpression?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Viewable>
+                <NotViewable><![CDATA[http://myTrackingURL/NotViewableImpression?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></NotViewable>
+                <ViewUndetermined><![CDATA[http://myTrackingURL/ViewUndetermined?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></ViewUndetermined>
+            </ViewableImpression>
+            <Impression>
+                <![CDATA[http://myTrackingURL/VideoImpression]]>
+            </Impression>
+            <Impression>
+                <![CDATA[http://myTrackingURL/VideoImpression?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]>
+            </Impression>
+            <Impression>
+                <![CDATA[http://myTrackingURL/VideoImpression?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]>
+            </Impression>
+
+            <AdVerifications>
+                <Verification>
+                    <ViewableImpression>
+                        <Viewable><![CDATA[http://myTrackingURL/AdVerificationsViewableImpression?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Viewable>
+                        <NotViewable><![CDATA[http://myTrackingURL/AdVerificationsNotViewableImpression?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></NotViewable>
+                        <ViewUndetermined><![CDATA[http://myTrackingURL/AdVerificationsViewUndetermined?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></ViewUndetermined>
+                    </ViewableImpression>
+                </Verification>
+            </AdVerifications>
+
+            <Creatives>
+                <Creative AdID="189486">
+                    <Linear skipoffset="00:00:13">
+                        <Duration>00:00:15</Duration>
+                        <VideoClicks>
+                            <ClickThrough>
+                                <![CDATA[ https://share.virool.com/share/gotosite/campaign/189486/368960?site_key=8ea5a17&amp;uuid=b89de0aa-165f-417a-9e30-b70ac599e846&amp;meta=virtual_site%3Aforbes.com&amp;]]>
+                            </ClickThrough>
+                            <ClickTracking>
+                                <![CDATA[ http://myTrackingURL/VideoClick]]>
+                            </ClickTracking>
+                            <ClickTracking>
+                                <![CDATA[ http://myTrackingURL/VideoClick?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]>
+                            </ClickTracking>
+                            <ClickTracking>
+                                <![CDATA[ http://myTrackingURL/VideoClick?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]>
+                            </ClickTracking>
+                            <CustomClick>
+                                <![CDATA[ http://myTrackingURL/CustomClick?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]>
+                            </CustomClick>
+                            <CustomClick>
+                                <![CDATA[ http://myTrackingURL/CustomClick?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]>
+                            </CustomClick>
+                        </VideoClicks>
+                        <TrackingEvents>
+                            <Tracking event="start">
+                                <![CDATA[http://myTrackingURL/start]]>
+                            </Tracking>
+                            <Tracking event="start">
+                                <![CDATA[http://myTrackingURL/start?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]>
+                            </Tracking>
+                            <Tracking event="start">
+                                <![CDATA[http://myTrackingURL/start?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]>
+                            </Tracking>
+                            <Tracking event="midpoint">http://myTrackingURL/Videomidpoint</Tracking>
+                            <Tracking event="firstQuartile">http://myTrackingURL/VideofirstQuartile</Tracking>
+                            <Tracking event="thirdQuartile">http://myTrackingURL/VideothirdQuartile</Tracking>
+                            <Tracking event="complete">http://myTrackingURL/Videocomplete</Tracking>
+                            <Tracking event="midpoint"><![CDATA[http://myTrackingURL/Videomidpoint?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[http://myTrackingURL/VideofirstQuartile?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[http://myTrackingURL/VideothirdQuartile?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Tracking>
+                            <Tracking event="complete"><![CDATA[http://myTrackingURL/Videocomplete?position=[CONTENTPLAYHEAD]&url=[ASSETURI]&code=[CACHEBUSTING]&time=[TIMESTAMP]]]></Tracking>
+                            <Tracking event="midpoint"><![CDATA[http://myTrackingURL/Videomidpoint?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]></Tracking>
+                            <Tracking event="firstQuartile"><![CDATA[http://myTrackingURL/VideofirstQuartile?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]></Tracking>
+                            <Tracking event="thirdQuartile"><![CDATA[http://myTrackingURL/VideothirdQuartile?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]></Tracking>
+                            <Tracking event="complete"><![CDATA[http://myTrackingURL/Videocomplete?position=%5BCONTENTPLAYHEAD%5D&url=%5BASSETURI%5D&code=%5BCACHEBUSTING%5D&time=%5BTIMESTAMP%5D]]></Tracking>
+                            <Tracking event="progress" offset="00:00:02">http://myTrackingURL/progress1</Tracking>
+                            <Tracking event="progress" offset="30%">http://myTrackingURL/progress2</Tracking>
+                        </TrackingEvents>
+                        <Icons>
+                            <Icon height="100" width="100" pxratio="2" xPosition="left" yPosition="top" duration="00:00:05">
+                                <StaticResource creativeType="image/png">
+                                    <![CDATA[https://upload.wikimedia.org/wikipedia/ru/3/33/Appodeal_logo.jpg]]>
+                                </StaticResource>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_1_1]]>
+                                </IconViewTracking>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_1_2]]>
+                                </IconViewTracking>
+                                <IconClicks >
+                                    <IconClickThrough >
+                                        <![CDATA[http://appodeal.com/]]>
+                                    </IconClickThrough>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_1_1]]>
+                                    </IconClickTracking>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_1_2]]>
+                                    </IconClickTracking>
+                                </IconClicks>
+                            </Icon>
+                            <Icon height="100" width="100" pxratio="2" xPosition="right" yPosition="bottom" duration="00:00:25" offset="00:00:02">
+                                <StaticResource creativeType="image/jpg">
+                                    <![CDATA[https://s-media-cache-ak0.pinimg.com/564x/98/86/d8/9886d8275ea1ad44c19170b642bf36a0.jpg]]>
+                                </StaticResource>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_2_1]]>
+                                </IconViewTracking>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_2_2]]>
+                                </IconViewTracking>
+                                <IconClicks >
+                                    <IconClickThrough >
+                                        <![CDATA[https://www.f1news.ru/]]>
+                                    </IconClickThrough>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_2_1]]>
+                                    </IconClickTracking>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_2_2]]>
+                                    </IconClickTracking>
+                                </IconClicks>
+                            </Icon>
+                            <Icon height="100" width="100" pxratio="1" xPosition="200" yPosition="200" duration="00:00:03" offset="00:00:05">
+                                <StaticResource creativeType="image/png">
+                                    <![CDATA[https://mobilemarketingwatch.com/wp-content/uploads/2016/01/IAB1.jpg]]>
+                                </StaticResource>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_3_1]]>
+                                </IconViewTracking>
+                                <IconViewTracking >
+                                    <![CDATA[http://myTrackingURL/IconViewTracking_3_2]]>
+                                </IconViewTracking>
+                                <IconClicks >
+                                    <IconClickThrough>
+                                        <![CDATA[https://www.iab.com/]]>
+                                    </IconClickThrough>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_3_1]]>
+                                    </IconClickTracking>
+                                    <IconClickTracking >
+                                        <![CDATA[http://myTrackingURL/IconClickTracking_3_2]]>
+                                    </IconClickTracking>
+                                </IconClicks>
+                            </Icon>
+                        </Icons>
+                        <MediaFiles>
+                            <MediaFile width="640" height="360" type="video/mp4" delivery="progressive">
+                                <![CDATA[http://content.adfox.ru/150305/adfox/205544/801069_1.mp4]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
