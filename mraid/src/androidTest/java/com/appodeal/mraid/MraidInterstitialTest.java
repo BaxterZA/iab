@@ -47,9 +47,9 @@ public class MraidInterstitialTest {
         mraidInterstitial.setMraidEnvironment(mraidEnvironment);
         verify(mraidInterstitial.controller).setMraidEnvironment(mraidEnvironment);
 
-        MraidWebViewDebugListener mraidWebViewDebugListener = mock(MraidWebViewDebugListener.class);
-        mraidInterstitial.setMraidWebViewDebugListener(mraidWebViewDebugListener);
-        verify(mraidInterstitial.controller).setMraidWebViewDebugListener(mraidWebViewDebugListener);
+        AdWebViewDebugListener adWebViewDebugListener = mock(AdWebViewDebugListener.class);
+        mraidInterstitial.setAdWebViewDebugListener(adWebViewDebugListener);
+        verify(mraidInterstitial.controller).setAdWebViewDebugListener(adWebViewDebugListener);
 
         List<MraidNativeFeature> nativeFeatureList = new ArrayList<>();
         MraidNativeFeatureListener nativeFeatureListener = mock(MraidNativeFeatureListener.class);

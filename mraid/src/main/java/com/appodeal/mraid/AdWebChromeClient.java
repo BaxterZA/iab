@@ -6,10 +6,10 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-class MraidWebChromeClient extends WebChromeClient {
-    private MraidCommandListener debugListener;
+public class AdWebChromeClient extends WebChromeClient {
+    private AdWebViewDebugListener debugListener;
 
-    MraidWebChromeClient(MraidCommandListener debugListener) {
+    public AdWebChromeClient(AdWebViewDebugListener debugListener) {
         super();
         this.debugListener = debugListener;
     }

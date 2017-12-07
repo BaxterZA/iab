@@ -71,6 +71,8 @@ public class VastActivity extends Activity implements VastControllerListener {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         setContentView(vastView, layoutParams);
+
+        vastController.start();
     }
 
     private void closeActivity() {
@@ -116,7 +118,8 @@ public class VastActivity extends Activity implements VastControllerListener {
 
     @Override
     public void onVastControllerLoaded(VastController vastController) {
-
+        //repeat clicked
+        vastController.start();
     }
 
     @Override

@@ -10,10 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 
-class MraidWebView extends WebView {
-    private MraidWebViewListener listener;
+public class AdWebView extends WebView {
+    private AdWebViewListener listener;
 
-    MraidWebView(Context context) {
+    public AdWebView(Context context) {
         super(new MutableContextWrapper(context));
 
         getSettings().setAllowFileAccess(false);
@@ -53,11 +53,11 @@ class MraidWebView extends WebView {
         setBackgroundColor(Color.TRANSPARENT);
     }
 
-    void setListener(MraidWebViewListener listener) {
+    public void setListener(AdWebViewListener listener) {
         this.listener = listener;
     }
 
-    void allowMediaPlayback() {
+    public void allowMediaPlayback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             getSettings().setMediaPlaybackRequiresUserGesture(false);
         }

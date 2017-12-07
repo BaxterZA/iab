@@ -103,11 +103,11 @@ public class MraidView extends FrameLayout implements MraidViewControllerListene
 
     /**
      * Set debug listener to debug creative
-     * @param debugListener implementation of {@link MraidWebViewDebugListener}
+     * @param debugListener implementation of {@link AdWebViewDebugListener}
      */
-    public void setMraidWebViewDebugListener(MraidWebViewDebugListener debugListener) {
+    public void setAdWebViewDebugListener(AdWebViewDebugListener debugListener) {
         if (controller != null) {
-            controller.setMraidWebViewDebugListener(debugListener);
+            controller.setAdWebViewDebugListener(debugListener);
         }
     }
 

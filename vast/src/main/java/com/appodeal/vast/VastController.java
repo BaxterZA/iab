@@ -26,11 +26,11 @@ class VastController implements VastLoader.LoaderListener {
 
     VastController(Context context, float adAspectRatio, VastType vastType) {
         this.adAspectRatio = adAspectRatio;
-        this.cacheDir = getCacheDir(context);
+        this.cacheDir = getCacheDir(context.getApplicationContext());
         this.context = context.getApplicationContext();
         this.vastType = vastType;
 
-        vastView = new RelativeLayout(context);
+        vastView = new RelativeLayout(context.getApplicationContext());
     }
 
     void setVastControllerListener(VastControllerListener vastControllerListener) {
@@ -68,14 +68,11 @@ class VastController implements VastLoader.LoaderListener {
         return vastView;
     }
 
-//    void start() {
-//        if (vastViewController != null) {
-//            vastViewController.start(); //TODO VPaid AdStart
-//        } else if (vastControllerListener != null) {
-//            vastControllerListener.onVastControllerFailedToShow(this);
-//            destroy();
-//        }
-//    }
+    void start() {
+        if (vastViewController != null) {
+            vastViewController.start();
+        }
+    }
 
     void pause() {
         if (vastViewController != null) {
@@ -228,7 +225,7 @@ class VastController implements VastLoader.LoaderListener {
                 }
 
                 for (int i = cacheSize; i < files.length; i++) {
-                    if (!Uri.fromFile(files[i]).equals(vastConfig.getMediaFileLocalUri())) {
+                    if (vastConfig == null || !Uri.fromFile(files[i]).equals(vastConfig.getMediaFileLocalUri())) {
                         //noinspection ResultOfMethodCallIgnored
                         files[i].delete();
                     }

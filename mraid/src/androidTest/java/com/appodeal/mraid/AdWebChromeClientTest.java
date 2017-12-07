@@ -15,13 +15,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 @RunWith(AndroidJUnit4.class)
-public class MraidWebChromeClientTest {
+public class AdWebChromeClientTest {
 
     @Test
     public void onConsoleMessage() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ConsoleMessage message = new ConsoleMessage("text of the message", "source", 12, ConsoleMessage.MessageLevel.DEBUG);
-        MraidWebChromeClient mraidWebChromeClient = new MraidWebChromeClient(new MraidCommandListener() {
+        AdWebChromeClient adWebChromeClient = new AdWebChromeClient(new MraidCommandListener() {
             @Override
             public void mraidViewPageFinished() {
 
@@ -104,14 +104,14 @@ public class MraidWebChromeClientTest {
                 return false;
             }
         });
-        mraidWebChromeClient.onConsoleMessage(message);
+        adWebChromeClient.onConsoleMessage(message);
         countDownLatch.await();
     }
 
     @Test
     public void onJsAlert() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebChromeClient mraidWebChromeClient = new MraidWebChromeClient(new MraidCommandListener() {
+        AdWebChromeClient adWebChromeClient = new AdWebChromeClient(new MraidCommandListener() {
             @Override
             public void mraidViewPageFinished() {
 
@@ -194,7 +194,7 @@ public class MraidWebChromeClientTest {
                 return false;
             }
         });
-        mraidWebChromeClient.onJsAlert(mock(WebView.class), "url", "alert test", mock(JsResult.class));
+        adWebChromeClient.onJsAlert(mock(WebView.class), "url", "alert test", mock(JsResult.class));
         countDownLatch.await();
     }
 }

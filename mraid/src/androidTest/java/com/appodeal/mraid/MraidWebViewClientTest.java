@@ -25,7 +25,7 @@ public class MraidWebViewClientTest {
     @Test
     public void shouldInterceptRequest() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -51,14 +51,14 @@ public class MraidWebViewClientTest {
                 countDownLatch.countDown();
             }
         });
-        mraidWebViewClient.shouldInterceptRequest(mock(WebView.class), "mraid.js");
+        MraidWebViewClient.shouldInterceptRequest(mock(WebView.class), "mraid.js");
         countDownLatch.await();
     }
 
     @Test
     public void onPageFinished() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -84,7 +84,7 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.onPageFinished(mock(WebView.class), "url");
+        MraidWebViewClient.onPageFinished(mock(WebView.class), "url");
         countDownLatch.await();
     }
 
@@ -92,7 +92,7 @@ public class MraidWebViewClientTest {
     @SdkSuppress(minSdkVersion = 21)
     public void shouldOverrideUrlLoading_mraidCommandApi21_WithTouch() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(2);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -119,7 +119,7 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), new WebResourceRequest() {
+        MraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), new WebResourceRequest() {
             @Override
             public Uri getUrl() {
                 return Uri.parse("http://appodeal.com");
@@ -156,7 +156,7 @@ public class MraidWebViewClientTest {
     @Test
     public void shouldOverrideUrlLoading_mraidCommand() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -183,14 +183,14 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), "mraid://resize");
+        MraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), "mraid://resize");
         countDownLatch.await();
     }
 
     @Test
     public void shouldOverrideUrlLoading_redirect() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -217,7 +217,7 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), "http://appodeal.com");
+        MraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), "http://appodeal.com");
         countDownLatch.await();
     }
 
@@ -225,7 +225,7 @@ public class MraidWebViewClientTest {
     @SdkSuppress(minSdkVersion = 21)
     public void shouldOverrideUrlLoading_mraidCommandApi21() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
 
@@ -252,7 +252,7 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), new WebResourceRequest() {
+        MraidWebViewClient.shouldOverrideUrlLoading(mock(WebView.class), new WebResourceRequest() {
             @Override
             public Uri getUrl() {
                 return Uri.parse("mraid://expand");
@@ -290,7 +290,7 @@ public class MraidWebViewClientTest {
     @SdkSuppress(minSdkVersion = 26)
     public void onRenderProcessGone() throws Exception {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(new MraidWebViewListener() {
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(new AdWebViewListener() {
             @Override
             public void onRenderProcessGone() {
                 countDownLatch.countDown();
@@ -316,37 +316,37 @@ public class MraidWebViewClientTest {
 
             }
         });
-        mraidWebViewClient.onRenderProcessGone(mock(WebView.class), mock(RenderProcessGoneDetail.class));
+        MraidWebViewClient.onRenderProcessGone(mock(WebView.class), mock(RenderProcessGoneDetail.class));
         countDownLatch.await();
     }
 
     @Test
     public void matchesInjectionUrl_simpleJs() throws Exception {
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(null);
-        assertTrue(mraidWebViewClient.matchesInjectionUrl("mraid.js"));
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(null);
+        assertTrue(MraidWebViewClient.matchesInjectionUrl("mraid.js"));
     }
 
     @Test
     public void matchesInjectionUrl_jsWithHost() throws Exception {
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(null);
-        assertTrue(mraidWebViewClient.matchesInjectionUrl("http://appodeal.com/mraid.js"));
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(null);
+        assertTrue(MraidWebViewClient.matchesInjectionUrl("http://appodeal.com/mraid.js"));
     }
 
     @Test
     public void matchesInjectionUrl_localJs() throws Exception {
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(null);
-        assertTrue(mraidWebViewClient.matchesInjectionUrl("file://android_asset/appodeal.com/mraid.js"));
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(null);
+        assertTrue(MraidWebViewClient.matchesInjectionUrl("file://android_asset/appodeal.com/mraid.js"));
     }
 
     @Test
     public void matchesInjectionUrl_jsWithParams() throws Exception {
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(null);
-        assertTrue(mraidWebViewClient.matchesInjectionUrl("http://appodeal.com/mraid.js?v=3.0"));
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(null);
+        assertTrue(MraidWebViewClient.matchesInjectionUrl("http://appodeal.com/mraid.js?v=3.0"));
     }
 
     @Test
     public void matchesInjectionUrl_invalidName() throws Exception {
-        MraidWebViewClient mraidWebViewClient = new MraidWebViewClient(null);
-        assertFalse(mraidWebViewClient.matchesInjectionUrl("mraidd.js"));
+        MraidWebViewClient MraidWebViewClient = new MraidWebViewClient(null);
+        assertFalse(MraidWebViewClient.matchesInjectionUrl("mraidd.js"));
     }
 }

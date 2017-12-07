@@ -9,9 +9,9 @@ import android.support.annotation.VisibleForTesting;
 
 import java.util.Map;
 
-class MraidBridge implements MraidWebViewListener {
+class MraidBridge implements AdWebViewListener {
     private final MraidPlacementType placementType;
-    private MraidWebView mraidWebView;
+    private AdWebView adWebView;
     private MraidCommandListener listener;
     private MraidEnvironment environment;
     private boolean isLoaded;
@@ -24,23 +24,23 @@ class MraidBridge implements MraidWebViewListener {
         this.resizeProperties = new MraidResizeProperties();
     }
 
-    void initMraidWebView(MraidWebView mraidWebView, @NonNull MraidEnvironment environment, MraidCommandListener listener) {
+    void initMraidWebView(AdWebView adWebView, @NonNull MraidEnvironment environment, MraidCommandListener listener) {
         this.listener = listener;
-        this.mraidWebView = mraidWebView;
+        this.adWebView = adWebView;
         this.environment = environment;
-        this.mraidWebView.setWebViewClient(new MraidWebViewClient(this));
-        this.mraidWebView.setWebChromeClient(new MraidWebChromeClient(listener));
-        mraidWebView.setListener(this);
+        this.adWebView.setWebViewClient(new MraidWebViewClient(this));
+        this.adWebView.setWebChromeClient(new AdWebChromeClient(listener));
+        adWebView.setListener(this);
     }
 
     void loadContentHtml(@NonNull String htmlData, @Nullable String baseUrl) {
         isLoaded = false;
-        mraidWebView.loadDataWithBaseURL(baseUrl, MraidHtmlProcessor.processRawHtml(htmlData, environment), "text/html", "UTF-8", null);
+        adWebView.loadDataWithBaseURL(baseUrl, MraidHtmlProcessor.processRawHtml(htmlData, environment), "text/html", "UTF-8", null);
     }
 
     void loadContentUrl(String url) {
         isLoaded = false;
-        mraidWebView.loadUrl(url);
+        adWebView.loadUrl(url);
     }
 
     public boolean isLoaded() {
@@ -53,7 +53,7 @@ class MraidBridge implements MraidWebViewListener {
 
     void destroy() {
         listener = null;
-        mraidWebView = null;
+        adWebView = null;
     }
 
     @Override
@@ -103,7 +103,7 @@ class MraidBridge implements MraidWebViewListener {
             throw new MraidError("Can't find listener");
         }
 
-        if (mraidWebView == null) {
+        if (adWebView == null) {
             throw new MraidError("The current WebView is being destroyed");
         }
 
@@ -190,7 +190,7 @@ class MraidBridge implements MraidWebViewListener {
 
     private void injectJavaScript(@NonNull String javascript) {
         MraidLog.d("evaluating js: " + javascript);
-        mraidWebView.loadUrl("javascript:" + javascript);
+        adWebView.loadUrl("javascript:" + javascript);
     }
 
 

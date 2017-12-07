@@ -17,59 +17,59 @@ public class VastLog {
         }
     }
 
-    static void e(String msg) {
+    public static void e(String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.error.getValue()) {
             Log.e(TAG, msg);
         }
     }
 
-    static void i(String msg) {
+    public static void i(String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.info.getValue()) {
             Log.i(TAG, msg);
         }
     }
 
-    static void v(String msg) {
+    public static void v(String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.verbose.getValue()) {
             Log.v(TAG, msg);
         }
     }
 
-    static void w(String msg) {
+    public static void w(String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.warning.getValue()) {
             Log.w(TAG, msg);
         }
     }
 
-    static void d(String subTag, String msg) {
+    public static void d(String subTag, String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.debug.getValue()) {
             msg = "[" + subTag + "] " + msg;
             Log.d(TAG, msg);
         }
     }
 
-    static void e(String subTag, String msg) {
+    public static void e(String subTag, String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.error.getValue()) {
             msg = "[" + subTag + "] " + msg;
             Log.e(TAG, msg);
         }
     }
 
-    static void i(String subTag, String msg) {
+    public static void i(String subTag, String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.info.getValue()) {
             msg = "[" + subTag + "] " + msg;
             Log.i(TAG, msg);
         }
     }
 
-    static void v(String subTag, String msg) {
+    public static void v(String subTag, String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.verbose.getValue()) {
             msg = "[" + subTag + "] " + msg;
             Log.v(TAG, msg);
         }
     }
 
-    static void w(String subTag, String msg) {
+    public static void w(String subTag, String msg) {
         if (LEVEL.getValue() <= LOG_LEVEL.warning.getValue()) {
             msg = "[" + subTag + "] " + msg;
             Log.w(TAG, msg);

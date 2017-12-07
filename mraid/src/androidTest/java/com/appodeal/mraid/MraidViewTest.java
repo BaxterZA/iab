@@ -44,9 +44,9 @@ public class MraidViewTest {
         mraidView.setMraidEnvironment(mraidEnvironment);
         verify(mraidView.controller).setMraidEnvironment(mraidEnvironment);
 
-        MraidWebViewDebugListener mraidWebViewDebugListener = mock(MraidWebViewDebugListener.class);
-        mraidView.setMraidWebViewDebugListener(mraidWebViewDebugListener);
-        verify(mraidView.controller).setMraidWebViewDebugListener(mraidWebViewDebugListener);
+        AdWebViewDebugListener adWebViewDebugListener = mock(AdWebViewDebugListener.class);
+        mraidView.setAdWebViewDebugListener(adWebViewDebugListener);
+        verify(mraidView.controller).setAdWebViewDebugListener(adWebViewDebugListener);
 
         List<MraidNativeFeature> nativeFeatureList = new ArrayList<>();
         MraidNativeFeatureListener nativeFeatureListener = mock(MraidNativeFeatureListener.class);

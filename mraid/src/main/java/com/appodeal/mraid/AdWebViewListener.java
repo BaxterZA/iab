@@ -1,7 +1,7 @@
 package com.appodeal.mraid;
 
 
-interface MraidWebViewListener {
+public interface AdWebViewListener {
 
     void onRenderProcessGone();
     void onTouch();

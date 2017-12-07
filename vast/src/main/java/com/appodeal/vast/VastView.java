@@ -2,6 +2,7 @@ package com.appodeal.vast;
 
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -64,6 +65,9 @@ public class VastView extends RelativeLayout implements VastControllerListener {
         if (vastViewListener != null) {
             vastViewListener.onVastLoaded(this);
         }
+        if (isOnScreen()) {
+            controller.start();
+        }
     }
 
     @Override
@@ -115,6 +119,7 @@ public class VastView extends RelativeLayout implements VastControllerListener {
             if (visibility != View.VISIBLE) {
                 controller.pause();
             } else {
+                controller.start();
                 controller.resume();
             }
         }
@@ -155,4 +160,11 @@ public class VastView extends RelativeLayout implements VastControllerListener {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    private boolean isOnScreen() {
+        Rect viewRect = new Rect();
+        boolean isAdVisible = getGlobalVisibleRect(viewRect);
+        boolean isAdShown = isShown();
+        boolean windowHasFocus = hasWindowFocus();
+        return isAdVisible && isAdShown && windowHasFocus;
+    }
 }

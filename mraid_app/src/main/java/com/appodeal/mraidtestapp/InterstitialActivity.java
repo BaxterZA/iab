@@ -15,7 +15,7 @@ import com.appodeal.mraid.MraidInterstitial;
 import com.appodeal.mraid.MraidInterstitialListener;
 import com.appodeal.mraid.MraidNativeFeature;
 import com.appodeal.mraid.MraidNativeFeatureListener;
-import com.appodeal.mraid.MraidWebViewDebugListener;
+import com.appodeal.mraid.AdWebViewDebugListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -124,7 +124,7 @@ public class InterstitialActivity extends AppCompatActivity {
             }
         });
 
-        mraidInterstitial.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+        mraidInterstitial.setAdWebViewDebugListener(new AdWebViewDebugListener() {
             @Override
             public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                 new AlertDialog.Builder(InterstitialActivity.this).setMessage(message).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

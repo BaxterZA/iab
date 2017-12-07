@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.appodeal.vast.vpaid.VpaidViewController;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,15 +163,21 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         playerPositionInMills = 0;
         MediaFileLayerInterface mediaFileLayer;
         if (vastConfig.getMediaFile().isValidVPAIDMediaFile()) {
-            mediaFileLayer = new MediaFileVideoLayer(context, vastConfig.getMediaFileLocalUri(), this); //TODO VPAID
+            mediaFileLayer = new VpaidViewController(context, vastConfig.getMediaFile().getUrl(), vastConfig.getAdParameters(), this);
         } else {
-            mediaFileLayer = new MediaFileVideoLayer(context, vastConfig.getMediaFileLocalUri(), this);
+            mediaFileLayer = new MediaFileVideoLayer(context, vastConfig, vastConfig.getMediaFileLocalUri(), this);
         }
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         mediaFileLayer.getView().setLayoutParams(layoutParams);
         return mediaFileLayer;
+    }
+
+    void start() {
+        if (controllerState == VastViewControllerState.READY) {
+            mediaFileLayer.start();
+        }
     }
 
     void resume() {
@@ -304,14 +312,14 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
 
     @Override
     public void onLoaded() {
-        listener.onLoaded();
         changeState(VastViewControllerState.READY);
+        listener.onLoaded();
     }
 
     @Override
     public void onFailedToLoad() {
-        listener.onFailedToLoad();
         changeState(VastViewControllerState.DESTROYED);
+        listener.onFailedToLoad();
     }
 
     @Override
@@ -333,6 +341,15 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
             listener.onCompleted();
         }
         finishVideo();
+    }
+
+    @Override
+    public void onClick(String url) {
+        VastLog.i("Player clicked");
+        fireUrls(vastConfig.getVideoClicks().getClickTracking());
+        if (listener != null) {
+            listener.onClicked(url);
+        }
     }
 
     @Override

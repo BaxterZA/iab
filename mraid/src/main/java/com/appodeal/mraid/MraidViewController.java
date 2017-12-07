@@ -43,13 +43,14 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
     @VisibleForTesting MraidState mraidState = MraidState.LOADING;
     private MraidEnvironment mraidEnvironment;
     private AudioVolumeContentObserver audioVolumeContentObserver;
-    private MraidWebViewDebugListener debugListener;
+    private AdWebViewDebugListener debugListener;
     private MraidViewabilityTracker mraidViewabilityTracker;
     private boolean isVisible;
 
     @VisibleForTesting MraidViewControllerListener mraidViewControllerListener;
     private FrameLayout mraidView;
-    @VisibleForTesting MraidWebView mraidWebView;
+    @VisibleForTesting
+    AdWebView adWebView;
     @VisibleForTesting CloseableLayout closeableLayout;
 
     @VisibleForTesting MraidOrientationProperties mraidOrientationProperties;
@@ -154,16 +155,16 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         }
     }
 
-    void setMraidWebViewDebugListener(MraidWebViewDebugListener debugListener) {
+    void setAdWebViewDebugListener(AdWebViewDebugListener debugListener) {
         this.debugListener = debugListener;
     }
 
     void load() {
-        mraidWebView = new MraidWebView(context);
+        adWebView = new AdWebView(context);
         if (placementType == MraidPlacementType.INTERSTITIAL && mraidNativeFeatureManager != null && mraidNativeFeatureManager.isInlineVideoSupported()) {
-            mraidWebView.allowMediaPlayback();
+            adWebView.allowMediaPlayback();
         }
-        mraidBridge.initMraidWebView(mraidWebView, getMraidEnvironment(), this);
+        mraidBridge.initMraidWebView(adWebView, getMraidEnvironment(), this);
         if (html != null) {
             mraidBridge.loadContentHtml(html, baseUrl);
         } else if (url != null) {
@@ -173,7 +174,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
                 mraidViewControllerListener.onMraidViewControllerFailedToLoad(this);
             }
         }
-        mraidView.addView(mraidWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        mraidView.addView(adWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
     }
 
     @VisibleForTesting MraidEnvironment getMraidEnvironment() {
@@ -204,7 +205,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null) {
+        if (adWebView == null) {
             return;
         }
 
@@ -226,8 +227,8 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         mraidView.getLocationOnScreen(location);
         mraidScreenMetrics.updateDefaultSize(location[0], location[1], mraidView.getWidth(), mraidView.getHeight());
 
-        mraidWebView.getLocationOnScreen(location);
-        mraidScreenMetrics.updateCurrentSize(location[0], location[1], mraidWebView.getWidth(), mraidWebView.getHeight());
+        adWebView.getLocationOnScreen(location);
+        mraidScreenMetrics.updateCurrentSize(location[0], location[1], adWebView.getWidth(), adWebView.getHeight());
 
         mraidBridge.setCurrentAppOrientation(new MraidAppOrientationProperties(context, getActivity()));
 
@@ -246,7 +247,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             if (mraidViewControllerListener != null) {
                 mraidViewControllerListener.onMraidViewControllerLoaded(this);
             }
-            new MraidPreDrawTracker(mraidWebView, new MraidPreDrawTracker.MraidDrawListener() {
+            new MraidPreDrawTracker(adWebView, new MraidPreDrawTracker.MraidDrawListener() {
                 @Override
                 public void onPreDraw() {
                     changeWebViewContext();
@@ -268,10 +269,10 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
     }
 
     private void changeWebViewContext() {
-        if (mraidWebView != null && mraidWebView.getContext() instanceof MutableContextWrapper) {
+        if (adWebView != null && adWebView.getContext() instanceof MutableContextWrapper) {
             Activity activity = ViewHelper.getActivityForView(mraidView);
             if (activity != null) {
-                ((MutableContextWrapper) mraidWebView.getContext()).setBaseContext(activity);
+                ((MutableContextWrapper) adWebView.getContext()).setBaseContext(activity);
             }
         }
     }
@@ -326,7 +327,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
                 mraidViewControllerListener.onMraidViewControllerLoaded(this);
             }
 
-            new MraidPreDrawTracker(mraidWebView, new MraidPreDrawTracker.MraidDrawListener() {
+            new MraidPreDrawTracker(adWebView, new MraidPreDrawTracker.MraidDrawListener() {
                 @Override
                 public void onPreDraw() {
                     changeWebViewContext();
@@ -354,7 +355,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null || closeableLayout == null) {
+        if (adWebView == null || closeableLayout == null) {
             throw new MraidError("WebView is null");
         }
 
@@ -393,9 +394,9 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         layoutParams.leftMargin = resizeRect.left;
         layoutParams.topMargin = resizeRect.top;
         if (mraidState == MraidState.DEFAULT) {
-            mraidView.removeView(mraidWebView);
+            mraidView.removeView(adWebView);
             mraidView.setVisibility(View.INVISIBLE);
-            closeableLayout.addView(mraidWebView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            closeableLayout.addView(adWebView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             closeableLayout.showCloseButton();
             ViewGroup rootView = ViewHelper.getTopRootView(mraidView, getActivity());
             if (rootView != null) {
@@ -437,7 +438,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null || closeableLayout == null) {
+        if (adWebView == null || closeableLayout == null) {
             throw new MraidError("WebView is null");
         }
 
@@ -445,9 +446,9 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         if (mraidState == MraidState.DEFAULT) {
-            mraidView.removeView(mraidWebView);
+            mraidView.removeView(adWebView);
             mraidView.setVisibility(View.INVISIBLE);
-            closeableLayout.addView(mraidWebView, 0, layoutParams);
+            closeableLayout.addView(adWebView, 0, layoutParams);
             closeableLayout.showCloseButton();
             ViewGroup rootView = ViewHelper.getTopRootView(mraidView, getActivity());
             if (rootView != null) {
@@ -602,7 +603,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null) {
+        if (adWebView == null) {
             return;
         }
 
@@ -627,8 +628,8 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         }
 
         if (mraidState == MraidState.RESIZED || mraidState == MraidState.EXPANDED) {
-            closeableLayout.removeView(mraidWebView);
-            mraidView.addView(mraidWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            closeableLayout.removeView(adWebView);
+            mraidView.addView(adWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             mraidView.setVisibility(View.VISIBLE);
             ViewHelper.removeViewFromParent(closeableLayout);
 
@@ -731,10 +732,10 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null) {
+        if (adWebView == null) {
             return;
         }
-        MraidLog.d("pauseWebView " + mraidWebView.toString());
+        MraidLog.d("pauseWebView " + adWebView.toString());
         if (mraidViewabilityTracker != null) {
             mraidViewabilityTracker.stopTracking();
         }
@@ -744,7 +745,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             mraidBridge.fireExposureChangeEvent(ExposureState.empty());
         }
         try {
-            mraidWebView.onPause();
+            adWebView.onPause();
         } catch (Exception e) {
             MraidLog.e(e.getMessage());
         }
@@ -755,14 +756,14 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidWebView == null) {
+        if (adWebView == null) {
             return;
         }
-        MraidLog.d("resumeWebView " + mraidWebView.toString());
+        MraidLog.d("resumeWebView " + adWebView.toString());
         startExposureTracking();
         startAudioVolumeListener();
         try {
-            mraidWebView.onResume();
+            adWebView.onResume();
         } catch (Exception e) {
             MraidLog.e(e.getMessage());
         }
@@ -772,12 +773,12 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         mraidNativeFeatureManager = null;
         ViewHelper.removeViewFromParent(closeableLayout);
         mraidBridge.destroy();
-        if (mraidWebView != null) {
-            mraidWebView.removeAllViews();
-            mraidWebView.setWebChromeClient(null);
-            mraidWebView.setWebViewClient(null);
-            mraidWebView.destroy();
-            mraidWebView = null;
+        if (adWebView != null) {
+            adWebView.removeAllViews();
+            adWebView.setWebChromeClient(null);
+            adWebView.setWebViewClient(null);
+            adWebView.destroy();
+            adWebView = null;
         }
         if (mraidView != null) {
             mraidView.removeOnLayoutChangeListener(onLayoutChangeListener);
@@ -806,7 +807,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidState == MraidState.LOADING || mraidState == MraidState.HIDDEN || mraidWebView == null) {
+        if (mraidState == MraidState.LOADING || mraidState == MraidState.HIDDEN || adWebView == null) {
             return;
         }
 
@@ -814,7 +815,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             mraidViewabilityTracker.stopTracking();
         }
 
-        mraidViewabilityTracker = new MraidViewabilityTracker(mraidWebView, this);
+        mraidViewabilityTracker = new MraidViewabilityTracker(adWebView, this);
     }
 
     private void stopAudioVolumeListener() {
@@ -829,7 +830,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
             return;
         }
 
-        if (mraidState == MraidState.LOADING || mraidState == MraidState.HIDDEN || mraidWebView == null) {
+        if (mraidState == MraidState.LOADING || mraidState == MraidState.HIDDEN || adWebView == null) {
             return;
         }
 

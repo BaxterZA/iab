@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.View;
 
-class CircleCountdownView extends View {
+public class CircleCountdownView extends View {
     private float circleCenterPointX;
     private float circleCenterPointY;
     private int arcLoadingBackgroundColor = Color.parseColor("#52000000");
@@ -24,19 +24,19 @@ class CircleCountdownView extends View {
 
     Handler uiThread = new Handler(Looper.getMainLooper());
 
-    CircleCountdownView(Context context) {
+    public CircleCountdownView(Context context) {
         super(context);
         initializeAttributes();
     }
 
-    CircleCountdownView(Context context, int color, int backgroundColor) {
+    public CircleCountdownView(Context context, int color, int backgroundColor) {
         super(context);
         mainColor = color;
         arcLoadingBackgroundColor = backgroundColor;
         initializeAttributes();
     }
 
-    CircleCountdownView(Context context, AttributeSet attrs) {
+    public CircleCountdownView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeAttributes();
     }
@@ -116,7 +116,7 @@ class CircleCountdownView extends View {
         canvas.drawText(text, positionX, positionY, textPaint);
     }
 
-    void changePercentage(int percent, int remainingTime) {
+    public void changePercentage(int percent, int remainingTime) {
         if (bitmap == null || percent == 100) {
             this.percent = percent;
             this.remainingTime = remainingTime;
@@ -129,7 +129,7 @@ class CircleCountdownView extends View {
         }
     }
 
-    void setImage(Bitmap bitmap) {
+    public void setImage(Bitmap bitmap) {
         if (bitmap != null && innerSize > 0) {
             this.resource = bitmap;
             this.bitmap = Bitmap.createScaledBitmap(bitmap, innerSize, innerSize, true);

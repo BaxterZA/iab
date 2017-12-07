@@ -18,7 +18,7 @@ public class MraidInterstitial {
 
     public MraidInterstitial(Context context) {
         this.context = context;
-        this.controller = MraidViewController.createInterstitialController(context);
+        this.controller = MraidViewController.createInterstitialController(context.getApplicationContext());
     }
 
     /**
@@ -92,11 +92,11 @@ public class MraidInterstitial {
 
     /**
      * Set debug listener to debug creative
-     * @param debugListener implementation of {@link MraidWebViewDebugListener}
+     * @param debugListener implementation of {@link AdWebViewDebugListener}
      */
-    public void setMraidWebViewDebugListener(MraidWebViewDebugListener debugListener) {
+    public void setAdWebViewDebugListener(AdWebViewDebugListener debugListener) {
         if (controller != null) {
-            controller.setMraidWebViewDebugListener(debugListener);
+            controller.setAdWebViewDebugListener(debugListener);
         }
     }
 

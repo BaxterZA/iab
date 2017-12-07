@@ -42,7 +42,7 @@ public class MraidJsTests {
                 MraidView mraidView = mActivityRule.getActivity().mraidView;
                 mActivityRule.getActivity().drawView();
 
-                mraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -82,7 +82,7 @@ public class MraidJsTests {
                         .setAppId("com.appodeal.mraid")
                         .build();
                 mraidView.setMraidEnvironment(mraidEnvironment);
-                mraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -117,7 +117,7 @@ public class MraidJsTests {
                 MraidView mraidView = mActivityRule.getActivity().mraidView;
                 mActivityRule.getActivity().drawView();
 
-                mraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -152,7 +152,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(false);
                 mActivityRule.getActivity().drawView();
 
-                mraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -187,7 +187,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                mraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -222,7 +222,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("visible")) {
@@ -263,7 +263,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -298,7 +298,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         switch (message) {
@@ -339,7 +339,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         switch (message) {
@@ -380,7 +380,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         switch (message) {
@@ -421,7 +421,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         switch (message) {
@@ -464,7 +464,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         switch (message) {
@@ -509,7 +509,7 @@ public class MraidJsTests {
                 layoutParams.leftMargin = ViewHelper.dip2px(-TestActivity.width / 2, displayMetrics.densityDpi);
                 layoutParams.topMargin = ViewHelper.dip2px(-TestActivity.height / 2, displayMetrics.densityDpi);
                 mActivityRule.getActivity().mraidView.setLayoutParams(layoutParams);
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         try {
@@ -547,7 +547,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         try {
@@ -585,7 +585,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
 
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -617,7 +617,7 @@ public class MraidJsTests {
         mActivityRule.runOnUiThread(new Runnable() {
             public void run() {
                 MraidInterstitial mraidInterstitial = new MraidInterstitial(mActivityRule.getActivity());
-                mraidInterstitial.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                mraidInterstitial.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -689,7 +689,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
                 mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -724,7 +724,7 @@ public class MraidJsTests {
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
                 mActivityRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {
@@ -758,7 +758,7 @@ public class MraidJsTests {
                 final MraidView testMraidView = mActivityRule.getActivity().mraidView;
                 mActivityRule.getActivity().setVisibility(true);
                 mActivityRule.getActivity().drawView();
-                testMraidView.setMraidWebViewDebugListener(new MraidWebViewDebugListener() {
+                testMraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
                     @Override
                     public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                         if (message.equals("pass")) {

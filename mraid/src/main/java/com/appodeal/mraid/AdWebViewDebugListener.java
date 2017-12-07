@@ -8,7 +8,7 @@ import android.webkit.JsResult;
 /**
  * Listener can be used to debug creative, see {@link android.webkit.WebChromeClient}
  */
-public interface MraidWebViewDebugListener {
+public interface AdWebViewDebugListener {
 
     /**
      * Called when javascript try to display alert dialog

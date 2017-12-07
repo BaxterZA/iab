@@ -395,7 +395,7 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class)));
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.LOADING;
 
         mraidViewController.onResize(mock(MraidResizeProperties.class));
@@ -412,7 +412,7 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class)));
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.HIDDEN;
 
         mraidViewController.onResize(mock(MraidResizeProperties.class));
@@ -429,7 +429,7 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class)));
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.EXPANDED;
 
         mraidViewController.onResize(mock(MraidResizeProperties.class));
@@ -446,7 +446,7 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class)));
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.DEFAULT;
 
         mraidViewController.onResize(mock(MraidResizeProperties.class));
@@ -466,7 +466,7 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class)));
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.DEFAULT;
 
         MraidResizeProperties mraidResizeProperties = spy(new MraidResizeProperties(3840, 2160, 0, 0, ClosePosition.TOP_RIGHT, false));
@@ -491,7 +491,7 @@ public class MraidViewControllerTest {
         doNothing().when(mraidViewController).resize(any(Rect.class));
 
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.DEFAULT;
 
         MraidResizeProperties mraidResizeProperties = spy(new MraidResizeProperties(3840, 2160, 0, 0, ClosePosition.TOP_RIGHT, true));
@@ -516,7 +516,7 @@ public class MraidViewControllerTest {
         doNothing().when(mraidViewController).resize(any(Rect.class));
 
         mraidViewController.closeableLayout = mock(CloseableLayout.class);
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
         mraidViewController.mraidState = MraidState.DEFAULT;
 
         MraidResizeProperties mraidResizeProperties = spy(new MraidResizeProperties(300, 250, 0, 0, ClosePosition.TOP_LEFT, false));
@@ -887,13 +887,13 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class));
 
-        MraidWebViewDebugListener mraidWebViewDebugListener = mock(MraidWebViewDebugListener.class);
-        mraidViewController.setMraidWebViewDebugListener(mraidWebViewDebugListener);
+        AdWebViewDebugListener adWebViewDebugListener = mock(AdWebViewDebugListener.class);
+        mraidViewController.setAdWebViewDebugListener(adWebViewDebugListener);
 
         JsResult jsResult = mock(JsResult.class);
         mraidViewController.onJsAlert("error message", jsResult);
 
-        verify(mraidWebViewDebugListener).onJsAlert("error message", jsResult);
+        verify(adWebViewDebugListener).onJsAlert("error message", jsResult);
     }
 
     @Test
@@ -905,13 +905,13 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class));
 
-        MraidWebViewDebugListener mraidWebViewDebugListener = mock(MraidWebViewDebugListener.class);
-        mraidViewController.setMraidWebViewDebugListener(mraidWebViewDebugListener);
+        AdWebViewDebugListener adWebViewDebugListener = mock(AdWebViewDebugListener.class);
+        mraidViewController.setAdWebViewDebugListener(adWebViewDebugListener);
 
         ConsoleMessage consoleMessage = mock(ConsoleMessage.class);
         mraidViewController.onConsoleMessage(consoleMessage);
 
-        verify(mraidWebViewDebugListener).onConsoleMessage(consoleMessage);
+        verify(adWebViewDebugListener).onConsoleMessage(consoleMessage);
     }
 
     @Test
@@ -1106,11 +1106,11 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class));
 
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
 
         mraidViewController.resume();
 
-        verify(mraidViewController.mraidWebView).onResume();
+        verify(mraidViewController.adWebView).onResume();
     }
 
     @Test
@@ -1123,11 +1123,11 @@ public class MraidViewControllerTest {
                 mock(MraidOrientationProperties.class));
 
         mraidViewController.destroy();
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
 
         mraidViewController.resume();
 
-        verify(mraidViewController.mraidWebView, never()).onResume();
+        verify(mraidViewController.adWebView, never()).onResume();
     }
 
     @Test
@@ -1139,11 +1139,11 @@ public class MraidViewControllerTest {
                 mock(MraidBridge.class),
                 mock(MraidOrientationProperties.class));
 
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
 
         mraidViewController.pause();
 
-        verify(mraidViewController.mraidWebView).onPause();
+        verify(mraidViewController.adWebView).onPause();
     }
 
     @Test
@@ -1156,11 +1156,11 @@ public class MraidViewControllerTest {
                 mock(MraidOrientationProperties.class));
 
         mraidViewController.destroy();
-        mraidViewController.mraidWebView = mock(MraidWebView.class);
+        mraidViewController.adWebView = mock(AdWebView.class);
 
         mraidViewController.pause();
 
-        verify(mraidViewController.mraidWebView, never()).onPause();
+        verify(mraidViewController.adWebView, never()).onPause();
     }
 
 

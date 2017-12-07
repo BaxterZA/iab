@@ -30,7 +30,7 @@ class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletio
     private int videoHeight;
 
 
-    public MediaFileVideoLayer(@NonNull Context context, @NonNull Uri mediaFileLocalUri, @NonNull MediaFileLayerListener listener) {
+    public MediaFileVideoLayer(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final MediaFileLayerListener listener) {
         super(context);
         setSurfaceTextureListener(this);
         this.mediaFileLocalUri = mediaFileLocalUri;
@@ -46,6 +46,18 @@ class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletio
             listener.onLoaded();
         } else {
             listener.onFailedToLoad();
+        }
+
+        Extensions extensions = vastConfig.getExtensions();
+        if (extensions != null) {
+            if (extensions.isVideoClickable()) {
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClick(vastConfig.getVideoClicks().getClickThrough());
+                    }
+                });
+            }
         }
     }
 

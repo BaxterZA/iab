@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appodeal.mraid.CircleCountdownView;
+
 @SuppressLint("ViewConstructor")
 public class ControlsLayer extends RelativeLayout {
 
@@ -52,15 +54,6 @@ public class ControlsLayer extends RelativeLayout {
             Pair<Integer, Integer> ctaButtonAlignment = extensions.getCtaPosition();
             String ctaText = extensions.getCtaText() != null ? extensions.getCtaText() : defaultCtaText;
             ctaButton = createCtaButton(context, ctaButtonAlignment.first, ctaButtonAlignment.second, assetsColor, assetsBackgroundColor, ctaText);
-
-            if (extensions.isVideoClickable()) {
-                setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.onCtaButtonClicked();
-                    }
-                });
-            }
 
             progressBar = createProgressBar(context, assetsColor);
         } else {

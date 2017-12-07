@@ -4,7 +4,7 @@ package com.appodeal.vast;
 import android.view.View;
 import android.view.ViewGroup;
 
-interface MediaFileLayerInterface {
+public interface MediaFileLayerInterface {
 
     void setStartPosition(int position);
     int getCurrentPosition();

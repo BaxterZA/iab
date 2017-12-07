@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 
-interface MraidCommandListener {
+interface MraidCommandListener extends AdWebViewDebugListener{
 
     void mraidViewPageFinished();
 
@@ -35,7 +35,9 @@ interface MraidCommandListener {
 
     void onCreateCalendarEvent(String event);
 
+    @Override
     boolean onJsAlert(@NonNull String message, @NonNull JsResult result);
 
+    @Override
     boolean onConsoleMessage(@NonNull ConsoleMessage consoleMessage);
 }
