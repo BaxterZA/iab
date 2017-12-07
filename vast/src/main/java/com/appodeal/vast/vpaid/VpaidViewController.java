@@ -277,11 +277,6 @@ public class VpaidViewController extends RelativeLayout implements VpaidCommandL
     }
 
     @Override
-    public void setStartPosition(int position) {
-        //can't do anything
-    }
-
-    @Override
     public int getCurrentPosition() {
         return 0;
     }

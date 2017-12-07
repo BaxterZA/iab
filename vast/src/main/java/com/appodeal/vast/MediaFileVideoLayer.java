@@ -24,7 +24,6 @@ class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletio
     private MediaPlayer mediaPlayer;
     private final Uri mediaFileLocalUri;
     @NonNull private final MediaFileLayerListener listener;
-    private int startPosition;
 
     private int videoWidth;
     private int videoHeight;
@@ -132,11 +131,6 @@ class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletio
     }
 
     @Override
-    public void setStartPosition(int startPosition) {
-        this.startPosition = startPosition;
-    }
-
-    @Override
     public void setVolume(int volume) {
         if (mediaPlayer != null) {
             mediaPlayer.setVolume(volume, volume);
@@ -168,10 +162,6 @@ class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletio
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        if (startPosition > 0) {
-            mediaPlayer.seekTo(startPosition);
-        }
-
         playVideo();
     }
 

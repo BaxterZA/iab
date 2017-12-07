@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.appodeal.mraid.CloseableLayout;
+import com.appodeal.mraid.MraidView;
 
 @SuppressLint("ViewConstructor")
 public class CompanionLayer extends RelativeLayout {
@@ -19,6 +20,7 @@ public class CompanionLayer extends RelativeLayout {
     private int closeTime;
     private CloseableLayout closeableLayout;
     private boolean canClose;
+    private View companionView;
 
     interface CompanionListener {
         void onCompanionShown(@Nullable Companion companion);
@@ -44,7 +46,6 @@ public class CompanionLayer extends RelativeLayout {
         }
 
         closeableLayout = new CloseableLayout(context);
-        View companionView;
         if (companion == null) {
             companionView = getCompanionFromFrame(context, vastConfig);
             companionView.setOnClickListener(new OnClickListener() {
@@ -116,5 +117,9 @@ public class CompanionLayer extends RelativeLayout {
     void destroy() {
         listener = null;
         removeAllViews();
+        if (companionView != null && companionView instanceof MraidView) {
+            ((MraidView) companionView).destroy();
+            companionView = null;
+        }
     }
 }
