@@ -181,6 +181,14 @@
                     <ShowMute>0</ShowMute>
                     <ShowCompanion>0</ShowCompanion>
                     <CompanionCloseTime>00:02</CompanionCloseTime>
+                    <AssetsColor>#4286f4</AssetsColor>
+                    <AssetsBackgroundColor>#13b521</AssetsBackgroundColor>
+                    <CtaXPosition>center</CtaXPosition>
+                    <CtaYPosition>center</CtaYPosition>
+                    <MuteXPosition>right</MuteXPosition>
+                    <MuteYPosition>center</MuteYPosition>
+                    <CloseXPosition>left</CloseXPosition>
+                    <CloseYPosition>top</CloseYPosition>
                 </Extension>
             </Extensions>
         </InLine>

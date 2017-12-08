@@ -158,7 +158,7 @@
                                 <![CDATA[http://content.adfox.ru/150305/adfox/205544/801069_1.mp4]]>
                             </MediaFile>
                             <MediaFile width="270" height="480" type="video/mp4" delivery="progressive">
-                                <![CDATA[https://fpdl.vimeocdn.com/vimeo-prod-skyfire-std-us/01/3990/5/144952248/437210202.mp4?token=1512734044-0xc12813398fee082c8b4f36e0c650fc9d4eb3216b]]>
+                                <![CDATA[https://s3-eu-west-1.amazonaws.com/uploads-eu.hipchat.com/35497/2440054/Mo7OhGkvSP0qwCA/vertical_video_15s.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

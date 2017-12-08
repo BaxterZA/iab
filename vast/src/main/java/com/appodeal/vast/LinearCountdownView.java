@@ -50,7 +50,6 @@ public class LinearCountdownView extends View {
     }
 
     private void initializeAttributes() {
-        lineColor = Color.WHITE;
         lineWidth = 15f;
         percent = 0;
     }

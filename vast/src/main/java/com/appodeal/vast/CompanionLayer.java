@@ -34,7 +34,11 @@ public class CompanionLayer extends RelativeLayout {
         super(context);
         this.listener = listener;
         Extensions extensions = vastConfig.getExtensions();
+        int assetsColor = VastTools.assetsColor;
+        int assetsBackgroundColor = VastTools.backgroundColor;
         if (extensions != null) {
+            assetsColor = extensions.getAssetsColor();
+            assetsBackgroundColor = extensions.getAssetsBackgroundColor();
             if (extensions.getCompanion() != null){
                 companion = extensions.getCompanion();
             } else{
@@ -45,7 +49,7 @@ public class CompanionLayer extends RelativeLayout {
             companion = vastConfig.getCompanion();
         }
 
-        closeableLayout = new CloseableLayout(context);
+        closeableLayout = new CloseableLayout(context, assetsColor, assetsBackgroundColor);
         if (companion == null) {
             companionView = getCompanionFromFrame(context, vastConfig);
             companionView.setOnClickListener(new OnClickListener() {

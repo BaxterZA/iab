@@ -38,7 +38,7 @@
 
             <Creatives>
                 <Creative AdID="189486">
-                    <Linear skipoffset="00:00:13">
+                    <Linear skipoffset="00:02:22">
                         <Duration>00:00:15</Duration>
                         <VideoClicks>
                             <ClickThrough>
@@ -155,7 +155,7 @@
                         </Icons>
                         <MediaFiles>
                             <MediaFile width="270" height="480" type="video/mp4" delivery="progressive">
-                                <![CDATA[https://fpdl.vimeocdn.com/vimeo-prod-skyfire-std-us/01/3990/5/144952248/437210202.mp4?token=1512734044-0xc12813398fee082c8b4f36e0c650fc9d4eb3216b]]>
+                                <![CDATA[https://s3-eu-west-1.amazonaws.com/uploads-eu.hipchat.com/35497/2440054/xd9aHDWJ5VKg5RE/437210202.mp4]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

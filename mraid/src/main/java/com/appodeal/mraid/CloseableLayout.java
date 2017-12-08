@@ -34,8 +34,12 @@ public class CloseableLayout extends FrameLayout {
     private CircleCountdownView closeButton;
 
     public CloseableLayout(@NonNull Context context) {
+        this(context, Color.parseColor("#B4FFFFFF"), Color.parseColor("#52000000"));
+    }
+
+    public CloseableLayout(@NonNull Context context, int assetsColor, int assetsBackgroundColor) {
         super(context);
-        closeButton = new CircleCountdownView(getContext());
+        closeButton = new CircleCountdownView(getContext(), assetsColor, assetsBackgroundColor);
         int closeButtonSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, CLOSE_REGION_SIZE, context.getResources().getDisplayMetrics());
         LayoutParams params = new LayoutParams(closeButtonSize, closeButtonSize);
         closeButton.setLayoutParams(params);
