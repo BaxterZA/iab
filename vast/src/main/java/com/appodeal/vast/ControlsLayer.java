@@ -31,7 +31,6 @@ public class ControlsLayer extends RelativeLayout {
     private CircleCountdownView repeatButton;
     private CircleCountdownView muteButton;
     private TextView ctaButton;
-    private LinearCountdownView progressBar;
     private Extensions extensions;
     private int skipTime;
 
@@ -54,8 +53,6 @@ public class ControlsLayer extends RelativeLayout {
             Pair<Integer, Integer> ctaButtonAlignment = extensions.getCtaPosition();
             String ctaText = extensions.getCtaText() != null ? extensions.getCtaText() : defaultCtaText;
             ctaButton = createCtaButton(context, ctaButtonAlignment.first, ctaButtonAlignment.second, assetsColor, assetsBackgroundColor, ctaText);
-
-            progressBar = createProgressBar(context, assetsColor);
         } else {
             int assetsColor = VastTools.assetsColor;
             int assetsBackgroundColor = VastTools.backgroundColor;
@@ -63,7 +60,6 @@ public class ControlsLayer extends RelativeLayout {
             repeatButton = createRepeatButton(context, buttonSize, assetsColor, assetsBackgroundColor);
             muteButton = createMuteButton(context, buttonSize, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT, assetsColor, assetsBackgroundColor);
             ctaButton = createCtaButton(context, RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM, assetsColor, assetsBackgroundColor, defaultCtaText);
-            progressBar = createProgressBar(context, assetsColor);
         }
 
         ctaButton.setOnClickListener(new OnClickListener() {
@@ -97,8 +93,6 @@ public class ControlsLayer extends RelativeLayout {
             }
         });
         addView(closeButton);
-
-        addView(progressBar);
     }
 
     private CircleCountdownView createCloseButton(Context context, int size, int horizontalPosition, int verticalPosition, int assetsColor, int assetsBackgroundColor) {
@@ -119,6 +113,7 @@ public class ControlsLayer extends RelativeLayout {
         bannerRepeatButtonParams.addRule(RelativeLayout.CENTER_VERTICAL);
         repeatButton.setLayoutParams(bannerRepeatButtonParams);
         repeatButton.setImage(VastTools.getBitmapFromBase64(VastTools.repeat));
+        repeatButton.setVisibility(GONE);
         return repeatButton;
     }
 
@@ -181,9 +176,7 @@ public class ControlsLayer extends RelativeLayout {
         }
     }
 
-    void updateButtons(int newPercentage, int currentPosition) {
-        progressBar.changePercentage(newPercentage);
-
+    void updateButtons(int currentPosition) {
         if (currentPosition >= skipTime) {
             closeButton.setImage(VastTools.getBitmapFromBase64(VastTools.close));
         } else {
@@ -198,7 +191,6 @@ public class ControlsLayer extends RelativeLayout {
             case VIEW:
                 repeatButton.setVisibility(GONE);
                 closeButton.setVisibility(GONE);
-                progressBar.setVisibility(GONE);
 
                 if (extensions != null && !extensions.canShowMute()) {
                     muteButton.setVisibility(GONE);
@@ -217,7 +209,6 @@ public class ControlsLayer extends RelativeLayout {
             case FULLSCREEN:
                 repeatButton.setVisibility(GONE);
                 closeButton.setVisibility(VISIBLE);
-                progressBar.setVisibility(VISIBLE);
 
                 if (extensions != null && !extensions.canShowMute()) {
                     muteButton.setVisibility(GONE);
@@ -240,7 +231,6 @@ public class ControlsLayer extends RelativeLayout {
         muteButton.setVisibility(GONE);
         closeButton.setVisibility(GONE);
         ctaButton.setVisibility(GONE);
-        progressBar.setVisibility(GONE);
     }
 
     void showCompanionControls() {
@@ -248,10 +238,10 @@ public class ControlsLayer extends RelativeLayout {
     }
 
     void destroy() {
+        removeAllViews();
         repeatButton = null;
         muteButton = null;
         closeButton = null;
         ctaButton = null;
-        progressBar = null;
     }
 }

@@ -4,6 +4,7 @@ package com.appodeal.vast;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -145,8 +146,8 @@ class VastController implements VastLoader.LoaderListener {
             }
 
             @Override
-            public void onClicked(String url) {
-                if (vastControllerListener != null) {
+            public void onClicked(@Nullable String url) {
+                if (vastControllerListener != null && url != null) {
                     vastControllerListener.onVastControllerClicked(VastController.this, url);
                 }
             }

@@ -18,18 +18,18 @@ import android.view.TextureView;
 import android.view.View;
 
 @SuppressLint("ViewConstructor")
-class MediaFileVideoLayer extends TextureView implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener,
-        TextureView.SurfaceTextureListener, MediaFileLayerInterface {
+class VideoView extends TextureView implements MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener,
+        TextureView.SurfaceTextureListener, PlayerLayerInterface {
 
     private MediaPlayer mediaPlayer;
     private final Uri mediaFileLocalUri;
-    @NonNull private final MediaFileLayerListener listener;
+    @NonNull private final PlayerLayerListener listener;
 
     private int videoWidth;
     private int videoHeight;
 
 
-    public MediaFileVideoLayer(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final MediaFileLayerListener listener) {
+    VideoView(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final PlayerLayerListener listener) {
         super(context);
         setSurfaceTextureListener(this);
         this.mediaFileLocalUri = mediaFileLocalUri;

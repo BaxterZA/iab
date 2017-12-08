@@ -1,7 +1,7 @@
 package com.appodeal.vast;
 
 
-public interface MediaFileLayerListener {
+public interface PlayerLayerListener {
 
     void onStarted();
     void onLoaded();

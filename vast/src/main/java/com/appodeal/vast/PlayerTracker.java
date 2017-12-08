@@ -3,18 +3,18 @@ package com.appodeal.vast;
 
 import android.os.Handler;
 
-class MediaFileTracker implements Runnable {
-    private static final long VIDEO_PROGRESS_TIMER_INTERVAL = 50;
+public class PlayerTracker implements Runnable {
+    public static final int VIDEO_PROGRESS_TIMER_INTERVAL = 50;
 
     private final Handler handler;
-    private final MediaFileLayerInterface mediaFileLayer;
+    private final PlayerLayerInterface playerLayer;
     private final VastViewController viewController;
     private boolean shouldStop;
 
-    MediaFileTracker(Handler handler, VastViewController viewController, MediaFileLayerInterface mediaFileLayer) {
+    PlayerTracker(Handler handler, VastViewController viewController, PlayerLayerInterface playerLayer) {
         this.handler = handler;
         this.viewController = viewController;
-        this.mediaFileLayer = mediaFileLayer;
+        this.playerLayer = playerLayer;
     }
 
     void start() {
@@ -27,7 +27,7 @@ class MediaFileTracker implements Runnable {
 
     @Override
     public void run() {
-        viewController.setCurrentProgress(mediaFileLayer.getCurrentPosition());
+        viewController.setCurrentProgress(playerLayer.getCurrentPosition());
         if (!shouldStop) {
             start();
         }

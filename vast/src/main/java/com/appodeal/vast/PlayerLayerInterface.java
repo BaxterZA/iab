@@ -3,7 +3,7 @@ package com.appodeal.vast;
 
 import android.view.View;
 
-public interface MediaFileLayerInterface {
+public interface PlayerLayerInterface {
 
     int getCurrentPosition();
     void start();

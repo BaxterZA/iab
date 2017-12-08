@@ -12,12 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.appodeal.vast.vpaid.VpaidViewController;
+import com.appodeal.vast.vpaid.VpaidPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class VastViewController implements MediaFileLayerListener, ControlsLayer.ControlsLayerListener, IconsLayer.IconsLayerListener, CompanionLayer.CompanionListener {
+class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsLayerListener, IconsLayer.IconsLayerListener, CompanionLayer.CompanionListener {
 
     interface VastViewControllerListener {
         void onLoaded();
@@ -31,13 +31,13 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
     private final VastConfig vastConfig;
     private final VastType vastType;
     private final VastViewControllerListener listener;
-    private MediaFileLayerInterface mediaFileLayer;
+    private PlayerLayerInterface playerLayer;
     private ControlsLayer controlsLayer;
     private IconsLayer iconsLayer;
     private CompanionLayer companionLayer;
     private RelativeLayout rootView;
     private Context context;
-    private MediaFileTracker mediaFileTracker;
+    private PlayerTracker playerTracker;
     private int playerPositionInMills;
     private boolean muted;
     private int skipTime;
@@ -143,8 +143,8 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         rootView.removeAllViews();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
-        mediaFileLayer = createMediaFileLayer();
-        rootView.addView(mediaFileLayer.getView());
+        playerLayer = createPlayerLayer();
+        rootView.addView(playerLayer.getView());
 
         if (vastType == VastType.FULLSCREEN) {
             iconsLayer = new IconsLayer(context, vastConfig, this);
@@ -159,46 +159,46 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         rootView.addView(controlsLayer, params);
     }
 
-    private MediaFileLayerInterface createMediaFileLayer() {
+    private PlayerLayerInterface createPlayerLayer() {
         playerPositionInMills = 0;
-        MediaFileLayerInterface mediaFileLayer;
+        PlayerLayerInterface playerLayer;
         if (vastConfig.getMediaFile().isValidVPAIDMediaFile()) {
-            mediaFileLayer = new VpaidViewController(context, vastConfig.getMediaFile().getUrl(), vastConfig.getAdParameters(), this);
+            playerLayer = new VpaidPlayer(context, vastConfig.getMediaFile().getUrl(), vastConfig.getAdParameters(), this);
         } else {
-            mediaFileLayer = new MediaFileVideoLayer(context, vastConfig, vastConfig.getMediaFileLocalUri(), this);
+            playerLayer = new VideoPlayerLayer(context, vastConfig, vastConfig.getMediaFileLocalUri(), this);
         }
 
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        mediaFileLayer.getView().setLayoutParams(layoutParams);
-        return mediaFileLayer;
+        playerLayer.getView().setLayoutParams(layoutParams);
+        return playerLayer;
     }
 
     void start() {
         if (controllerState == VastViewControllerState.READY) {
-            mediaFileLayer.start();
+            playerLayer.start();
         }
     }
 
     void resume() {
         if (controllerState == VastViewControllerState.VIDEO_SHOWING) {
-            mediaFileLayer.resume();
-            mediaFileTracker = createMediaFileTracker();
-            mediaFileTracker.start();
+            playerLayer.resume();
+            playerTracker = createPlayerTracker();
+            playerTracker.start();
         }
     }
 
     void pause() {
         if (controllerState == VastViewControllerState.VIDEO_SHOWING) {
-            mediaFileLayer.pause();
-            destroyMediaFileTracker();
+            playerLayer.pause();
+            destroyPlayerTracker();
         }
     }
 
     void destroy() {
         controllerState = VastViewControllerState.DESTROYED;
-        destroyMediaFileTracker();
-        mediaFileLayer.destroy();
+        destroyPlayerTracker();
+        playerLayer.destroy();
         rootView.removeAllViews();
         rootView = null;
 
@@ -250,7 +250,7 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
             }
             fireUrls(progressEventUrlListToTrack);
 
-            controlsLayer.updateButtons(newPercentage, currentPosition);
+            controlsLayer.updateButtons(currentPosition);
 
             if (vastType == VastType.FULLSCREEN && iconsLayer != null) {
                 iconsLayer.updateIcons(currentPosition);
@@ -258,7 +258,7 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
 
             playerPositionInMills = currentPosition;
         } else {
-            destroyMediaFileTracker();
+            destroyPlayerTracker();
         }
     }
 
@@ -280,9 +280,9 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
     }
 
     private void finishVideo() {
-        destroyMediaFileTracker();
+        destroyPlayerTracker();
         controlsLayer.videoComplete();
-        mediaFileLayer.destroy();
+        playerLayer.destroy();
         if (iconsLayer != null) {
             iconsLayer.destroy();
         }
@@ -296,8 +296,8 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
 
     @Override
     public void onStarted() {
-        mediaFileTracker = createMediaFileTracker();
-        mediaFileTracker.start();
+        playerTracker = createPlayerTracker();
+        playerTracker.start();
 
         listener.onShown();
         controlsLayer.videoStart(vastType);
@@ -358,7 +358,7 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         controlsLayer.updateMuteButton(muted);
         VastLog.i("Mute button clicked");
 
-        mediaFileLayer.setVolume(muted ? 0 : 1);
+        playerLayer.setVolume(muted ? 0 : 1);
     }
 
     @Override
@@ -460,15 +460,15 @@ class VastViewController implements MediaFileLayerListener, ControlsLayer.Contro
         }
     }
 
-    private void destroyMediaFileTracker() {
-        if (mediaFileTracker != null) {
-            mediaFileTracker.stop();
-            mediaFileTracker = null;
+    private void destroyPlayerTracker() {
+        if (playerTracker != null) {
+            playerTracker.stop();
+            playerTracker = null;
         }
     }
 
-    private MediaFileTracker createMediaFileTracker() {
-        destroyMediaFileTracker();
-        return new MediaFileTracker(new Handler(Looper.getMainLooper()), this, mediaFileLayer);
+    private PlayerTracker createPlayerTracker() {
+        destroyPlayerTracker();
+        return new PlayerTracker(new Handler(Looper.getMainLooper()), this, playerLayer);
     }
 }

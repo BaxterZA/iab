@@ -12,22 +12,24 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.appodeal.mraid.AdWebView;
-import com.appodeal.vast.MediaFileLayerInterface;
-import com.appodeal.vast.MediaFileLayerListener;
+import com.appodeal.vast.PlayerLayerInterface;
+import com.appodeal.vast.PlayerLayerListener;
+import com.appodeal.vast.PlayerTracker;
 import com.appodeal.vast.VastLog;
 
 @SuppressLint("ViewConstructor")
-public class VpaidViewController extends RelativeLayout implements VpaidCommandListener, MediaFileLayerInterface {
+public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener, PlayerLayerInterface {
     private final VpaidBridge vpaidBridge;
     private String adParameters;
     @VisibleForTesting AdWebView adWebView;
+    private int currentPosition;
 
-    private MediaFileLayerListener listener;
+    private PlayerLayerListener listener;
 
     private boolean destroyed;
     private boolean loaded;
 
-    public VpaidViewController(Context context, String fileUrl, String adParameters, MediaFileLayerListener listener) {
+    public VpaidPlayer(Context context, String fileUrl, String adParameters, PlayerLayerListener listener) {
         super(context);
         this.vpaidBridge = new VpaidBridge();
         this.listener = listener;
@@ -278,7 +280,8 @@ public class VpaidViewController extends RelativeLayout implements VpaidCommandL
 
     @Override
     public int getCurrentPosition() {
-        return 0;
+        currentPosition = currentPosition + PlayerTracker.VIDEO_PROGRESS_TIMER_INTERVAL;
+        return currentPosition;
     }
 
     @Override

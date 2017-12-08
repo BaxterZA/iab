@@ -1,6 +1,5 @@
 package com.appodeal.vast;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.widget.RelativeLayout;
