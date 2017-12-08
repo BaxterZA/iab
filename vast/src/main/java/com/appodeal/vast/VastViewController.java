@@ -65,6 +65,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
 
     private synchronized void changeState(VastViewControllerState destinationState) {
         final VastViewControllerState currentState = controllerState;
+        VastLog.d(String.format("Change state from %s to %s", currentState, destinationState));
         switch (currentState) {
             case CREATED:
                 switch (destinationState) {
@@ -240,22 +241,6 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     void setCurrentProgress(int currentPosition) {
         if (controllerState != VastViewControllerState.DESTROYED) {
             VastLog.d(String.format("Video progress: %s", currentPosition));
-            int newPercentage = 100 * currentPosition / vastConfig.getDuration();
-            int previousPercentage = 100 * playerPositionInMills / vastConfig.getDuration();
-
-            if (previousPercentage == 0 && newPercentage > 0) {
-                VastLog.i("Video at start");
-                trackEvents(TrackingEventsType.start);
-            } else if (previousPercentage < 25 && newPercentage >= 25) {
-                VastLog.i("Video at first quartile");
-                trackEvents(TrackingEventsType.firstQuartile);
-            } else if (previousPercentage < 50 && newPercentage >= 50) {
-                VastLog.i("Video at midpoint");
-                trackEvents(TrackingEventsType.midpoint);
-            } else if (previousPercentage < 75 && newPercentage >= 75) {
-                VastLog.i("Video at third quartile");
-                trackEvents(TrackingEventsType.thirdQuartile);
-            }
 
             List<ProgressEvent> progressEventList = vastConfig.getProgressTrackingList();
             List<String> progressEventUrlListToTrack = new ArrayList<>();
@@ -328,21 +313,6 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         changeState(VastViewControllerState.COMPANION_SHOWING);
     }
 
-    @Override
-    public void onStarted() {
-        playerTracker = createPlayerTracker();
-        playerTracker.start();
-
-        listener.onShown();
-        controlsLayer.videoStart(vastType);
-
-        if (!mIsProcessedImpressions) {
-            processImpressions();
-            processViewableImpression();
-        }
-
-        changeState(VastViewControllerState.VIDEO_SHOWING);
-    }
 
     @Override
     public void onLoaded() {
@@ -365,6 +335,43 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             }
         }
         changeState(VastViewControllerState.DESTROYED);
+    }
+
+    @Override
+    public void onStarted() {
+        VastLog.i("Video started");
+
+        playerTracker = createPlayerTracker();
+        playerTracker.start();
+
+        listener.onShown();
+        controlsLayer.videoStart(vastType);
+
+        if (!mIsProcessedImpressions) {
+            processImpressions();
+            processViewableImpression();
+        }
+        trackEvents(TrackingEventsType.start);
+        changeState(VastViewControllerState.VIDEO_SHOWING);
+    }
+
+
+    @Override
+    public void onFirstQuartile() {
+        VastLog.i("Video at first quartile");
+        trackEvents(TrackingEventsType.firstQuartile);
+    }
+
+    @Override
+    public void onMidpoint() {
+        VastLog.i("Video at midpoint");
+        trackEvents(TrackingEventsType.midpoint);
+    }
+
+    @Override
+    public void onThirdQuartile() {
+        VastLog.i("Video at third quartile");
+        trackEvents(TrackingEventsType.thirdQuartile);
     }
 
     @Override

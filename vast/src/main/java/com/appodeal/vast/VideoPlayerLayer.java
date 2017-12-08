@@ -14,10 +14,13 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
     private VideoView videoView;
     private VastConfig vastConfig;
     private LinearCountdownView progressBar;
+    private int playerPositionInMills;
+    private PlayerLayerListener listener;
 
     VideoPlayerLayer(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final PlayerLayerListener listener) {
         super(context);
         this.vastConfig = vastConfig;
+        this.listener = listener;
         videoView = new VideoView(context, vastConfig, mediaFileLocalUri, listener);
 
         addView(videoView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -50,6 +53,19 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
             int newPercentage = 100 * currentPosition / vastConfig.getDuration();
             progressBar.changePercentage(newPercentage);
         }
+
+        int newPercentage = 100 * currentPosition / vastConfig.getDuration();
+        int previousPercentage = 100 * playerPositionInMills / vastConfig.getDuration();
+
+        if (previousPercentage < 25 && newPercentage >= 25) {
+            listener.onFirstQuartile();
+        } else if (previousPercentage < 50 && newPercentage >= 50) {
+            listener.onMidpoint();
+        } else if (previousPercentage < 75 && newPercentage >= 75) {
+            listener.onThirdQuartile();
+        }
+
+        playerPositionInMills = currentPosition;
         return currentPosition;
     }
 

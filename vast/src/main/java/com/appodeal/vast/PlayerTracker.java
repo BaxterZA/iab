@@ -15,6 +15,7 @@ public class PlayerTracker implements Runnable {
         this.handler = handler;
         this.viewController = viewController;
         this.playerLayer = playerLayer;
+        VastLog.d("PlayerTracker created");
     }
 
     void start() {
@@ -22,6 +23,7 @@ public class PlayerTracker implements Runnable {
     }
 
     void stop() {
+        VastLog.d("PlayerTracker stopped");
         shouldStop = true;
     }
 

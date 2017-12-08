@@ -146,17 +146,23 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
 
     @Override
     public void vpaidAdVideoFirstQuartile() {
-
+        if (listener != null) {
+            listener.onFirstQuartile();
+        }
     }
 
     @Override
     public void vpaidAdVideoMidpoint() {
-
+        if (listener != null) {
+            listener.onMidpoint();
+        }
     }
 
     @Override
     public void vpaidAdVideoThirdQuartile() {
-
+        if (listener != null) {
+            listener.onThirdQuartile();
+        }
     }
 
     @Override
@@ -178,7 +184,7 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
 
     @Override
     public void vpaidAdUserClose() {
-
+        //TODO ?? support
     }
 
     @Override
