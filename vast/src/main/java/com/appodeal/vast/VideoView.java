@@ -167,6 +167,7 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
 
     void playVideo() {
         if (!mediaPlayer.isPlaying()) {
+            adjustAspectRatio(videoWidth, videoHeight);
             mediaPlayer.start();
             listener.onStarted();
         }
@@ -200,8 +201,6 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
         try {
-            adjustAspectRatio(videoWidth, videoHeight);
-
             Surface surface = new Surface(surfaceTexture);
             if (mediaPlayer != null) {
                 mediaPlayer.setSurface(surface);

@@ -1,6 +1,7 @@
 package com.appodeal.vast;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -100,6 +101,12 @@ class VastController implements VastLoader.LoaderListener {
         vastViewController = null;
         loaded = false;
         destroyed = true;
+    }
+
+    void attachActivity(Activity activity) {
+        if (vastViewController != null) {
+            vastViewController.attachActivity(activity);
+        }
     }
 
     private String getCacheDir(Context context) {

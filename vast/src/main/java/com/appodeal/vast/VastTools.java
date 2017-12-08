@@ -217,7 +217,7 @@ class VastTools {
         Display display = window.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        return size.x / size.y;
+        return (float) size.x / size.y;
     }
 
     static Bitmap getBitmapFromBase64(String encodedString) {

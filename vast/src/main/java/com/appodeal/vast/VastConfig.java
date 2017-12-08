@@ -53,7 +53,7 @@ class VastConfig {
         mediaFile = mediaFilePicker.getBestMediaFile(mediaFiles, interactiveCreativeFiles);
 
         if (mediaFile != null) {
-            CompanionPicker companionPicker = new CompanionPicker(mediaFile.getWidth() / mediaFile.getHeight());
+            CompanionPicker companionPicker = new CompanionPicker((float) mediaFile.getWidth() / mediaFile.getHeight());
             companion = companionPicker.getBestCompanion(companions);
 
             MediaFileLoader mediaFileLoader = new MediaFileLoader(cacheDir, mediaFile.getUrl());
@@ -135,5 +135,16 @@ class VastConfig {
         } else {
             return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         }
+    }
+
+    int getCompanionOrientation() {
+        if (companion != null) {
+            if (companion.getWidth() > companion.getHeight()) {
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            } else {
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            }
+        }
+        return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
     }
 }

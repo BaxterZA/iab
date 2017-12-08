@@ -51,11 +51,7 @@ public class VastActivity extends Activity implements VastControllerListener {
             return;
         }
 
-        int currentOrientation = this.getResources().getConfiguration().orientation;
-        if (currentOrientation != vastController.getAdOrientation()) {
-            setRequestedOrientation(vastController.getAdOrientation());
-        }
-
+        vastController.attachActivity(this);
         vastController.setVastControllerListener(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -131,9 +131,9 @@
                                 </IconClicks>
                             </Icon>
                             <Icon height="100" width="100" pxratio="1" xPosition="200" yPosition="200" duration="00:00:03" offset="00:00:05">
-                                <StaticResource creativeType="image/png">
-                                    <![CDATA[https://mobilemarketingwatch.com/wp-content/uploads/2016/01/IAB1.jpg]]>
-                                </StaticResource>
+                                <HTMLResource>
+                                    <![CDATA[<a href="http://google.com"><img src="https://mobilemarketingwatch.com/wp-content/uploads/2016/01/IAB1.jpg"/></a>]]>
+                                </HTMLResource>
                                 <IconViewTracking >
                                     <![CDATA[http://myTrackingURL/IconViewTracking_3_1]]>
                                 </IconViewTracking>
@@ -159,6 +159,19 @@
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
+                </Creative>
+                <Creative AdID="601364-Companion">
+                    <CompanionAds>
+                        <Companion width="320" height="480">
+                            <StaticResource creativeType="image/jpeg">http://1.bp.blogspot.com/-u3rM47hwglc/T2miQsuDZBI/AAAAAAAAAAc/8opfRROuFtI/s1600/iphone-wallpaper-formula-one-f1.jpg</StaticResource>
+                            <TrackingEvents>
+                                <Tracking event="creativeView">
+                                    <![CDATA[http://myTrackingURL/firstCompanionCreativeView]]>
+                                </Tracking>
+                            </TrackingEvents>
+                            <CompanionClickThrough>http://www.tremormedia.com</CompanionClickThrough>
+                        </Companion>
+                    </CompanionAds>
                 </Creative>
             </Creatives>
         </InLine>

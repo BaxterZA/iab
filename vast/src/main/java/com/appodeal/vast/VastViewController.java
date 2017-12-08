@@ -1,7 +1,9 @@
 package com.appodeal.vast;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.appodeal.vast.vpaid.VpaidPlayer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +45,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     private boolean muted;
     private int skipTime;
     private boolean mIsProcessedImpressions = false;
+    private WeakReference<Activity> activityWeakReference;
 
     private VastViewControllerState controllerState = VastViewControllerState.CREATED;
 
@@ -175,6 +179,14 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     }
 
     void start() {
+        if (vastType == VastType.FULLSCREEN && activityWeakReference != null && activityWeakReference.get() != null) {
+            Activity activity = activityWeakReference.get();
+            int currentOrientation = activity.getResources().getConfiguration().orientation;
+            if (currentOrientation != vastConfig.getVideoOrientation() && vastConfig.getVideoOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+                activity.setRequestedOrientation(vastConfig.getVideoOrientation());
+            }
+        }
+
         if (controllerState == VastViewControllerState.READY) {
             playerLayer.start();
         }
@@ -215,6 +227,10 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             controlsLayer = null;
         }
         context = null;
+    }
+
+    void attachActivity(Activity activity) {
+        activityWeakReference = new WeakReference<>(activity);
     }
 
     ViewGroup getView() {
@@ -287,10 +303,28 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             iconsLayer.destroy();
         }
 
-        companionLayer.showCompanion(vastType);
-        if (!companionLayer.hasCompanion()) {
-            controlsLayer.showCompanionControls();
+        showCompanion();
+    }
+
+    private void showCompanion() {
+        if (vastType == VastType.FULLSCREEN && activityWeakReference != null && activityWeakReference.get() != null) {
+            Activity activity = activityWeakReference.get();
+            int currentOrientation = activity.getResources().getConfiguration().orientation;
+            if (currentOrientation != vastConfig.getCompanionOrientation() && vastConfig.getCompanionOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+                activity.setRequestedOrientation(vastConfig.getCompanionOrientation());
+            }
         }
+
+        if (!companionLayer.hasCompanion()) {
+            if (playerLayer instanceof VideoPlayerLayer) {
+                controlsLayer.showCompanionControls();
+            } else {
+                listener.onClosed();
+                changeState(VastViewControllerState.DESTROYED);
+                return;
+            }
+        }
+        companionLayer.showCompanion(vastType);
         changeState(VastViewControllerState.COMPANION_SHOWING);
     }
 
