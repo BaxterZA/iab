@@ -39,8 +39,8 @@ public class VastModel_ExtensionsTest {
         assertEquals(extensions.getCtaPosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM));
         assertEquals(extensions.getMutePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP));
         assertEquals(extensions.getClosePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP));
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
         assertNull(extensions.getCompanion());
         assertTrue(extensions.canShowProgress());
     }
@@ -66,8 +66,8 @@ public class VastModel_ExtensionsTest {
         assertEquals(extensions.getCtaPosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM));
         assertEquals(extensions.getMutePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP));
         assertEquals(extensions.getClosePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP));
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
         assertNull(extensions.getCompanion());
         assertTrue(extensions.canShowProgress());
     }
@@ -95,8 +95,8 @@ public class VastModel_ExtensionsTest {
         assertEquals(extensions.getCtaPosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM));
         assertEquals(extensions.getMutePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP));
         assertEquals(extensions.getClosePosition(), new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP));
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
         assertNull(extensions.getCompanion());
         assertTrue(extensions.canShowProgress());
     }
@@ -122,7 +122,7 @@ public class VastModel_ExtensionsTest {
         assertFalse(extensions.canShowCta());
         assertFalse(extensions.canShowMute());
         assertFalse(extensions.canShowCompanion());
-        assertEquals(extensions.getCompanionCloseTime(), 10);
+        assertEquals(extensions.getCompanionCloseTime(), 10_000);
     }
 
     @Test
@@ -146,7 +146,7 @@ public class VastModel_ExtensionsTest {
         assertTrue(extensions.canShowCta());
         assertFalse(extensions.canShowMute());
         assertTrue(extensions.canShowCompanion());
-        assertEquals(extensions.getCompanionCloseTime(), 10);
+        assertEquals(extensions.getCompanionCloseTime(), 10_000);
     }
 
     @Test
@@ -459,8 +459,8 @@ public class VastModel_ExtensionsTest {
         VastModel vastModel = new VastModel(document);
         Extensions extensions = vastModel.getExtensions();
         assertNotNull(extensions);
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
 
         xmlString = "<VASTS><VAST><Ad><InLine><Extensions>\n" +
                 "<Extension type=\"appodeal\">\n" +
@@ -473,8 +473,8 @@ public class VastModel_ExtensionsTest {
         vastModel = new VastModel(document);
         extensions = vastModel.getExtensions();
         assertNotNull(extensions);
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
 
         xmlString = "<VASTS><VAST><Ad><InLine><Extensions>\n" +
                 "<Extension type=\"appodeal\">\n" +
@@ -487,8 +487,8 @@ public class VastModel_ExtensionsTest {
         vastModel = new VastModel(document);
         extensions = vastModel.getExtensions();
         assertNotNull(extensions);
-        assertEquals(extensions.getAssetsColor(), Color.parseColor("#B4FFFFFF"));
-        assertEquals(extensions.getAssetsBackgroundColor(), Color.TRANSPARENT);
+        assertEquals(extensions.getAssetsColor(), VastTools.assetsColor);
+        assertEquals(extensions.getAssetsBackgroundColor(), VastTools.backgroundColor);
     }
 
     @Test

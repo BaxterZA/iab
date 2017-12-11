@@ -54,8 +54,8 @@ public class VastModel_IconTest {
         assertEquals(2, icon.getPxRatio());
         assertEquals(0, icon.getXPosition());
         assertEquals(0, icon.getYPosition());
-        assertEquals(5, icon.getDuration());
-        assertEquals(5, icon.getOffset());
+        assertEquals(5_000, icon.getDuration());
+        assertEquals(5_000, icon.getOffset());
 
         assertNotNull(icon.getIFrameResource());
         assertEquals(icon.getIFrameResource().getUri(), "iframe_url");
@@ -125,8 +125,8 @@ public class VastModel_IconTest {
         assertEquals(2, icon.getPxRatio());
         assertEquals(0, icon.getXPosition());
         assertEquals(0, icon.getYPosition());
-        assertEquals(5, icon.getDuration());
-        assertEquals(5, icon.getOffset());
+        assertEquals(5_000, icon.getDuration());
+        assertEquals(5_000, icon.getOffset());
 
         assertNotNull(icon.getIFrameResource());
         assertEquals(icon.getIFrameResource().getUri(), "iframe_url");
@@ -179,7 +179,7 @@ public class VastModel_IconTest {
         assertEquals(1, icon.getPxRatio());
         assertEquals(Integer.MAX_VALUE, icon.getXPosition());
         assertEquals(Integer.MAX_VALUE, icon.getYPosition());
-        assertEquals(5, icon.getDuration());
+        assertEquals(5_000, icon.getDuration());
     }
 
     @Test
@@ -210,7 +210,7 @@ public class VastModel_IconTest {
         assertEquals(1, icon.getPxRatio());
         assertEquals(10, icon.getXPosition());
         assertEquals(20, icon.getYPosition());
-        assertEquals(5, icon.getDuration());
+        assertEquals(5_000, icon.getDuration());
     }
 
     @Test

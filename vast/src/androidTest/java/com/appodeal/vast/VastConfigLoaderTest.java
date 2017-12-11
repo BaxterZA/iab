@@ -16,7 +16,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-public class VastLoaderTest {
+public class VastConfigLoaderTest {
     private MockWebServer server;
 
     @Before
@@ -36,14 +36,14 @@ public class VastLoaderTest {
                 "</VAST>";
 
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        VastLoader loader = new VastLoader.Builder((float) 16/9, "dir").withXml(inLineString).withListener(new VastLoader.LoaderListener() {
+        VastConfigLoader loader = new VastConfigLoader.Builder((float) 16/9, "dir", new VastConfigLoader.VastConfigLoaderListener() {
             @Override
             public void onComplete(VastConfig vastConfig) {
                 assertNotNull(vastConfig);
                 assertEquals(1, vastConfig.getImpressionTracking().size());
                 countDownLatch.countDown();
             }
-        }).build();
+        }).withXml(inLineString).build();
 
         VastTools.safeExecute(loader);
         countDownLatch.await();
@@ -68,14 +68,14 @@ public class VastLoaderTest {
                 .setBody(inLineString));
 
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        VastLoader loader = new VastLoader.Builder((float) 16/9, "dir").withUrl(xmlUrl).withListener(new VastLoader.LoaderListener() {
+        VastConfigLoader loader = new VastConfigLoader.Builder((float) 16/9, "dir", new VastConfigLoader.VastConfigLoaderListener() {
             @Override
             public void onComplete(VastConfig vastConfig) {
                 assertNotNull(vastConfig);
                 assertEquals(1, vastConfig.getImpressionTracking().size());
                 countDownLatch.countDown();
             }
-        }).build();
+        }).withUrl(xmlUrl).build();
 
         VastTools.safeExecute(loader);
         countDownLatch.await();

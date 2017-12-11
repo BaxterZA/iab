@@ -19,7 +19,7 @@ public class VastModel_getSkipOffset {
                 "</Linear></Creative></Creatives></InLine></Ad></VAST></VASTS>";
         Document document = VastTools.getDocumentFromString(nodeString);
         VastModel vastModel = new VastModel(document);
-        assertEquals(10, vastModel.getSkipOffset());
+        assertEquals(10_000, vastModel.getSkipOffset());
     }
 
     @Test

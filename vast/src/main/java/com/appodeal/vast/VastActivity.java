@@ -11,10 +11,10 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 
-public class VastActivity extends Activity implements VastControllerListener {
+public class VastActivity extends Activity implements VastViewControllerListener {
     public static final String ID = "com.appodeal.vast.VastViewController.id";
     private VastInterstitial vastInterstitial;
-    private VastController vastController;
+    private VastViewController controller;
     private VastInterstitialListener interstitialListener;
 
     public static void startIntent(Context context, String id) {
@@ -44,15 +44,15 @@ public class VastActivity extends Activity implements VastControllerListener {
         }
 
         interstitialListener = vastInterstitial.getVastInterstitialListener();
-        vastController = vastInterstitial.getController();
-        if (vastController == null) {
+        controller = vastInterstitial.getController();
+        if (controller == null) {
             VastLog.e("Vast controller not found");
             closeActivity();
             return;
         }
 
-        vastController.attachActivity(this);
-        vastController.setVastControllerListener(this);
+        controller.attachActivity(this);
+        controller.setListener(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -60,15 +60,13 @@ public class VastActivity extends Activity implements VastControllerListener {
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
-        ViewGroup vastView = vastController.getVastView();
-        if (vastView.getParent() != null) {
-            ((ViewGroup) vastView.getParent()).removeView(vastView);
-        }
+        ViewGroup vastView = controller.getView();
+        VastTools.removeFromParent(vastView);
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         setContentView(vastView, layoutParams);
 
-        vastController.start();
+        controller.start();
     }
 
     private void closeActivity() {
@@ -77,30 +75,30 @@ public class VastActivity extends Activity implements VastControllerListener {
         }
         vastInterstitial.destroy();
         vastInterstitial = null;
-        vastController = null;
+        controller = null;
         finish();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (vastController != null) {
-            vastController.pause();
+        if (controller != null) {
+            controller.pause();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (vastController != null) {
-            vastController.resume();
+        if (controller != null) {
+            controller.resume();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (vastController != null) {
-            vastController.attemptToClose();
+        if (controller != null) {
+            controller.attemptToClose();
         }
     }
 
@@ -113,44 +111,44 @@ public class VastActivity extends Activity implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerLoaded(VastController vastController) {
+    public void onVastControllerLoaded(VastViewController vastViewController) {
         //repeat clicked
-        vastController.start();
+        vastViewController.start();
     }
 
     @Override
-    public void onVastControllerFailedToLoad(VastController vastController) {
+    public void onVastControllerFailedToLoad(VastViewController vastViewController) {
 
     }
 
     @Override
-    public void onVastControllerFailedToShow(VastController vastController) {
+    public void onVastControllerFailedToShow(VastViewController vastViewController) {
         closeActivity();
     }
 
     @Override
-    public void onVastControllerShown(VastController vastController) {
+    public void onVastControllerShown(VastViewController vastViewController) {
         if (interstitialListener != null) {
             interstitialListener.onVastShown(vastInterstitial);
         }
     }
 
     @Override
-    public void onVastControllerClicked(VastController vastController, String url) {
+    public void onVastControllerClicked(VastViewController vastViewController, String url) {
         if (interstitialListener != null) {
             interstitialListener.onVastClicked(vastInterstitial, url);
         }
     }
 
     @Override
-    public void onVastControllerCompleted(VastController vastController) {
+    public void onVastControllerCompleted(VastViewController vastViewController) {
         if (interstitialListener != null) {
             interstitialListener.onVastFinished(vastInterstitial);
         }
     }
 
     @Override
-    public void onVastControllerClosed(VastController vastController) {
+    public void onVastControllerClosed(VastViewController vastViewController) {
         closeActivity();
     }
 }

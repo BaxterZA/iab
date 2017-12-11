@@ -131,8 +131,8 @@ public class VastConfigTest {
         assertEquals(1, vastConfig.getIcons().size());
         Icon icon = vastConfig.getIcons().get(0);
         assertNotNull(icon);
-        assertEquals(5, icon.getDuration());
-        assertEquals(5, icon.getOffset());
+        assertEquals(5_000, icon.getDuration());
+        assertEquals(5_000, icon.getOffset());
         assertNotNull(icon.getIconClicks());
         assertNotNull(icon.getIFrameResource());
 
@@ -285,8 +285,8 @@ public class VastConfigTest {
         assertEquals(1, vastConfig.getIcons().size());
         Icon icon = vastConfig.getIcons().get(0);
         assertNotNull(icon);
-        assertEquals(5, icon.getDuration());
-        assertEquals(5, icon.getOffset());
+        assertEquals(5_000, icon.getDuration());
+        assertEquals(5_000, icon.getOffset());
         assertNotNull(icon.getIconClicks());
         assertNotNull(icon.getIFrameResource());
 

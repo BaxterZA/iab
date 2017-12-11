@@ -22,18 +22,9 @@ import java.util.List;
 
 class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsLayerListener, IconsLayer.IconsLayerListener, CompanionLayer.CompanionListener {
 
-    interface VastViewControllerListener {
-        void onLoaded();
-        void onFailedToLoad();
-        void onShown();
-        void onClicked(String url);
-        void onClosed();
-        void onCompleted();
-    }
-
     private final VastConfig vastConfig;
     private final VastType vastType;
-    private final VastViewControllerListener listener;
+    private VastViewControllerListener listener;
     private PlayerLayerInterface playerLayer;
     private ControlsLayer controlsLayer;
     private IconsLayer iconsLayer;
@@ -49,17 +40,20 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
 
     private VastViewControllerState controllerState = VastViewControllerState.CREATED;
 
-    VastViewController(@NonNull Context context, @NonNull VastConfig vastConfig, VastType vastType, @NonNull final VastViewControllerListener listener) {
+    VastViewController(@NonNull Context context, @NonNull VastConfig vastConfig, VastType vastType) {
         this.context = context;
         this.vastConfig = vastConfig;
         this.vastType = vastType;
-        this.listener = listener;
 
         skipTime = VastTools.defaultSkipTime > vastConfig.getSkipOffset() ? VastTools.defaultSkipTime : vastConfig.getSkipOffset();
 
         rootView = new RelativeLayout(context);
         rootView.setPadding(0, 0, 0, 0);
         rootView.setBackgroundColor(Color.BLACK);
+    }
+
+    public void setListener(@NonNull VastViewControllerListener listener) {
+        this.listener = listener;
     }
 
     void load() {
@@ -188,16 +182,20 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     }
 
     void start() {
-        if (vastType == VastType.FULLSCREEN && getActivity() != null) {
-            Activity activity = activityWeakReference.get();
-            int currentOrientation = activity.getResources().getConfiguration().orientation;
-            if (currentOrientation != vastConfig.getVideoOrientation() && vastConfig.getVideoOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-                activity.setRequestedOrientation(vastConfig.getVideoOrientation());
+        if (controllerState == VastViewControllerState.READY) {
+            if (vastType == VastType.FULLSCREEN && getActivity() != null) {
+                Activity activity = activityWeakReference.get();
+                int currentOrientation = activity.getResources().getConfiguration().orientation;
+                if (currentOrientation != vastConfig.getVideoOrientation() && vastConfig.getVideoOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+                    activity.setRequestedOrientation(vastConfig.getVideoOrientation());
+                }
             }
+
+            playerLayer.start();
         }
 
-        if (controllerState == VastViewControllerState.READY) {
-            playerLayer.start();
+        if (controllerState == VastViewControllerState.COMPANION_SHOWING) {
+            showCompanion();
         }
     }
 
@@ -236,6 +234,14 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             controlsLayer = null;
         }
         context = null;
+    }
+
+    boolean isDestroyed() {
+        return controllerState == VastViewControllerState.DESTROYED;
+    }
+
+    boolean isLoaded() {
+        return controllerState == VastViewControllerState.READY;
     }
 
     void attachActivity(Activity activity) {
@@ -281,7 +287,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
                 break;
             case COMPANION_SHOWING:
                 if (companionLayer == null || companionLayer.canClose()) {
-                    listener.onClosed();
+                    listener.onVastControllerClosed(this);
                     changeState(VastViewControllerState.DESTROYED);
                 }
                 break;
@@ -312,7 +318,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             if (playerLayer instanceof VideoPlayerLayer) {
                 controlsLayer.showCompanionControls();
             } else {
-                listener.onClosed();
+                listener.onVastControllerClosed(this);
                 changeState(VastViewControllerState.DESTROYED);
                 return;
             }
@@ -333,13 +339,13 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     @Override
     public void onLoaded() {
         changeState(VastViewControllerState.READY);
-        listener.onLoaded();
+        listener.onVastControllerLoaded(this);
     }
 
     @Override
     public void onFailedToLoad() {
         changeState(VastViewControllerState.DESTROYED);
-        listener.onFailedToLoad();
+        listener.onVastControllerFailedToLoad(this);
     }
 
     @Override
@@ -357,16 +363,18 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     public void onStarted() {
         VastLog.i("Video started");
 
-        if (getActivity() != null) {
-            createSubLayers(getActivity());
-        } else  {
-            createSubLayers(context);
+        if (controllerState == VastViewControllerState.READY) {
+            if (getActivity() != null) {
+                createSubLayers(getActivity());
+            } else {
+                createSubLayers(context);
+            }
+            listener.onVastControllerShown(this);
         }
 
         playerTracker = createPlayerTracker();
         playerTracker.start();
 
-        listener.onShown();
         controlsLayer.videoStart(vastType);
 
         if (!mIsProcessedImpressions) {
@@ -401,7 +409,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         VastLog.i("Video completed");
         trackEvents(TrackingEventsType.complete);
         if (listener != null) {
-            listener.onCompleted();
+            listener.onVastControllerCompleted(this);
         }
         finishVideo();
     }
@@ -411,7 +419,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         VastLog.i("Player clicked");
         fireUrls(vastConfig.getVideoClicks().getClickTracking());
         if (listener != null) {
-            listener.onClicked(url);
+            listener.onVastControllerClicked(this, url);
         }
     }
 
@@ -429,7 +437,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         VastLog.i("CTA button clicked");
         fireUrls(vastConfig.getVideoClicks().getClickTracking());
         if (listener != null) {
-            listener.onClicked(vastConfig.getVideoClicks().getClickThrough());
+            listener.onVastControllerClicked(this, vastConfig.getVideoClicks().getClickThrough());
         }
     }
 
@@ -452,7 +460,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         VastLog.i("Icon clicked");
         fireUrls(icon.getIconClicks().getClickTracking());
         if (listener != null) {
-            listener.onClicked(url);
+            listener.onVastControllerClicked(this, url);
         }
 
     }
@@ -470,12 +478,12 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         if (companion != null) {
             fireUrls(companion.getClickTracking());
             if (listener != null) {
-                listener.onClicked(url);
+                listener.onVastControllerClicked(this, url);
             }
         } else {
             fireUrls(vastConfig.getVideoClicks().getClickTracking());
             if (listener != null) {
-                listener.onClicked(vastConfig.getVideoClicks().getClickThrough());
+                listener.onVastControllerClicked(this, vastConfig.getVideoClicks().getClickThrough());
             }
         }
     }

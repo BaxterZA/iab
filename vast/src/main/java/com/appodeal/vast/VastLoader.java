@@ -1,80 +1,126 @@
 package com.appodeal.vast;
 
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-class VastLoader extends AsyncTask<Void, Void, VastConfig> {
-    interface LoaderListener {
-        void onComplete(VastConfig vastConfig);
+import java.io.File;
+import java.util.Arrays;
+
+class VastLoader implements VastConfigLoader.VastConfigLoaderListener {
+    interface VastLoaderListener {
+        void onComplete(@Nullable VastViewController vastViewController);
     }
 
-    private final String url;
-    private final String xml;
+    private final static int cacheSize = 5;
+
     private float adAspectRatio;
-    private LoaderListener loaderListener;
-    private String cacheDir;
+    private VastLoaderListener vastLoaderListener;
+    private final String cacheDir;
+    private Context context;
+    private VastType vastType;
 
-    private VastLoader(Builder builder) {
-        this.url = builder.url;
-        this.xml = builder.xml;
-        this.adAspectRatio = builder.adAspectRatio;
-        this.loaderListener = builder.loaderListener;
-        this.cacheDir = builder.cacheDir;
+    VastLoader(@NonNull Context context, float adAspectRatio, VastType vastType, @NonNull VastLoaderListener vastLoaderListener) {
+        this.adAspectRatio = adAspectRatio;
+        this.cacheDir = getCacheDir(context.getApplicationContext());
+        this.context = context.getApplicationContext();
+        this.vastType = vastType;
+        this.vastLoaderListener = vastLoaderListener;
     }
 
-    @Override
-    protected VastConfig doInBackground(Void... params) {
-        if (xml == null && url == null) {
-            return null;
+    void loadXml(String xml) {
+        if (cacheDir == null) {
+            vastLoaderListener.onComplete(null);
+            destroy();
+            return;
         }
 
-        VastProcessor processor = new VastProcessor();
-        VastModel vastModel = xml != null ? processor.loadXml(xml) : processor.loadUrl(url);
-        if (vastModel != null) {
-            return new VastConfig(vastModel, adAspectRatio, cacheDir);
+        VastConfigLoader vastConfigLoader = new VastConfigLoader.Builder(adAspectRatio, cacheDir, this).withXml(xml).build();
+        VastTools.safeExecute(vastConfigLoader);
+    }
+
+    void loadUrl(String url) {
+        if (cacheDir == null) {
+            vastLoaderListener.onComplete(null);
+            destroy();
+            return;
+        }
+
+        VastConfigLoader vastConfigLoader = new VastConfigLoader.Builder(adAspectRatio, cacheDir, this).withUrl(url).build();
+        VastTools.safeExecute(vastConfigLoader);
+    }
+
+    void destroy() {
+        context = null;
+    }
+
+    private String getCacheDir(Context context) {
+        File externalStorage = context.getExternalFilesDir(null);
+        if (externalStorage != null) {
+            return externalStorage.getPath() + "/vast_cache/";
         }
         return null;
     }
 
+
     @Override
-    protected void onPostExecute(VastConfig vastConfig) {
-        super.onPostExecute(vastConfig);
-        if (loaderListener != null) {
-            loaderListener.onComplete(vastConfig);
+    public void onComplete(VastConfig vastConfig) {
+        if (vastConfig == null || !vastConfig.isPlayable()) {
+            vastLoaderListener.onComplete(null);
+            destroy();
+            return;
+        }
+        clearCache(vastConfig.getMediaFileLocalUri());
+
+        vastLoaderListener.onComplete(new VastViewController(context, vastConfig, vastType));
+    }
+
+    class FileData implements Comparable {
+        long mLastModified;
+        File mFile;
+
+        FileData(File file) {
+            mFile = file;
+            mLastModified = file.lastModified();
+        }
+
+        public int compareTo(@NonNull Object o) {
+            FileData file = ((FileData) o);
+            return mLastModified > file.mLastModified ? -1 : mLastModified == file.mLastModified ? 0 : 1;
         }
     }
 
+    private void clearCache(@NonNull Uri currentFileUri) {
+        try {
+            if (cacheDir == null) {
+                return;
+            }
+            File dir = new File(cacheDir);
+            File[] files = dir.listFiles();
+            if (files != null && files.length > cacheSize) {
+                FileData[] pairs = new FileData[files.length];
+                for (int i = 0; i < files.length; i++) {
+                    pairs[i] = new FileData(files[i]);
+                }
 
-    static class Builder {
-        private String url;
-        private String xml;
-        private float adAspectRatio;
-        private LoaderListener loaderListener;
-        private String cacheDir;
+                Arrays.sort(pairs);
 
-        Builder(float adAspectRatio, @NonNull String cacheDir) {
-            this.adAspectRatio = adAspectRatio;
-            this.cacheDir = cacheDir;
-        }
+                for (int i = 0; i < files.length; i++) {
+                    files[i] = pairs[i].mFile;
+                }
 
-        Builder withListener(@NonNull LoaderListener loaderListener) {
-            this.loaderListener = loaderListener;
-            return this;
-        }
+                for (int i = cacheSize; i < files.length; i++) {
+                    if (!Uri.fromFile(files[i]).equals(currentFileUri)) {
+                        //noinspection ResultOfMethodCallIgnored
+                        files[i].delete();
+                    }
+                }
 
-        Builder withUrl(@NonNull String url) {
-            this.url = url;
-            return this;
-        }
-
-        Builder withXml(@NonNull String xml) {
-            this.xml = xml;
-            return this;
-        }
-
-        VastLoader build() {
-            return new VastLoader(this);
+            }
+        } catch (Exception e) {
+            VastLog.e(e.getMessage());
         }
     }
 }

@@ -25,7 +25,7 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(1, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(10, progressEvents.get(0).getOffsetTime());
+        assertEquals(10_000, progressEvents.get(0).getOffsetTime());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(1, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(15, progressEvents.get(0).getOffsetTime());
+        assertEquals(15_000, progressEvents.get(0).getOffsetTime());
     }
 
     @Test
@@ -58,9 +58,9 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(2, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(10, progressEvents.get(0).getOffsetTime());
+        assertEquals(10_000, progressEvents.get(0).getOffsetTime());
         assertEquals("url2", progressEvents.get(1).getTrackingURL());
-        assertEquals(15, progressEvents.get(1).getOffsetTime());
+        assertEquals(15_000, progressEvents.get(1).getOffsetTime());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(1, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(15, progressEvents.get(0).getOffsetTime());
+        assertEquals(15_000, progressEvents.get(0).getOffsetTime());
     }
 
     @Test
@@ -95,9 +95,9 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(2, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(15, progressEvents.get(0).getOffsetTime());
+        assertEquals(15_000, progressEvents.get(0).getOffsetTime());
         assertEquals("url2", progressEvents.get(1).getTrackingURL());
-        assertEquals(3, progressEvents.get(1).getOffsetTime());
+        assertEquals(3_000, progressEvents.get(1).getOffsetTime());
     }
 
     @Test
@@ -136,8 +136,8 @@ public class VastModel_ProgressEvent {
         assertNotNull(progressEvents);
         assertEquals(2, progressEvents.size());
         assertEquals("url", progressEvents.get(0).getTrackingURL());
-        assertEquals(15, progressEvents.get(0).getOffsetTime());
+        assertEquals(15_000, progressEvents.get(0).getOffsetTime());
         assertEquals("url2", progressEvents.get(1).getTrackingURL());
-        assertEquals(10, progressEvents.get(1).getOffsetTime());
+        assertEquals(10_000, progressEvents.get(1).getOffsetTime());
     }
 }

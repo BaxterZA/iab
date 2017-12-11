@@ -4,27 +4,21 @@ package com.appodeal.vast;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class VastView extends RelativeLayout implements VastControllerListener {
-    private VastController controller;
+public class VastView extends RelativeLayout implements VastLoader.VastLoaderListener, VastViewControllerListener {
+    private VastViewController controller;
     private VastViewListener vastViewListener;
 
     public VastView(Context context) {
         super(context);
-        init(context);
     }
 
     public VastView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
-    }
-
-    private void init(Context context) {
-        this.controller = new VastController(context, 16f / 9, VastType.VIEW);
-        this.controller.setVastControllerListener(this);
     }
 
     public void setVastViewListener(VastViewListener vastViewListener) {
@@ -32,18 +26,17 @@ public class VastView extends RelativeLayout implements VastControllerListener {
     }
 
     public void loadXml(String xml) {
-        if (controller != null && !controller.isDestroyed()) {
-            controller.loadXml(xml);
-        }
+        VastLoader vastLoader = new VastLoader(getContext(), 16f / 9, VastType.VIEW, this);
+        vastLoader.loadXml(xml);
     }
 
     public void loadUrl(String url) {
-        if (controller != null && !controller.isDestroyed()) {
-            controller.loadUrl(url);
-        }
+        VastLoader vastLoader = new VastLoader(getContext(), 16f / 9, VastType.VIEW, this);
+        vastLoader.loadUrl(url);
     }
 
     public void destroy() {
+        removeAllViews();
         if (controller != null) {
             controller.destroy();
             controller = null;
@@ -60,9 +53,22 @@ public class VastView extends RelativeLayout implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerLoaded(VastController vastController) {
+    public void onComplete(@Nullable VastViewController vastViewController) {
+        if (vastViewController == null) {
+            if (vastViewListener != null) {
+                vastViewListener.onVastFailedToLoad(this);
+            }
+            return;
+        }
+        controller = vastViewController;
+        controller.setListener(this);
+        controller.load();
+    }
+
+    @Override
+    public void onVastControllerLoaded(VastViewController vastViewController) {
         removeAllViews();
-        addView(vastController.getVastView(), new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        addView(vastViewController.getView(), new LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         if (vastViewListener != null) {
             vastViewListener.onVastLoaded(this);
         }
@@ -75,7 +81,7 @@ public class VastView extends RelativeLayout implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerFailedToLoad(VastController vastController) {
+    public void onVastControllerFailedToLoad(VastViewController vastViewController) {
         if (vastViewListener != null) {
             vastViewListener.onVastFailedToLoad(this);
         }
@@ -83,7 +89,7 @@ public class VastView extends RelativeLayout implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerFailedToShow(VastController vastController) {
+    public void onVastControllerFailedToShow(VastViewController vastViewController) {
         if (vastViewListener != null) {
             vastViewListener.onVastFailedToShow(this);
         }
@@ -91,28 +97,28 @@ public class VastView extends RelativeLayout implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerShown(VastController vastController) {
+    public void onVastControllerShown(VastViewController vastViewController) {
         if (vastViewListener != null) {
             vastViewListener.onVastShown(this);
         }
     }
 
     @Override
-    public void onVastControllerClicked(VastController vastController, String url) {
+    public void onVastControllerClicked(VastViewController vastViewController, String url) {
         if (vastViewListener != null) {
             vastViewListener.onVastClicked(this, url);
         }
     }
 
     @Override
-    public void onVastControllerCompleted(VastController vastController) {
+    public void onVastControllerCompleted(VastViewController vastViewController) {
         if (vastViewListener != null) {
             vastViewListener.onVastFinished(this);
         }
     }
 
     @Override
-    public void onVastControllerClosed(VastController vastController) {
+    public void onVastControllerClosed(VastViewController vastViewController) {
         //never going to happen
     }
 

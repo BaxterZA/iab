@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import org.w3c.dom.CharacterData;
@@ -223,6 +225,12 @@ class VastTools {
     static Bitmap getBitmapFromBase64(String encodedString) {
         byte[] decodedString = Base64.decode(encodedString, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
+    static void removeFromParent(View view) {
+        if (view.getParent() != null) {
+            ((ViewGroup) view.getParent()).removeView(view);
+        }
     }
 
 }

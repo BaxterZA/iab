@@ -2,16 +2,15 @@ package com.appodeal.vast;
 
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
-public class VastInterstitial implements VastControllerListener {
+public class VastInterstitial implements VastLoader.VastLoaderListener, VastViewControllerListener {
     private Context context;
-    private VastController controller;
+    private VastViewController controller;
     private VastInterstitialListener vastInterstitialListener;
 
     public VastInterstitial(Context context) {
         this.context = context;
-        this.controller = new VastController(context, VastTools.getDisplayAspectRatio(context), VastType.FULLSCREEN);
-        this.controller.setVastControllerListener(this);
     }
 
     public void setVastInterstitialListener(VastInterstitialListener vastInterstitialListener) {
@@ -23,11 +22,13 @@ public class VastInterstitial implements VastControllerListener {
     }
 
     public void loadXml(String xml) {
-        controller.loadXml(xml);
+        VastLoader vastLoader = new VastLoader(context, VastTools.getDisplayAspectRatio(context), VastType.FULLSCREEN, this);
+        vastLoader.loadXml(xml);
     }
 
     public void loadUrl(String url) {
-        controller.loadUrl(url);
+        VastLoader vastLoader = new VastLoader(context, VastTools.getDisplayAspectRatio(context), VastType.FULLSCREEN, this);
+        vastLoader.loadUrl(url);
     }
 
     public void show() {
@@ -58,14 +59,27 @@ public class VastInterstitial implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerLoaded(VastController vastController) {
+    public void onComplete(@Nullable VastViewController vastViewController) {
+        if (vastViewController == null) {
+            if (vastInterstitialListener != null) {
+                vastInterstitialListener.onVastFailedToLoad(this);
+            }
+            return;
+        }
+        controller = vastViewController;
+        controller.setListener(this);
+        controller.load();
+    }
+
+    @Override
+    public void onVastControllerLoaded(VastViewController vastViewController) {
         if (vastInterstitialListener != null) {
             vastInterstitialListener.onVastLoaded(this);
         }
     }
 
     @Override
-    public void onVastControllerFailedToLoad(VastController vastController) {
+    public void onVastControllerFailedToLoad(VastViewController vastViewController) {
         if (vastInterstitialListener != null) {
             vastInterstitialListener.onVastFailedToLoad(this);
         }
@@ -73,7 +87,7 @@ public class VastInterstitial implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerFailedToShow(VastController vastController) {
+    public void onVastControllerFailedToShow(VastViewController vastViewController) {
         if (vastInterstitialListener != null) {
             vastInterstitialListener.onVastFailedToShow(this);
         }
@@ -81,26 +95,26 @@ public class VastInterstitial implements VastControllerListener {
     }
 
     @Override
-    public void onVastControllerShown(VastController vastController) {
+    public void onVastControllerShown(VastViewController vastViewController) {
 
     }
 
     @Override
-    public void onVastControllerClicked(VastController vastController, String url) {
+    public void onVastControllerClicked(VastViewController vastViewController, String url) {
 
     }
 
     @Override
-    public void onVastControllerCompleted(VastController vastController) {
+    public void onVastControllerCompleted(VastViewController vastViewController) {
 
     }
 
     @Override
-    public void onVastControllerClosed(VastController vastController) {
+    public void onVastControllerClosed(VastViewController vastViewController) {
 
     }
 
-    VastController getController() {
+    VastViewController getController() {
         return controller;
     }
 

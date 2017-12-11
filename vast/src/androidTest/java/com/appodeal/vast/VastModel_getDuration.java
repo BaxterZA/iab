@@ -19,7 +19,7 @@ public class VastModel_getDuration {
                 "</Linear></Creative></Creatives></InLine></Ad></VAST></VASTS>";
         Document document = VastTools.getDocumentFromString(nodeString);
         VastModel vastModel = new VastModel(document);
-        assertEquals(30, vastModel.getDuration());
+        assertEquals(30_000, vastModel.getDuration());
     }
 
     @Test
