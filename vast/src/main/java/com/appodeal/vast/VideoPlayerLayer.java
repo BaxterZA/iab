@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 @SuppressLint("ViewConstructor")
-class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
+class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface {
     private VideoView videoView;
     private VastConfig vastConfig;
     private LinearCountdownView progressBar;
@@ -33,6 +33,11 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
         addView(progressBar);
     }
 
+    @Override
+    public void load() {
+        videoView.load();
+    }
+
     private LinearCountdownView createProgressBar(Context context, int assetsColor) {
         LinearCountdownView progressBar = new LinearCountdownView(context, assetsColor);
         LayoutParams vastCountdownParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
@@ -46,7 +51,7 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
     public int getCurrentPosition() {
         int currentPosition = 0;
         if (videoView != null) {
-            currentPosition =  videoView.getCurrentPosition();
+            currentPosition = videoView.getCurrentPosition();
         }
 
         if (progressBar != null) {
@@ -68,8 +73,6 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface{
         playerPositionInMills = currentPosition;
         return currentPosition;
     }
-
-
 
 
     @Override

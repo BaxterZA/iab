@@ -60,6 +60,9 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         rootView = new RelativeLayout(context);
         rootView.setPadding(0, 0, 0, 0);
         rootView.setBackgroundColor(Color.BLACK);
+    }
+
+    void load() {
         changeState(VastViewControllerState.LOADING);
     }
 
@@ -146,11 +149,16 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
 
     private void createLayers() {
         rootView.removeAllViews();
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
         playerLayer = createPlayerLayer();
         rootView.addView(playerLayer.getView());
 
+        playerLayer.load();
+    }
+
+    private void createSubLayers(Context context) {
+        VastLog.d("Create sub layers");
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         if (vastType == VastType.FULLSCREEN) {
             iconsLayer = new IconsLayer(context, vastConfig, this);
             rootView.addView(iconsLayer, params);
@@ -180,7 +188,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     }
 
     void start() {
-        if (vastType == VastType.FULLSCREEN && activityWeakReference != null && activityWeakReference.get() != null) {
+        if (vastType == VastType.FULLSCREEN && getActivity() != null) {
             Activity activity = activityWeakReference.get();
             int currentOrientation = activity.getResources().getConfiguration().orientation;
             if (currentOrientation != vastConfig.getVideoOrientation() && vastConfig.getVideoOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
@@ -292,7 +300,7 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     }
 
     private void showCompanion() {
-        if (vastType == VastType.FULLSCREEN && activityWeakReference != null && activityWeakReference.get() != null) {
+        if (vastType == VastType.FULLSCREEN && getActivity() != null) {
             Activity activity = activityWeakReference.get();
             int currentOrientation = activity.getResources().getConfiguration().orientation;
             if (currentOrientation != vastConfig.getCompanionOrientation() && vastConfig.getCompanionOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
@@ -313,6 +321,14 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
         changeState(VastViewControllerState.COMPANION_SHOWING);
     }
 
+    @Nullable
+    private Activity getActivity() {
+        if (activityWeakReference != null && activityWeakReference.get() != null) {
+            return activityWeakReference.get();
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public void onLoaded() {
@@ -340,6 +356,12 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
     @Override
     public void onStarted() {
         VastLog.i("Video started");
+
+        if (getActivity() != null) {
+            createSubLayers(getActivity());
+        } else  {
+            createSubLayers(context);
+        }
 
         playerTracker = createPlayerTracker();
         playerTracker.start();

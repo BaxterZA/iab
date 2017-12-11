@@ -33,10 +33,12 @@ public class ViewActivity extends AppCompatActivity {
     public void load(View view) {
         String xml = readXml(file);
         vastView = findViewById(R.id.vastView);
+//        vastView = new VastView(this);
         vastView.setVastViewListener(new VastViewListener() {
             @Override
             public void onVastLoaded(VastView view) {
                 Toast.makeText(ViewActivity.this, "onVastLoaded", Toast.LENGTH_SHORT).show();
+//                addContentView(vastView, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
 
             @Override

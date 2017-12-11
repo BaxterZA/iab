@@ -2,8 +2,6 @@ package com.appodeal.vast;
 
 import android.content.Context;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.RelativeLayout;
 
 import java.util.HashMap;
 import java.util.List;

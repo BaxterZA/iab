@@ -41,12 +41,6 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
         videoWidth = Integer.valueOf(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
         videoHeight = Integer.valueOf(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
 
-        if (isVideoFileSupported()) {
-            listener.onLoaded();
-        } else {
-            listener.onFailedToLoad();
-        }
-
         Extensions extensions = vastConfig.getExtensions();
         if (extensions != null) {
             if (extensions.isVideoClickable()) {
@@ -57,6 +51,15 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
                     }
                 });
             }
+        }
+    }
+
+    @Override
+    public void load() {
+        if (isVideoFileSupported()) {
+            listener.onLoaded();
+        } else {
+            listener.onFailedToLoad();
         }
     }
 

@@ -23,7 +23,7 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
     private String adParameters;
     @VisibleForTesting AdWebView adWebView;
     private int currentPosition;
-
+    private String fileUrl;
     private PlayerLayerListener listener;
 
     private boolean destroyed;
@@ -32,6 +32,7 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
     public VpaidPlayer(Context context, String fileUrl, String adParameters, PlayerLayerListener listener) {
         super(context);
         this.vpaidBridge = new VpaidBridge();
+        this.fileUrl = fileUrl;
         this.listener = listener;
         this.adParameters = adParameters;
 
@@ -39,9 +40,12 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
         adWebView.allowMediaPlayback();
         vpaidBridge.initVpaidWebView(adWebView,this);
 
-        String baseUrl = "http://localhost";
-        vpaidBridge.loadContentHtml(fileUrl, baseUrl);
         addView(adWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    }
+
+    @Override
+    public void load() {
+        vpaidBridge.loadContentHtml(fileUrl, "http://localhost");
     }
 
     @Override

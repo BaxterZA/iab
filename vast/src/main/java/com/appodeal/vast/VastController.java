@@ -178,6 +178,7 @@ class VastController implements VastLoader.LoaderListener {
         layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         vastView.removeAllViews();
         vastView.addView(vastViewController.getView(), layoutParams);
+        vastViewController.load();
     }
 
     boolean isLoaded() {

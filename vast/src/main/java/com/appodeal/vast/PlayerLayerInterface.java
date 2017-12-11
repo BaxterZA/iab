@@ -6,6 +6,7 @@ import android.view.View;
 public interface PlayerLayerInterface {
 
     int getCurrentPosition();
+    void load();
     void start();
     void resume();
     void pause();

@@ -1,14 +1,8 @@
 package com.appodeal.vast;
 
 import android.content.Context;
-import android.location.Location;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import com.appodeal.mraid.MraidNativeFeature;
-import com.appodeal.mraid.MraidNativeFeatureListener;
-import com.appodeal.mraid.MraidView;
-import com.appodeal.mraid.MraidViewListener;
 
 import java.util.ArrayList;
 import java.util.List;
