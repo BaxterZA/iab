@@ -14,4 +14,14 @@
         android:enabled="false"
         android:text="@string/show"/>
 
+    <Button
+        android:id="@+id/showInActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:onClick="showInActivity"
+        android:enabled="false"
+        android:layout_below="@id/show"
+        android:text="@string/showInActivity"/>
+
 </RelativeLayout>

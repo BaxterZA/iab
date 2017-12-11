@@ -42,6 +42,7 @@ public class InterstitialActivity extends AppCompatActivity {
             public void onMraidInterstitialLoaded(MraidInterstitial mraidInterstitial) {
                 Toast.makeText(InterstitialActivity.this, "onMraidInterstitialLoaded", Toast.LENGTH_SHORT).show();
                 InterstitialActivity.this.findViewById(R.id.show).setEnabled(true);
+                InterstitialActivity.this.findViewById(R.id.showInActivity).setEnabled(true);
             }
 
             @Override
@@ -151,6 +152,9 @@ public class InterstitialActivity extends AppCompatActivity {
         mraidInterstitial.show();
     }
 
+    public void showInActivity(View view) {
+        mraidInterstitial.showInActivity(this);
+    }
 
     private String readHtml(String fileName) {
         BufferedReader reader = null;

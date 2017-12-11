@@ -1,8 +1,11 @@
 package com.appodeal.mraid;
 
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.NonNull;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.util.List;
 
@@ -10,11 +13,12 @@ import java.util.List;
  * Used for showing fullscreen MRAID ads
  */
 public class MraidInterstitial {
-    @VisibleForTesting MraidViewController controller;
+    MraidViewController controller;
     private Context context;
     private MraidInterstitialListener mraidInterstitialListener;
     private boolean destroyed;
     private int closeTimeInterval = 3000;
+    private CloseableLayout interstitialView;
 
     public MraidInterstitial(Context context) {
         this.context = context;
@@ -157,12 +161,18 @@ public class MraidInterstitial {
 
                 @Override
                 public void onMraidViewControllerClicked(MraidViewController mraidViewController) {
-
+                    if (mraidInterstitialListener != null) {
+                        mraidInterstitialListener.onMraidInterstitialClicked(MraidInterstitial.this);
+                    }
                 }
 
                 @Override
                 public void onMraidViewControllerClosed(MraidViewController mraidViewController) {
-
+                    if (mraidInterstitialListener != null) {
+                        mraidInterstitialListener.onMraidInterstitialClosed(MraidInterstitial.this);
+                    }
+                    ViewHelper.removeViewFromParent(interstitialView);
+                    destroy();
                 }
             });
             controller.load();
@@ -175,13 +185,48 @@ public class MraidInterstitial {
      * Start showing
      */
     public void show() {
-        if (controller != null && controller.isLoaded()) {
+        if (controller == null || controller.isDestroyed()) {
+            MraidLog.e("Interstitial is destroyed.");
+            return;
+        }
+        if (controller.isLoaded()) {
             String id = MraidInterstitialStorage.save(this);
             MraidActivity.startIntent(context, id);
-        } else if (mraidInterstitialListener != null) {
-            mraidInterstitialListener.onMraidInterstitialFailedToShow(this);
+        } else {
+            if (mraidInterstitialListener != null) {
+                mraidInterstitialListener.onMraidInterstitialFailedToShow(this);
+            }
             destroy();
         }
+    }
+
+    /**
+     * Show interstitial in current activity. Will be automatically removed from view hierarchy on close.
+     * @param activity {@link Activity}
+     */
+    public void showInActivity(@NonNull Activity activity) {
+        if (controller == null || controller.isDestroyed()) {
+            MraidLog.e("Interstitial is destroyed.");
+            return;
+        }
+        controller.attachActivity(activity);
+
+        FrameLayout mraidView = controller.getMraidView();
+        if (mraidView.getParent() != null) {
+            ((ViewGroup) mraidView.getParent()).removeView(mraidView);
+        }
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        interstitialView = new CloseableLayout(activity);
+        interstitialView.addView(mraidView, 0, layoutParams);
+        interstitialView.setOnCloseListener(new CloseableLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                controller.onClose();
+            }
+        });
+        interstitialView.startTimer(getCloseTimeInterval());
+        activity.addContentView(interstitialView, layoutParams);
     }
 
     /**

@@ -794,7 +794,7 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         destroyed = true;
     }
 
-    @VisibleForTesting boolean isDestroyed() {
+    boolean isDestroyed() {
         return destroyed;
     }
 

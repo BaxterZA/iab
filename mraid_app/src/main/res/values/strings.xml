@@ -3,4 +3,5 @@
     <string name="banner">banner</string>
     <string name="interstitial">interstitial</string>
     <string name="show">Show</string>
+    <string name="showInActivity">Show in activity</string>
 </resources>
