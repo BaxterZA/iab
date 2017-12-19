@@ -99,14 +99,11 @@ class MraidViewController implements MraidCommandListener, MraidViewabilityTrack
         this.onLayoutChangeListener = new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (v instanceof MraidView) {
-                    int orientation = v.getContext().getResources().getConfiguration().orientation;
-                    if (orientation != lastOrientation) {
-                        lastOrientation = orientation;
-                        MraidLog.d(String.format("Orientation changed: %s", lastOrientation == Configuration.ORIENTATION_PORTRAIT ? "portrait" : "landscape"));
-                        updateSizesAndOrientation();
-                    }
-
+                int orientation = v.getContext().getResources().getConfiguration().orientation;
+                if (orientation != lastOrientation) {
+                    lastOrientation = orientation;
+                    MraidLog.d(String.format("Orientation changed: %s", lastOrientation == Configuration.ORIENTATION_PORTRAIT ? "portrait" : "landscape"));
+                    updateSizesAndOrientation();
                 }
             }
         };
