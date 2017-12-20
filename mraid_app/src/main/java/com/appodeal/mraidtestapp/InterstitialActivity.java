@@ -11,11 +11,11 @@ import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.widget.Toast;
 
-import com.appodeal.mraid.MraidInterstitial;
-import com.appodeal.mraid.MraidInterstitialListener;
-import com.appodeal.mraid.MraidNativeFeature;
-import com.appodeal.mraid.MraidNativeFeatureListener;
-import com.appodeal.mraid.AdWebViewDebugListener;
+import com.appodeal.iab.MraidInterstitial;
+import com.appodeal.iab.MraidInterstitialListener;
+import com.appodeal.iab.MraidNativeFeature;
+import com.appodeal.iab.MraidNativeFeatureListener;
+import com.appodeal.iab.WebViewDebugListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,7 +125,7 @@ public class InterstitialActivity extends AppCompatActivity {
             }
         });
 
-        mraidInterstitial.setAdWebViewDebugListener(new AdWebViewDebugListener() {
+        mraidInterstitial.setAdWebViewDebugListener(new WebViewDebugListener() {
             @Override
             public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                 new AlertDialog.Builder(InterstitialActivity.this).setMessage(message).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -1,0 +1,13 @@
+<script src='mraid.js'></script>
+<script>
+mraid.addEventListener("ready", handleReadyState);
+function handleReadyState() {
+	var location = mraid.getLocation();
+	console.log(JSON.stringify(location));
+	if (location.lat == 1.0 && location.lon == 2.0) {
+		alert('pass');
+	} else {
+		alert('fail');
+	}
+}
+</script>

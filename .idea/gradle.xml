@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/iab" />
             <option value="$PROJECT_DIR$/mraid" />
             <option value="$PROJECT_DIR$/mraid_app" />
             <option value="$PROJECT_DIR$/vast" />

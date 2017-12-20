@@ -24,27 +24,16 @@ class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface {
         videoView = new VideoView(context, vastConfig, mediaFileLocalUri, listener);
 
         addView(videoView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        int assetsColor = VastTools.assetsColor;
-        Extensions extensions = vastConfig.getExtensions();
-        if (extensions != null) {
-            assetsColor = extensions.getAssetsColor();
+
+        if (vastConfig.canShowProgress()) {
+            progressBar = ViewHelper.createProgressBar(context, vastConfig.getAssetsColor());
+            addView(progressBar);
         }
-        progressBar = createProgressBar(context, assetsColor);
-        addView(progressBar);
     }
 
     @Override
     public void load() {
         videoView.load();
-    }
-
-    private LinearCountdownView createProgressBar(Context context, int assetsColor) {
-        LinearCountdownView progressBar = new LinearCountdownView(context, assetsColor);
-        LayoutParams vastCountdownParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
-        vastCountdownParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        progressBar.setLayoutParams(vastCountdownParams);
-        progressBar.changePercentage(0);
-        return progressBar;
     }
 
     @Override

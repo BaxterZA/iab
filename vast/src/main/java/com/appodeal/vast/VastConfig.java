@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Pair;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 import java.util.Map;
@@ -122,7 +124,19 @@ class VastConfig {
     }
 
     Companion getCompanion() {
-        return companion;
+        if (extensions != null && extensions.getCompanion() != null) {
+            return extensions.getCompanion();
+        } else {
+            return companion;
+        }
+    }
+
+    int getCompanionCloseTime() {
+        if (extensions != null) {
+            return extensions.getCompanionCloseTime();
+        } else {
+            return 0;
+        }
     }
 
     Uri getMediaFileLocalUri() {
@@ -146,5 +160,69 @@ class VastConfig {
             }
         }
         return ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+    }
+
+    int getAssetsColor() {
+        if (extensions != null) {
+            return extensions.getAssetsColor();
+        } else {
+            return VastTools.assetsColor;
+        }
+    }
+
+    int getAssetsBackgroundColor() {
+        if (extensions != null) {
+            return extensions.getAssetsBackgroundColor();
+        } else {
+            return VastTools.backgroundColor;
+        }
+    }
+
+    Pair<Integer, Integer> getMuteButtonPosition() {
+        if (extensions != null) {
+            return extensions.getMutePosition();
+        } else {
+            return new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP);
+        }
+    }
+
+    Pair<Integer, Integer> getCtaButtonPosition() {
+        if (extensions != null) {
+            return extensions.getCtaPosition();
+        } else {
+            return new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM);
+        }
+    }
+
+    Pair<Integer, Integer> getCloseButtonPosition() {
+        if (extensions != null) {
+            return extensions.getClosePosition();
+        } else {
+            return new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP);
+        }
+    }
+
+    String getCtaText() {
+        if (extensions != null) {
+            return extensions.getCtaText();
+        } else {
+            return VastTools.defaultCtaText;
+        }
+    }
+
+    boolean canShowCta() {
+        return extensions == null || extensions.canShowCta();
+    }
+
+    boolean canShowMute() {
+        return extensions == null || extensions.canShowMute();
+    }
+
+    boolean canShowCompanion() {
+        return extensions == null || extensions.canShowCompanion();
+    }
+
+    boolean canShowProgress() {
+        return extensions == null || extensions.canShowProgress();
     }
 }

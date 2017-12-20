@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.appodeal.vast.VastInterstitial;
-import com.appodeal.vast.VastInterstitialListener;
+import com.appodeal.iab.VastInterstitial;
+import com.appodeal.iab.VastInterstitialListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;

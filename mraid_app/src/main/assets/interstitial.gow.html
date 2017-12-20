@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game of War Casual</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+</head>
+<body>
+
+
+<script charset="utf-8" type="text/javascript">
+		
+    	var adInfo = {
+	        fps             : {
+	            lastFrameTime : undefined,
+	            frames        : [],
+	            recentFrames  : [],
+	            curr          : 0,
+	            max           : 0,
+	            min           : 0
+	        },
+	        bucket          	: "",
+	        lastMraidState  	: "",
+	        bidId           	: "{BIDID}",
+	        campaignId      	: "{CAMPAIGNID}",
+	        creativeId      	: "{CREATIVEID}",
+	        deviceModel     	: "{MAKEMODEL}",
+	        idfa            	: "{USERID}",
+	        appName         	: "{APPNAME}",
+	        os              	: "{OS}",
+	        osVersion       	: "{OSOSV}",
+	        ssp             	: "{SSP}",
+	        gameName        	: "Siege",
+	        gameVersion     	: "SG",
+	        difficulty      	: "{DIFFICULTY}",
+	        launcherVersion		: "",
+	        adDimension     	: "{SIZE}",
+	        sdkVersion      	: "{SDKVERSION}",
+	        language        	: "en",
+			useCustomClickUrl   : true,
+	        useProxy            : false,
+	        useErrorCallback    : false,
+	        debugOutput         : false,
+	        logToken            : "c55a7e0e6270f68425b7dd19c03d056d"
+    	};
+		    var sn = "{SERVER_NODE}";
+		var clickurl = "http://track.hldtrk.com/click";
+		
+		var GameOptions = {
+			milestone: [10, 30],
+			hideCloseButtonTime: 5,
+			countDownCloseButton: true,
+			preloaderStartCountdown: false,
+			didInteractTimeLimit: 15, 
+			didInteractTimeLimitEnabled: false,
+			
+			DISCLAIMER: {
+				Enabled:false, 
+				en: "",
+			},
+		};
+		
+
+		var GameSettings = {
+			Portrait: {},
+			Landscape: {}
+		};
+		
+	</script>
+<script charset="utf-8" id="gameloader" type="text/javascript" src="https://d1ovo20x1yw5yz.cloudfront.net/creatives/SG_1.1.0/game_gz.js"></script>
+
+<div id="gamebox">
+    <div id="preloader" align="center" style="display: block;">Connecting to Game Server...</div>
+    <canvas id="canvas"></canvas>
+</div>
+</body>
+</html>
+
+
+

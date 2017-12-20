@@ -12,11 +12,11 @@ import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.widget.Toast;
 
-import com.appodeal.mraid.AdWebViewDebugListener;
-import com.appodeal.mraid.MraidNativeFeature;
-import com.appodeal.mraid.MraidNativeFeatureListener;
-import com.appodeal.mraid.MraidView;
-import com.appodeal.mraid.MraidViewListener;
+import com.appodeal.iab.WebViewDebugListener;
+import com.appodeal.iab.MraidNativeFeature;
+import com.appodeal.iab.MraidNativeFeatureListener;
+import com.appodeal.iab.MraidView;
+import com.appodeal.iab.MraidViewListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,7 +125,7 @@ public class BannerActivity extends AppCompatActivity {
             }
         });
 
-        mraidView.setAdWebViewDebugListener(new AdWebViewDebugListener() {
+        mraidView.setAdWebViewDebugListener(new WebViewDebugListener() {
             @Override
             public boolean onJsAlert(@NonNull String message, @NonNull JsResult result) {
                 new AlertDialog.Builder(BannerActivity.this).setMessage(message).setNegativeButton("Cnacel", new DialogInterface.OnClickListener() {

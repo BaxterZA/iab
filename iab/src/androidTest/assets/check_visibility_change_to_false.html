@@ -1,0 +1,15 @@
+<script src="mraid.js"></script>
+<script type="text/javascript">
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+         mraid.addEventListener("viewableChange", handleViewableChange);
+    }
+    function handleViewableChange() {
+        if (mraid.isViewable()) {
+            alert('visible');
+        }
+        if (!mraid.isViewable()) {
+            alert('pass');
+        }
+    }
+</script>

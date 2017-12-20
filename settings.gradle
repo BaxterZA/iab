@@ -1,1 +1,1 @@
-include ':mraid_app', ':mraid', ":vast_app", ":vast"
+include ':mraid_app', ':mraid', ':iab', ":vast_app", ":vast"

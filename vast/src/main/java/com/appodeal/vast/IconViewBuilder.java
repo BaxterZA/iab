@@ -12,7 +12,7 @@ import com.appodeal.mraid.MraidViewListener;
 
 import java.util.ArrayList;
 
-class ResourceViewBuilder {
+class IconViewBuilder {
 
     interface onClickListener {
         void onClick(String url);

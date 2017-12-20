@@ -158,7 +158,11 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             rootView.addView(iconsLayer, params);
         }
 
-        companionLayer = new CompanionLayer(context, vastConfig, this);
+        if (vastType == VastType.FULLSCREEN) {
+            companionLayer = new FullScreenCompanionLayer(context, vastConfig, this);
+        } else {
+            companionLayer = new ViewCompanionLayer(context, vastConfig, this);
+        }
         companionLayer.setVisibility(View.GONE);
         rootView.addView(companionLayer, params);
 
@@ -296,13 +300,18 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
 
     private void finishVideo() {
         destroyPlayerTracker();
-        controlsLayer.videoComplete();
+        controlsLayer.destroy();
         playerLayer.destroy();
         if (iconsLayer != null) {
             iconsLayer.destroy();
         }
 
-        showCompanion();
+        if (vastConfig.canShowCompanion() || vastType == VastType.VIEW) {
+            showCompanion();
+        } else {
+            listener.onVastControllerClosed(this);
+            changeState(VastViewControllerState.DESTROYED);
+        }
     }
 
     private void showCompanion() {
@@ -314,16 +323,13 @@ class VastViewController implements PlayerLayerListener, ControlsLayer.ControlsL
             }
         }
 
-        if (!companionLayer.hasCompanion()) {
-            if (playerLayer instanceof VideoPlayerLayer) {
-                controlsLayer.showCompanionControls();
-            } else {
-                listener.onVastControllerClosed(this);
-                changeState(VastViewControllerState.DESTROYED);
-                return;
-            }
+        if (!companionLayer.hasCompanion() && playerLayer instanceof VpaidPlayer) {
+            listener.onVastControllerClosed(this);
+            changeState(VastViewControllerState.DESTROYED);
+            return;
         }
-        companionLayer.showCompanion(vastType);
+
+        companionLayer.showCompanion();
         changeState(VastViewControllerState.COMPANION_SHOWING);
     }
 

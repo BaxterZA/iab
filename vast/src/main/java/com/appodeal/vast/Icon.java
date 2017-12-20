@@ -109,24 +109,24 @@ class Icon {
     }
 
     View getView(Context context, final IconsLayer.IconsLayerListener listener) {
-        ResourceViewBuilder viewBuilder = new ResourceViewBuilder();
+        IconViewBuilder viewBuilder = new IconViewBuilder();
         View mraidView;
         if (htmlResource != null) {
-            mraidView = viewBuilder.createView(context, htmlResource, new ResourceViewBuilder.onClickListener() {
+            mraidView = viewBuilder.createView(context, htmlResource, new IconViewBuilder.onClickListener() {
                 @Override
                 public void onClick(String url) {
                     listener.onIconClicked(Icon.this, url);
                 }
             });
         } else if (staticResource != null && hasValidStaticResource()) {
-            mraidView = viewBuilder.createView(context, staticResource, iconClicks.getClickThrough(), new ResourceViewBuilder.onClickListener() {
+            mraidView = viewBuilder.createView(context, staticResource, iconClicks.getClickThrough(), new IconViewBuilder.onClickListener() {
                 @Override
                 public void onClick(String url) {
                     listener.onIconClicked(Icon.this, url);
                 }
             });
         } else {
-            mraidView = viewBuilder.createView(context, iFrameResource, new ResourceViewBuilder.onClickListener() {
+            mraidView = viewBuilder.createView(context, iFrameResource, new IconViewBuilder.onClickListener() {
                 @Override
                 public void onClick(String url) {
                     listener.onIconClicked(Icon.this, url);

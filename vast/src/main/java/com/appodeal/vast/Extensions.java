@@ -94,7 +94,7 @@ class Extensions {
     }
 
     static class Builder {
-        private String ctaText;
+        private String ctaText = VastTools.defaultCtaText;
         private boolean showCta = true;
         private boolean showMute = true;
         private boolean showCompanion = true;

@@ -1,0 +1,11 @@
+<script src="mraid.js"></script>
+<script>
+    mraid.addEventListener("ready", handleReadyState);
+    function handleReadyState() {
+        if (mraid.getPlacementType() == 'interstitial') {
+            alert('pass');
+        } else {
+            alert('fail');
+        }
+    }
+</script>

@@ -1,18 +1,14 @@
 package com.appodeal.vasttestapp;
 
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.appodeal.vast.VastViewListener;
-import com.appodeal.vast.VastView;
+import com.appodeal.iab.VastView;
+import com.appodeal.iab.VastViewListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;

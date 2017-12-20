@@ -3,6 +3,9 @@ package com.appodeal.vast;
 import android.content.Context;
 import android.view.View;
 
+import com.appodeal.mraid.MraidInterstitial;
+import com.appodeal.mraid.MraidView;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,32 +81,28 @@ class Companion {
         return getWidth() > 0 && getHeight() > 0;
     }
 
-    View getView(Context context, final CompanionLayer.CompanionListener listener) {
-        ResourceViewBuilder viewBuilder = new ResourceViewBuilder();
-        View mraidView;
+    MraidView createMraidView(Context context) {
+        MraidView mraidView = new MraidView(context);
         if (htmlResource != null) {
-            mraidView = viewBuilder.createView(context, htmlResource, new ResourceViewBuilder.onClickListener() {
-                @Override
-                public void onClick(String url) {
-                    listener.onCompanionClicked(Companion.this, url);
-                }
-            });
+            mraidView.setHtml(htmlResource.getHtml());
         } else if (staticResource != null && hasValidStaticResource()) {
-            mraidView = viewBuilder.createView(context, staticResource, clickThrough, new ResourceViewBuilder.onClickListener() {
-                @Override
-                public void onClick(String url) {
-                    listener.onCompanionClicked(Companion.this, url);
-                }
-            });
+            mraidView.setHtml(staticResource.getHtml(getClickThrough()));
         } else {
-            mraidView = viewBuilder.createView(context, iFrameResource, new ResourceViewBuilder.onClickListener() {
-                @Override
-                public void onClick(String url) {
-                    listener.onCompanionClicked(Companion.this, url);
-                }
-            });
+            mraidView.setUrl(iFrameResource.getUri());
         }
         return mraidView;
+    }
+
+    MraidInterstitial createMraidInterstitial(Context context) {
+        MraidInterstitial mraidInterstitial = new MraidInterstitial(context);
+        if (htmlResource != null) {
+            mraidInterstitial.setHtml(htmlResource.getHtml());
+        } else if (staticResource != null && hasValidStaticResource()) {
+            mraidInterstitial.setHtml(staticResource.getHtml(getClickThrough()));
+        } else {
+            mraidInterstitial.setUrl(iFrameResource.getUri());
+        }
+        return mraidInterstitial;
     }
 
     static class Builder {

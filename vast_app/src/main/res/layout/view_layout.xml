@@ -3,12 +3,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.appodeal.vast.VastView
+    <com.appodeal.iab.VastView
         android:id="@+id/vastView"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 
     <Button
         android:id="@+id/load"

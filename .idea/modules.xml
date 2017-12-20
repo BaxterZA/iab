@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IAB.iml" filepath="$PROJECT_DIR$/IAB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iab/iab.iml" filepath="$PROJECT_DIR$/iab/iab.iml" />
       <module fileurl="file://$PROJECT_DIR$/mraid/mraid.iml" filepath="$PROJECT_DIR$/mraid/mraid.iml" />
       <module fileurl="file://$PROJECT_DIR$/mraid_app/mraid_app.iml" filepath="$PROJECT_DIR$/mraid_app/mraid_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/vast/vast.iml" filepath="$PROJECT_DIR$/vast/vast.iml" />

@@ -1,6 +1,9 @@
 package com.appodeal.vast;
 
+import android.graphics.Color;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Pair;
+import android.widget.RelativeLayout;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -557,6 +560,161 @@ public class VastConfigTest {
         assertNotNull(extensions);
         assertFalse(extensions.canShowCta());
         assertFalse(extensions.canShowCompanion());
+    }
+
+    @Test
+    public void withoutExtension_shouldReturnDefaultValues() throws Exception {
+        String xmlString = "<VASTS>" +
+                "<VAST version=\"4.0\">\n" +
+                " <Ad>\n" +
+                "  <InLine>\n" +
+                "   <Creatives>\n" +
+                "    <Creative>\n" +
+                "     <Linear>\n" +
+                "      <MediaFiles>\n" +
+                "       <MediaFile delivery=\"streaming\" type=\"video/mp4\" width=\"1920\" height=\"1080\">inline_mediafile_url</MediaFile>\n" +
+                "      </MediaFiles>\n" +
+                "     </Linear>\n" +
+                "    </Creative>\n" +
+                "   </Creatives>\n" +
+                "  </InLine>\n" +
+                " </Ad>\n" +
+                "</VAST>" +
+                "</VASTS>";
+
+        Document document = VastTools.getDocumentFromString(xmlString);
+        VastModel vastModel = new VastModel(document);
+
+        VastConfig vastConfig = new VastConfig(vastModel, (float) 16/9, "dir");
+
+        assertNotNull(vastConfig);
+
+        assertTrue(vastConfig.canShowCompanion());
+        assertTrue(vastConfig.canShowCta());
+        assertTrue(vastConfig.canShowMute());
+        assertTrue(vastConfig.canShowProgress());
+
+        assertEquals(0, vastConfig.getCompanionCloseTime());
+
+        assertEquals(VastTools.defaultCtaText, vastConfig.getCtaText());
+
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP), vastConfig.getCloseButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP), vastConfig.getMuteButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM), vastConfig.getCtaButtonPosition());
+
+        assertEquals(VastTools.assetsColor, vastConfig.getAssetsColor());
+        assertEquals(VastTools.backgroundColor, vastConfig.getAssetsBackgroundColor());
+    }
+
+
+    @Test
+    public void withEmptyExtension_shouldReturnDefaultValues() throws Exception {
+        String xmlString = "<VASTS>" +
+                "<VAST version=\"4.0\">\n" +
+                " <Ad>\n" +
+                "  <InLine>\n" +
+                "   <Creatives>\n" +
+                "    <Creative>\n" +
+                "     <Linear>\n" +
+                "      <MediaFiles>\n" +
+                "       <MediaFile delivery=\"streaming\" type=\"video/mp4\" width=\"1920\" height=\"1080\">inline_mediafile_url</MediaFile>\n" +
+                "      </MediaFiles>\n" +
+                "     </Linear>\n" +
+                "    </Creative>\n" +
+                "   </Creatives>\n" +
+                "   <Extensions>\n" +
+                "    <Extension type=\"appodeal\">\n" +
+                "    </Extension>\n" +
+                "   </Extensions>\n" +
+                "  </InLine>\n" +
+                " </Ad>\n" +
+                "</VAST>" +
+                "</VASTS>";
+
+        Document document = VastTools.getDocumentFromString(xmlString);
+        VastModel vastModel = new VastModel(document);
+
+        VastConfig vastConfig = new VastConfig(vastModel, (float) 16/9, "dir");
+
+        assertNotNull(vastConfig);
+
+        assertTrue(vastConfig.canShowCompanion());
+        assertTrue(vastConfig.canShowCta());
+        assertTrue(vastConfig.canShowMute());
+        assertTrue(vastConfig.canShowProgress());
+
+        assertEquals(0, vastConfig.getCompanionCloseTime());
+
+        assertEquals(VastTools.defaultCtaText, vastConfig.getCtaText());
+
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_TOP), vastConfig.getCloseButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP), vastConfig.getMuteButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.ALIGN_PARENT_BOTTOM), vastConfig.getCtaButtonPosition());
+
+        assertEquals(VastTools.assetsColor, vastConfig.getAssetsColor());
+        assertEquals(VastTools.backgroundColor, vastConfig.getAssetsBackgroundColor());
+    }
+
+    @Test
+    public void withExtension_shouldReturnExtansionsValues() throws Exception {
+        String xmlString = "<VASTS>" +
+                "<VAST version=\"4.0\">\n" +
+                " <Ad>\n" +
+                "  <InLine>\n" +
+                "   <Creatives>\n" +
+                "    <Creative>\n" +
+                "     <Linear>\n" +
+                "      <MediaFiles>\n" +
+                "       <MediaFile delivery=\"streaming\" type=\"video/mp4\" width=\"1920\" height=\"1080\">inline_mediafile_url</MediaFile>\n" +
+                "      </MediaFiles>\n" +
+                "     </Linear>\n" +
+                "    </Creative>\n" +
+                "   </Creatives>\n" +
+                "   <Extensions>\n" +
+                "    <Extension type=\"appodeal\">\n" +
+                "     <CtaText>Download</CtaText>\n" +
+                "     <ShowCta>0</ShowCta>\n" +
+                "     <ShowMute>0</ShowMute>\n" +
+                "     <ShowCompanion>0</ShowCompanion>\n" +
+                "     <ShowProgress>0</ShowProgress>\n" +
+                "     <CompanionCloseTime>00:02</CompanionCloseTime>\n" +
+                "     <AssetsColor>#4286f4</AssetsColor>\n" +
+                "     <AssetsBackgroundColor>#13b521</AssetsBackgroundColor>\n" +
+                "     <CtaXPosition>center</CtaXPosition>\n" +
+                "     <CtaYPosition>center</CtaYPosition>\n" +
+                "     <MuteXPosition>right</MuteXPosition>\n" +
+                "     <MuteYPosition>center</MuteYPosition>\n" +
+                "     <CloseXPosition>left</CloseXPosition>\n" +
+                "     <CloseYPosition>top</CloseYPosition>\n" +
+                "    </Extension>\n" +
+                "   </Extensions>\n" +
+                "  </InLine>\n" +
+                " </Ad>\n" +
+                "</VAST>" +
+                "</VASTS>";
+
+        Document document = VastTools.getDocumentFromString(xmlString);
+        VastModel vastModel = new VastModel(document);
+
+        VastConfig vastConfig = new VastConfig(vastModel, (float) 16/9, "dir");
+
+        assertNotNull(vastConfig);
+
+        assertFalse(vastConfig.canShowCompanion());
+        assertFalse(vastConfig.canShowCta());
+        assertFalse(vastConfig.canShowMute());
+        assertFalse(vastConfig.canShowProgress());
+
+        assertEquals(2000, vastConfig.getCompanionCloseTime());
+
+        assertEquals("Download", vastConfig.getCtaText());
+
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.ALIGN_PARENT_TOP), vastConfig.getCloseButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.CENTER_VERTICAL), vastConfig.getMuteButtonPosition());
+        assertEquals(new Pair<>(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.CENTER_VERTICAL), vastConfig.getCtaButtonPosition());
+
+        assertEquals(Color.parseColor("#4286f4"), vastConfig.getAssetsColor());
+        assertEquals(Color.parseColor("#13b521"), vastConfig.getAssetsBackgroundColor());
     }
 
 }

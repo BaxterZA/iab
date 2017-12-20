@@ -179,8 +179,9 @@
                     <CtaText>Download</CtaText>
                     <ShowCta>1</ShowCta>
                     <ShowMute>0</ShowMute>
-                    <ShowCompanion>0</ShowCompanion>
-                    <CompanionCloseTime>00:02</CompanionCloseTime>
+                    <ShowCompanion>1</ShowCompanion>
+                    <ShowProgress>0</ShowProgress>
+                    <CompanionCloseTime>00:12</CompanionCloseTime>
                     <AssetsColor>#4286f4</AssetsColor>
                     <AssetsBackgroundColor>#13b521</AssetsBackgroundColor>
                     <CtaXPosition>center</CtaXPosition>
