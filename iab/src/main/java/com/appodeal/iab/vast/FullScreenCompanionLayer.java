@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.appodeal.iab.Logger;
 import com.appodeal.iab.mraid.MraidViewController;
 import com.appodeal.iab.views.CircleCountdownView;
 import com.appodeal.iab.views.CloseableLayout;
@@ -21,6 +22,8 @@ import com.appodeal.iab.views.ViewHelper;
 
 @SuppressLint("ViewConstructor")
 public class FullScreenCompanionLayer extends CompanionLayer {
+    private final static String TAG = "FullScreenCompanionLayer";
+
     private MraidViewController mraidViewController;
     private boolean canClose;
 
@@ -75,6 +78,7 @@ public class FullScreenCompanionLayer extends CompanionLayer {
             interstitialView.startTimer(vastConfig.getCompanionCloseTime());
             addView(interstitialView, layoutParams);
         } else {
+            Logger.d(TAG, "companion is missing or not ready, show frame");
             canClose = true;
             showFullscreenCompanionFromFrame(getContext());
         }

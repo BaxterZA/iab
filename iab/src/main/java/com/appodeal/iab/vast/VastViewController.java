@@ -144,6 +144,8 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     private void createLayers() {
+        Logger.d(TAG, "Create layers");
+
         rootView.removeAllViews();
 
         playerLayer = createPlayerLayer();
@@ -188,6 +190,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     public void start() {
+        Logger.d(TAG, "start");
         if (controllerState == VastViewControllerState.READY) {
             if (vastType == VastType.FULLSCREEN && getActivity() != null) {
                 Activity activity = activityWeakReference.get();
@@ -206,6 +209,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     public void resume() {
+        Logger.d(TAG, "resume");
         if (controllerState == VastViewControllerState.VIDEO_SHOWING) {
             playerLayer.resume();
             playerTracker = createPlayerTracker();
@@ -214,6 +218,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     public void pause() {
+        Logger.d(TAG, "pause");
         if (controllerState == VastViewControllerState.VIDEO_SHOWING) {
             playerLayer.pause();
             destroyPlayerTracker();
@@ -221,6 +226,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     public void destroy() {
+        Logger.d(TAG, "destroy");
         controllerState = VastViewControllerState.DESTROYED;
         destroyPlayerTracker();
         playerLayer.destroy();
@@ -286,6 +292,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     public void attemptToClose() {
+        Logger.d(TAG, "attempt to close");
         switch (controllerState) {
             case VIDEO_SHOWING:
                 if (playerPositionInMills >= skipTime) {
@@ -319,6 +326,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     }
 
     private void showCompanion() {
+        Logger.d(TAG, "show companion");
         if (vastType == VastType.FULLSCREEN && getActivity() != null) {
             Activity activity = activityWeakReference.get();
             int currentOrientation = activity.getResources().getConfiguration().orientation;
@@ -348,18 +356,21 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
 
     @Override
     public void onLoaded() {
+        Logger.d(TAG, "onLoaded called");
         changeState(VastViewControllerState.READY);
         listener.onVastControllerLoaded(this);
     }
 
     @Override
     public void onFailedToLoad() {
+        Logger.d(TAG, "onFailedToLoad called");
         changeState(VastViewControllerState.DESTROYED);
         listener.onVastControllerFailedToLoad(this);
     }
 
     @Override
     public void onError() {
+        Logger.d(TAG, "onError called");
         List<String> errorTracking = vastConfig.getErrorTracking();
         for (String url : errorTracking) {
             if (!TextUtils.isEmpty(url)) {
@@ -371,7 +382,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
 
     @Override
     public void onStarted() {
-        Logger.d(TAG, "Video started");
+        Logger.d(TAG, "onStarted called");
 
         if (controllerState == VastViewControllerState.READY) {
             if (getActivity() != null) {
@@ -435,9 +446,9 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
 
     @Override
     public void onMuteButtonClicked() {
+        Logger.d(TAG, "Mute button clicked");
         muted = !muted;
         controlsLayer.updateMuteButton(muted);
-        Logger.d(TAG, "Mute button clicked");
 
         playerLayer.setVolume(muted ? 0 : 1);
     }

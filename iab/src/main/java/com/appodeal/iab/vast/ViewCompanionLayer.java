@@ -11,12 +11,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.appodeal.iab.Logger;
 import com.appodeal.iab.mraid.MraidViewController;
 import com.appodeal.iab.views.CircleCountdownView;
 import com.appodeal.iab.views.ViewHelper;
 
 @SuppressLint("ViewConstructor")
 public class ViewCompanionLayer extends CompanionLayer {
+    private final static String TAG = "ViewCompanionLayer";
+
     private MraidViewController mraidViewController;
 
     public ViewCompanionLayer(Context context, @NonNull final VastConfig vastConfig, @NonNull final CompanionLayer.CompanionListener listener) {
@@ -46,6 +49,7 @@ public class ViewCompanionLayer extends CompanionLayer {
             RelativeLayout.LayoutParams layoutParams =  new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
             this.addView(mraidViewController.getMraidView(), 0, layoutParams);
         } else {
+            Logger.d(TAG, "companion is missing or not ready, show frame");
             showInlineCompanionFromFrame(getContext());
         }
     }
