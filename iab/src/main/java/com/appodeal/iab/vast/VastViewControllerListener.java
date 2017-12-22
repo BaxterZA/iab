@@ -7,9 +7,7 @@ public interface VastViewControllerListener {
 
     void onVastControllerFailedToLoad(VastViewController vastViewController);
 
-    void onVastControllerFailedToShow(VastViewController vastViewController);
-
-    void onVastControllerShown(VastViewController vastViewController);
+    void onVastControllerStarted(VastViewController vastViewController);
 
     void onVastControllerClicked(VastViewController vastViewController, String url);
 

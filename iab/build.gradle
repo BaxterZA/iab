@@ -36,3 +36,44 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
+
+def javaDocDir = new File(rootDir, 'docs')
+
+task prepareJavaDocDir() {
+    doFirst {
+        if (javaDocDir.exists()) {
+            javaDocDir.deleteDir()
+        }
+        javaDocDir.mkdirs()
+    }
+}
+
+task generateJavaDocs(dependsOn: [prepareJavaDocDir, 'bundleDebug'], type: Javadoc, group: 'doc') {
+    source = android.sourceSets.main.java.srcDirs
+    title = "Appodeal IAB SDK"
+    destinationDir = javaDocDir
+    classpath += files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
+    classpath += files("${projectDir}/build/intermediates/bundles/debug/classes.jar")
+    exclude "com/appodeal/iab/mraid"
+    exclude "com/appodeal/iab/vast"
+    exclude "com/appodeal/iab/views"
+    exclude "com/appodeal/iab/vpaid"
+    exclude "com/appodeal/iab/webview"
+    failOnError = false
+    options.use = false
+    options.author = false
+    options.version = false
+    options.noDeprecated
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.memberLevel = JavadocMemberLevel.PUBLIC
+    options {
+        links "http://docs.oracle.com/javase/7/docs/api/"
+        linksOffline "https://developer.android.com/reference","${android.sdkDirectory}/docs/reference"
+    }
+}
+
+afterEvaluate {
+    generateJavaDocs.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompiler.classpath.files
+    })
+}

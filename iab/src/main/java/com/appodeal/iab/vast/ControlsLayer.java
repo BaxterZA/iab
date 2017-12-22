@@ -27,7 +27,7 @@ public class ControlsLayer extends RelativeLayout {
     private CircleCountdownView muteButton;
     private TextView ctaButton;
 
-    public ControlsLayer(Context context, @NonNull VastConfig vastConfig, int skipTime, @NonNull final ControlsLayerListener listener) {
+    public ControlsLayer(Context context, @NonNull VastConfig vastConfig, int skipTime, boolean isNonSkippable, @NonNull final ControlsLayerListener listener) {
         super(context);
         this.vastConfig = vastConfig;
         this.skipTime = skipTime;
@@ -53,13 +53,15 @@ public class ControlsLayer extends RelativeLayout {
         });
         addView(muteButton);
 
-        closeButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onCloseButtonClicked();
-            }
-        });
-        addView(closeButton);
+        if (!isNonSkippable) {
+            closeButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onCloseButtonClicked();
+                }
+            });
+            addView(closeButton);
+        }
     }
 
     void updateMuteButton(boolean muted) {
@@ -85,26 +87,32 @@ public class ControlsLayer extends RelativeLayout {
     }
 
     void videoStart(VastType vastType) {
-        if (vastConfig.canShowMute()) {
-            muteButton.setVisibility(VISIBLE);
-        } else {
-            muteButton.setVisibility(GONE);
+        if (muteButton != null) {
+            if (vastConfig.canShowMute()) {
+                muteButton.setVisibility(VISIBLE);
+            } else {
+                muteButton.setVisibility(GONE);
+            }
         }
 
-        if (vastConfig.canShowCta()) {
-            ctaButton.setVisibility(VISIBLE);
-        } else {
-            ctaButton.setVisibility(GONE);
+        if (ctaButton != null) {
+            if (vastConfig.canShowCta()) {
+                ctaButton.setVisibility(VISIBLE);
+            } else {
+                ctaButton.setVisibility(GONE);
+            }
         }
 
-        switch (vastType) {
-            case VIEW:
-                closeButton.setVisibility(GONE);
-                break;
+        if (closeButton != null) {
+            switch (vastType) {
+                case VIEW:
+                    closeButton.setVisibility(GONE);
+                    break;
 
-            case FULLSCREEN:
-                closeButton.setVisibility(VISIBLE);
-                break;
+                case FULLSCREEN:
+                    closeButton.setVisibility(VISIBLE);
+                    break;
+            }
         }
     }
 

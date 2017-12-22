@@ -39,6 +39,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     private int skipTime;
     private boolean mIsProcessedImpressions = false;
     private WeakReference<Activity> activityWeakReference;
+    private boolean isNonSkippable;
 
     private VastViewControllerState controllerState = VastViewControllerState.CREATED;
 
@@ -56,6 +57,10 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
 
     public void setListener(@NonNull VastViewControllerListener listener) {
         this.listener = listener;
+    }
+
+    public void setNonSkippable(boolean nonSkippable) {
+        isNonSkippable = nonSkippable;
     }
 
     public void load() {
@@ -170,7 +175,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
         companionLayer.setVisibility(View.GONE);
         rootView.addView(companionLayer, params);
 
-        controlsLayer = new ControlsLayer(context, vastConfig, skipTime, this);
+        controlsLayer = new ControlsLayer(context, vastConfig, skipTime, isNonSkippable, this);
         rootView.addView(controlsLayer, params);
     }
 
@@ -295,7 +300,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
         Logger.d(TAG, "attempt to close");
         switch (controllerState) {
             case VIDEO_SHOWING:
-                if (playerPositionInMills >= skipTime) {
+                if (!isNonSkippable && playerPositionInMills >= skipTime) {
                     trackEvents(TrackingEventsType.skip);
                     finishVideo();
                 }
@@ -390,7 +395,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
             } else {
                 createSubLayers(context);
             }
-            listener.onVastControllerShown(this);
+            listener.onVastControllerStarted(this);
         }
 
         playerTracker = createPlayerTracker();

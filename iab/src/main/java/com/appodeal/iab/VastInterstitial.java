@@ -5,39 +5,65 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.appodeal.iab.vast.VastLoader;
-import com.appodeal.iab.vast.VastTools;
 import com.appodeal.iab.vast.VastType;
 import com.appodeal.iab.vast.VastViewController;
 import com.appodeal.iab.vast.VastViewControllerListener;
 import com.appodeal.iab.views.ViewHelper;
 
-public class VastInterstitial implements VastLoader.VastLoaderListener, VastViewControllerListener {
+/**
+ * Used for showing fullscreen VAST ads
+ */
+public class VastInterstitial {
     private Context context;
     private VastViewController controller;
     private VastInterstitialListener vastInterstitialListener;
+    private boolean isNonSkippable;
 
     public VastInterstitial(Context context) {
         this.context = context;
     }
 
+    /**
+     * Set {@link VastInterstitialListener}
+     * @param vastInterstitialListener implementation of {@link VastInterstitialListener}
+     */
     public void setVastInterstitialListener(VastInterstitialListener vastInterstitialListener) {
         this.vastInterstitialListener = vastInterstitialListener;
     }
 
-    public VastInterstitialListener getVastInterstitialListener() {
+    /**
+     * Set skip possibility
+     * @param nonSkippable {@code true} to disable close button
+     */
+    public void setNonSkippable(boolean nonSkippable) {
+        isNonSkippable = nonSkippable;
+    }
+
+    VastInterstitialListener getVastInterstitialListener() {
         return vastInterstitialListener;
     }
 
+    /**
+     * Set xml content, and start loading
+     * @param xml content
+     */
     public void loadXml(String xml) {
-        VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, this);
+        VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, loaderListener());
         vastLoader.loadXml(xml);
     }
 
+    /**
+     * Set url link to content, and start loading
+     * @param url link to content
+     */
     public void loadUrl(String url) {
-        VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, this);
+        VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, loaderListener());
         vastLoader.loadUrl(url);
     }
 
+    /**
+     * Start showing
+     */
     public void show() {
         if (controller != null && controller.isLoaded()) {
             String id = VastInterstitialStorage.save(this);
@@ -48,6 +74,9 @@ public class VastInterstitial implements VastLoader.VastLoaderListener, VastView
         }
     }
 
+    /**
+     * Destroy vast interstitial, after that it can't be used
+     */
     public void destroy() {
         if (controller != null) {
             controller.destroy();
@@ -57,72 +86,77 @@ public class VastInterstitial implements VastLoader.VastLoaderListener, VastView
         context = null;
     }
 
+    /**
+     * Check if vast view was destroyed
+     * @return {@code true} if vast view was destroyed {@code false} if not
+     */
     public boolean isDestroyed() {
         return controller == null || controller.isDestroyed();
     }
 
+    /**
+     * Check if vast view was loaded
+     * @return {@code true} if vast view was loaded {@code false} if not
+     */
     public boolean isLoaded() {
         return controller != null && controller.isLoaded();
     }
 
-    @Override
-    public void onComplete(@Nullable VastViewController vastViewController) {
-        if (vastViewController == null) {
-            if (vastInterstitialListener != null) {
-                vastInterstitialListener.onVastFailedToLoad(this);
+    private VastLoader.VastLoaderListener loaderListener() {
+        return new VastLoader.VastLoaderListener() {
+            @Override
+            public void onComplete(@Nullable VastViewController vastViewController) {
+                if (vastViewController == null) {
+                    if (vastInterstitialListener != null) {
+                        vastInterstitialListener.onVastFailedToLoad(VastInterstitial.this);
+                    }
+                    return;
+                }
+                controller = vastViewController;
+                controller.setNonSkippable(isNonSkippable);
+                controller.setListener(new VastViewControllerListener() {
+
+                    @Override
+                    public void onVastControllerLoaded(VastViewController vastViewController) {
+                        if (vastInterstitialListener != null) {
+                            vastInterstitialListener.onVastLoaded(VastInterstitial.this);
+                        }
+                    }
+
+                    @Override
+                    public void onVastControllerFailedToLoad(VastViewController vastViewController) {
+                        if (vastInterstitialListener != null) {
+                            vastInterstitialListener.onVastFailedToLoad(VastInterstitial.this);
+                        }
+                        destroy();
+                    }
+
+                    @Override
+                    public void onVastControllerStarted(VastViewController vastViewController) {
+
+                    }
+
+                    @Override
+                    public void onVastControllerClicked(VastViewController vastViewController, String url) {
+
+                    }
+
+                    @Override
+                    public void onVastControllerCompleted(VastViewController vastViewController) {
+
+                    }
+
+                    @Override
+                    public void onVastControllerClosed(VastViewController vastViewController) {
+
+                    }
+                });
+                controller.load();
             }
-            return;
-        }
-        controller = vastViewController;
-        controller.setListener(this);
-        controller.load();
-    }
-
-    @Override
-    public void onVastControllerLoaded(VastViewController vastViewController) {
-        if (vastInterstitialListener != null) {
-            vastInterstitialListener.onVastLoaded(this);
-        }
-    }
-
-    @Override
-    public void onVastControllerFailedToLoad(VastViewController vastViewController) {
-        if (vastInterstitialListener != null) {
-            vastInterstitialListener.onVastFailedToLoad(this);
-        }
-        destroy();
-    }
-
-    @Override
-    public void onVastControllerFailedToShow(VastViewController vastViewController) {
-        if (vastInterstitialListener != null) {
-            vastInterstitialListener.onVastFailedToShow(this);
-        }
-        destroy();
-    }
-
-    @Override
-    public void onVastControllerShown(VastViewController vastViewController) {
-
-    }
-
-    @Override
-    public void onVastControllerClicked(VastViewController vastViewController, String url) {
-
-    }
-
-    @Override
-    public void onVastControllerCompleted(VastViewController vastViewController) {
-
-    }
-
-    @Override
-    public void onVastControllerClosed(VastViewController vastViewController) {
-
+        };
     }
 
     VastViewController getController() {
         return controller;
     }
-
 }

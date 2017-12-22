@@ -127,12 +127,7 @@ public class VastActivity extends Activity implements VastViewControllerListener
     }
 
     @Override
-    public void onVastControllerFailedToShow(VastViewController vastViewController) {
-        closeActivity();
-    }
-
-    @Override
-    public void onVastControllerShown(VastViewController vastViewController) {
+    public void onVastControllerStarted(VastViewController vastViewController) {
         if (interstitialListener != null) {
             interstitialListener.onVastShown(vastInterstitial);
         }

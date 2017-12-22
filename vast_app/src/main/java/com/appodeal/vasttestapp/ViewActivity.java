@@ -43,13 +43,8 @@ public class ViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onVastFailedToShow(VastView view) {
-                Toast.makeText(ViewActivity.this, "onVastFailedToShow", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVastShown(VastView view) {
-                Toast.makeText(ViewActivity.this, "onVastShown", Toast.LENGTH_SHORT).show();
+            public void onVastStarted(VastView view) {
+                Toast.makeText(ViewActivity.this, "onVastStarted", Toast.LENGTH_SHORT).show();
             }
 
             @Override
