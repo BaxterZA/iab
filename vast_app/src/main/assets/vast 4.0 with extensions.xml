@@ -190,6 +190,7 @@
                     <MuteYPosition>center</MuteYPosition>
                     <CloseXPosition>left</CloseXPosition>
                     <CloseYPosition>top</CloseYPosition>
+                    <VideoClickable>true</VideoClickable>
                 </Extension>
             </Extensions>
         </InLine>
