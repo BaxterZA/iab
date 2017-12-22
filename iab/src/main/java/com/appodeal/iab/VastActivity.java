@@ -17,7 +17,7 @@ import com.appodeal.iab.vast.VastViewControllerListener;
 
 public class VastActivity extends Activity implements VastViewControllerListener {
     private final static String TAG = "VastActivity";
-    public static final String ID = "com.appodeal.vast.VastViewController.id";
+    private static final String ID = "com.appodeal.vast.VastViewController.id";
     private VastInterstitial vastInterstitial;
     private VastViewController controller;
     private VastInterstitialListener interstitialListener;

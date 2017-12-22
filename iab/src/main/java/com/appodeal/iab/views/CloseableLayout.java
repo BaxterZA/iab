@@ -33,7 +33,7 @@ public class CloseableLayout extends FrameLayout {
     private int closeTimerPosition;
     private OnCloseListener closeListener;
     private SkippableStateListener skippableStateListener;
-    private CircleCountdownView closeButton;
+    private final CircleCountdownView closeButton;
 
     public CloseableLayout(@NonNull Context context) {
         this(context, Color.parseColor("#B4FFFFFF"), Color.parseColor("#52000000"));
@@ -67,7 +67,7 @@ public class CloseableLayout extends FrameLayout {
         this.skippableStateListener = skippableStateListener;
     }
 
-    void setClosePosition(@NonNull final ClosePosition closePosition) {
+    private void setClosePosition(@NonNull final ClosePosition closePosition) {
         ((LayoutParams) closeButton.getLayoutParams()).gravity = closePosition.getGravity();
         invalidate();
     }

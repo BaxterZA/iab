@@ -16,7 +16,7 @@ import java.util.Set;
 class MraidCommandProcessor {
     private final static String TAG = "MraidCommandProcessor";
     
-    private Map<String, String> params = new HashMap<>();
+    private final Map<String, String> params = new HashMap<>();
     private MraidCommand mraidCommand = MraidCommand.UNKNOWN;
 
 

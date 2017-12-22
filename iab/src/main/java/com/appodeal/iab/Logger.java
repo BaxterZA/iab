@@ -112,7 +112,7 @@ public class Logger {
         error(5),
         none(6);
 
-        private int value;
+        private final int value;
 
         LOG_LEVEL(int value) {
             this.value = value;

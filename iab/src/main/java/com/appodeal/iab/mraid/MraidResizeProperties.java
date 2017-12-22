@@ -5,12 +5,12 @@ import android.content.Context;
 import android.graphics.Rect;
 
 public class MraidResizeProperties {
-    public int width;
-    public int height;
-    public int offsetX;
-    public int offsetY;
-    public ClosePosition customClosePosition;
-    public boolean allowOffscreen;
+    public final int width;
+    public final int height;
+    public final int offsetX;
+    public final int offsetY;
+    public final ClosePosition customClosePosition;
+    public final boolean allowOffscreen;
 
     MraidResizeProperties() {
         this(0, 0, 0, 0, ClosePosition.TOP_RIGHT, true);

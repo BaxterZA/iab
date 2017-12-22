@@ -20,11 +20,11 @@ public class VastLoader implements VastConfigLoader.VastConfigLoaderListener {
 
     private final static int cacheSize = 5;
 
-    private float adAspectRatio;
-    private VastLoaderListener vastLoaderListener;
+    private final float adAspectRatio;
+    private final VastLoaderListener vastLoaderListener;
     private final String cacheDir;
     private Context context;
-    private VastType vastType;
+    private final VastType vastType;
 
     public VastLoader(@NonNull Context context, float adAspectRatio, VastType vastType, @NonNull VastLoaderListener vastLoaderListener) {
         this.adAspectRatio = adAspectRatio;
@@ -56,7 +56,7 @@ public class VastLoader implements VastConfigLoader.VastConfigLoaderListener {
         VastTools.safeExecute(vastConfigLoader);
     }
 
-    void destroy() {
+    private void destroy() {
         context = null;
     }
 
@@ -81,17 +81,16 @@ public class VastLoader implements VastConfigLoader.VastConfigLoaderListener {
         vastLoaderListener.onComplete(new VastViewController(context, vastConfig, vastType));
     }
 
-    class FileData implements Comparable {
-        long mLastModified;
-        File mFile;
+    static class FileData implements Comparable<FileData> {
+        final long mLastModified;
+        final File mFile;
 
         FileData(File file) {
             mFile = file;
             mLastModified = file.lastModified();
         }
 
-        public int compareTo(@NonNull Object o) {
-            FileData file = ((FileData) o);
+        public int compareTo(@NonNull FileData file) {
             return mLastModified > file.mLastModified ? -1 : mLastModified == file.mLastModified ? 0 : 1;
         }
     }

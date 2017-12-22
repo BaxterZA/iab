@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 public class TestActivity extends Activity {
     public MraidView mraidView;
-    public static int width = 320;
-    public static int height = 50;
+    public static final int width = 320;
+    public static final int height = 50;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

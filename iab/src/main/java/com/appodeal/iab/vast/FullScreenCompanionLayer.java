@@ -84,7 +84,7 @@ public class FullScreenCompanionLayer extends CompanionLayer {
         }
     }
 
-    void showFullscreenCompanionFromFrame(Context context) {
+    private void showFullscreenCompanionFromFrame(Context context) {
         removeAllViews();
 
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();

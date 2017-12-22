@@ -11,9 +11,9 @@ class VastConfigLoader extends AsyncTask<Void, Void, VastConfig> {
 
     private final String url;
     private final String xml;
-    private float adAspectRatio;
-    private VastConfigLoaderListener vastConfigLoaderListener;
-    private String cacheDir;
+    private final float adAspectRatio;
+    private final VastConfigLoaderListener vastConfigLoaderListener;
+    private final String cacheDir;
 
     private VastConfigLoader(Builder builder) {
         this.url = builder.url;
@@ -49,9 +49,9 @@ class VastConfigLoader extends AsyncTask<Void, Void, VastConfig> {
     static class Builder {
         private String url;
         private String xml;
-        private float adAspectRatio;
-        private VastConfigLoaderListener vastConfigLoaderListener;
-        private String cacheDir;
+        private final float adAspectRatio;
+        private final VastConfigLoaderListener vastConfigLoaderListener;
+        private final String cacheDir;
 
         Builder(float adAspectRatio, @NonNull String cacheDir, @NonNull VastConfigLoaderListener vastConfigLoaderListener) {
             this.adAspectRatio = adAspectRatio;

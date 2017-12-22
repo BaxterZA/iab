@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 class MraidInterstitialStorage {
-    private static Map<String, WeakReference<MraidInterstitial>> storage = new HashMap<>();
+    private static final Map<String, WeakReference<MraidInterstitial>> storage = new HashMap<>();
 
     static synchronized void saveWithId(@NonNull String id, @NonNull MraidInterstitial interstitial) {
         storage.put(id, new WeakReference<>(interstitial));

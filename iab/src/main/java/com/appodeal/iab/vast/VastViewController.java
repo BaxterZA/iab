@@ -198,7 +198,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
         Logger.d(TAG, "start");
         if (controllerState == VastViewControllerState.READY) {
             if (vastType == VastType.FULLSCREEN && getActivity() != null) {
-                Activity activity = activityWeakReference.get();
+                Activity activity = getActivity();
                 int currentOrientation = activity.getResources().getConfiguration().orientation;
                 if (currentOrientation != vastConfig.getVideoOrientation() && vastConfig.getVideoOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
                     activity.setRequestedOrientation(vastConfig.getVideoOrientation());
@@ -333,7 +333,7 @@ public class VastViewController implements PlayerLayerListener, ControlsLayer.Co
     private void showCompanion() {
         Logger.d(TAG, "show companion");
         if (vastType == VastType.FULLSCREEN && getActivity() != null) {
-            Activity activity = activityWeakReference.get();
+            Activity activity = getActivity();
             int currentOrientation = activity.getResources().getConfiguration().orientation;
             if (currentOrientation != vastConfig.getCompanionOrientation() && vastConfig.getCompanionOrientation() != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
                 activity.setRequestedOrientation(vastConfig.getCompanionOrientation());

@@ -21,7 +21,7 @@ class VastProcessor {
     
     private static final String VAST_AD_TAG = "VASTAdTagURI";
     private static final int MAX_VAST_LEVELS = 5;
-    private StringBuilder mergedVastDocs = new StringBuilder();
+    private final StringBuilder mergedVastDocs = new StringBuilder();
 
     @Nullable
     VastModel loadUrl(String link)  {

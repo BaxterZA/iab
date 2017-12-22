@@ -76,7 +76,7 @@ public class MraidViewController implements MraidCommandListener, MraidViewabili
 
     private boolean destroyed;
     private boolean loaded;
-    private View.OnLayoutChangeListener onLayoutChangeListener;
+    private final View.OnLayoutChangeListener onLayoutChangeListener;
 
     @VisibleForTesting
     @Nullable MraidNativeFeatureManager mraidNativeFeatureManager;

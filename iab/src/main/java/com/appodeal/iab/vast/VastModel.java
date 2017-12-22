@@ -23,7 +23,7 @@ import javax.xml.xpath.XPathFactory;
 class VastModel {
     private final static String TAG = "VastModel";
     
-    private transient Document vastsDocument;
+    private final transient Document vastsDocument;
 
     // Tracking xpath expressions
     private static final String inlineLinearTrackingXPATH = "/VASTS/VAST/Ad/InLine/Creatives/Creative/Linear/TrackingEvents/Tracking";
@@ -677,14 +677,10 @@ class VastModel {
 
     void sendError(com.appodeal.iab.vast.Error error) {
         List<String> errorUrls = getErrorUrls();
-        if (errorUrls != null) {
-            for (String url : errorUrls) {
-                url = VastTools.replaceMacros(url, null, 0, error);
-                Logger.d(TAG, "Fire error url:" + url);
-                VastTools.fireUrl(url);
-            }
-        } else {
-            Logger.d(TAG, "Error url list is null");
+        for (String url : errorUrls) {
+            url = VastTools.replaceMacros(url, null, 0, error);
+            Logger.d(TAG, "Fire error url:" + url);
+            VastTools.fireUrl(url);
         }
     }
 
@@ -779,11 +775,11 @@ class VastModel {
                     List<String> iconViewTracking = new ArrayList<>();
                     IconClicks iconClicks = new IconClicks();
                     if (iconAttributes.getNamedItem("pxratio") != null) {
-                        iconBuilder.setPxratio(Integer.valueOf(iconAttributes.getNamedItem("pxratio").getNodeValue()));
+                        iconBuilder.setPxratio(Integer.parseInt(iconAttributes.getNamedItem("pxratio").getNodeValue()));
                     }
                     if (iconAttributes.getNamedItem("height") != null && iconAttributes.getNamedItem("width") != null) {
-                        iconBuilder.setHeight(Integer.valueOf(iconAttributes.getNamedItem("height").getNodeValue()));
-                        iconBuilder.setWidth(Integer.valueOf(iconAttributes.getNamedItem("width").getNodeValue()));
+                        iconBuilder.setHeight(Integer.parseInt(iconAttributes.getNamedItem("height").getNodeValue()));
+                        iconBuilder.setWidth(Integer.parseInt(iconAttributes.getNamedItem("width").getNodeValue()));
                     }
                     if (iconAttributes.getNamedItem("xPosition") != null && iconAttributes.getNamedItem("yPosition") != null) {
                         String xPositionString = iconAttributes.getNamedItem("xPosition").getNodeValue();
@@ -870,8 +866,8 @@ class VastModel {
     private Companion createCompanionFromNode(Node node) {
         try {
             NamedNodeMap companionAttributes = node.getAttributes();
-            int height = Integer.valueOf(companionAttributes.getNamedItem("height").getNodeValue());
-            int width = Integer.valueOf(companionAttributes.getNamedItem("width").getNodeValue());
+            int height = Integer.parseInt(companionAttributes.getNamedItem("height").getNodeValue());
+            int width = Integer.parseInt(companionAttributes.getNamedItem("width").getNodeValue());
             Companion.Builder companionBuilder = new Companion.Builder(width, height);
 
             List<String> clickTracking = new ArrayList<>();

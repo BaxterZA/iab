@@ -20,7 +20,7 @@ import java.util.List;
 class MraidViewabilityTracker {
     private static final int TRACKING_PERIOD = 200;
     @VisibleForTesting
-    private static Handler handler = new Handler(Looper.getMainLooper());
+    private static final Handler handler = new Handler(Looper.getMainLooper());
     private ViewabilityCheckTask task;
 
     interface MraidViewabilityListener {
@@ -98,7 +98,7 @@ class MraidViewabilityTracker {
                         occlusionRectangles = calculator.getOcclusionRectangles();
                     }
                 }
-                if (newPercent != percent || !localVisibleViewRect.equals(viewableRect)) {
+                if (Float.compare(newPercent, percent) != 0 || !localVisibleViewRect.equals(viewableRect)) {
                     percent = newPercent;
                     viewableRect = localVisibleViewRect;
                     DisplayMetrics displayMetrics = adView.getResources().getDisplayMetrics();

@@ -1,7 +1,7 @@
 package com.appodeal.iab.vpaid;
 
 
-public class VpaidError extends Exception {
+class VpaidError extends Exception {
     VpaidError() {
         super();
     }

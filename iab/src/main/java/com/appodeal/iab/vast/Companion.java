@@ -2,7 +2,6 @@ package com.appodeal.iab.vast;
 
 import android.content.Context;
 
-import com.appodeal.iab.MraidInterstitial;
 import com.appodeal.iab.MraidView;
 import com.appodeal.iab.mraid.MraidViewController;
 

@@ -59,7 +59,7 @@ public class ViewCompanionLayer extends CompanionLayer {
         return true;
     }
 
-    void showInlineCompanionFromFrame(Context context) {
+    private void showInlineCompanionFromFrame(Context context) {
         removeAllViews();
 
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();

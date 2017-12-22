@@ -14,7 +14,7 @@ import java.util.Set;
 
 class VpaidCommandProcessor {
     private final static String TAG = "VpaidCommandProcessor";
-    private Map<String, String> params = new HashMap<>();
+    private final Map<String, String> params = new HashMap<>();
     private VpaidCommand vpaidCommand = VpaidCommand.UNKNOWN;
 
 

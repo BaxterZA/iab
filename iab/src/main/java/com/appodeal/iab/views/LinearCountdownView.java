@@ -14,9 +14,9 @@ public class LinearCountdownView extends View {
 
     private float percent;
 
-    public Handler uiThread = new Handler();
+    private final Handler uiThread = new Handler();
 
-    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
+    private final Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
 
     public LinearCountdownView(Context context) {
         super(context);

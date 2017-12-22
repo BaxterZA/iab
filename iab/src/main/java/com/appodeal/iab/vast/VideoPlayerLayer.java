@@ -14,11 +14,11 @@ import com.appodeal.iab.views.ViewHelper;
 
 @SuppressLint("ViewConstructor")
 class VideoPlayerLayer extends RelativeLayout implements PlayerLayerInterface {
-    private VideoView videoView;
-    private VastConfig vastConfig;
+    private final VideoView videoView;
+    private final VastConfig vastConfig;
     private LinearCountdownView progressBar;
     private int playerPositionInMills;
-    private PlayerLayerListener listener;
+    private final PlayerLayerListener listener;
 
     VideoPlayerLayer(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final PlayerLayerListener listener) {
         super(context);

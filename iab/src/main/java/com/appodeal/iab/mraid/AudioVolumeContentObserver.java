@@ -22,11 +22,6 @@ class AudioVolumeContentObserver extends ContentObserver {
     }
 
     @Override
-    public boolean deliverSelfNotifications() {
-        return super.deliverSelfNotifications();
-    }
-
-    @Override
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
         float currentVolumePercentage = getCurrentPercentage();
@@ -40,10 +35,14 @@ class AudioVolumeContentObserver extends ContentObserver {
         }
     }
 
-    float getCurrentPercentage() {
+    private float getCurrentPercentage() {
         AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        float currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
-        float maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        return currentVolume / maxVolume * 100;
+        if (audio != null) {
+            float currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+            float maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            return currentVolume / maxVolume * 100;
+        } else {
+            return 100;
+        }
     }
 }

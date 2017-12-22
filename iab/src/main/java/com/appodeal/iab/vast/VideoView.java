@@ -27,8 +27,8 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
     private final Uri mediaFileLocalUri;
     @NonNull private final PlayerLayerListener listener;
 
-    private int videoWidth;
-    private int videoHeight;
+    private final int videoWidth;
+    private final int videoHeight;
 
 
     VideoView(@NonNull Context context, @NonNull final VastConfig vastConfig, @NonNull Uri mediaFileLocalUri, @NonNull final PlayerLayerListener listener) {
@@ -40,8 +40,8 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(context, mediaFileLocalUri);
 
-        videoWidth = Integer.valueOf(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-        videoHeight = Integer.valueOf(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+        videoWidth = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+        videoHeight = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
 
         Extensions extensions = vastConfig.getExtensions();
         if (extensions != null) {
@@ -170,7 +170,7 @@ class VideoView extends TextureView implements MediaPlayer.OnCompletionListener,
         playVideo();
     }
 
-    void playVideo() {
+    private void playVideo() {
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             listener.onStarted();

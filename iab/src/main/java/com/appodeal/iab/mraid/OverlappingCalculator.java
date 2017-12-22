@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 class OverlappingCalculator {
-    private List<Rect> occlusionRectangles;
+    private final List<Rect> occlusionRectangles;
 
     OverlappingCalculator(List<Rect> overlappingRectList, int[] offset) {
         List<Integer> xEdges = getXEdges(overlappingRectList);

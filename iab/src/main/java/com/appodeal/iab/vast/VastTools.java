@@ -153,10 +153,10 @@ public class VastTools {
         if (seconds.length() == 1) {
             seconds = "0" + seconds;
         }
-        String mills = String.valueOf(timeInMills % 1000);
+        StringBuilder mills = new StringBuilder(String.valueOf(timeInMills % 1000));
         if (mills.length() < 3) {
             while (mills.length() < 3) {
-                mills = "0" + mills;
+                mills.insert(0, "0");
             }
         }
         return hours + ":" + minutes + ":" + seconds + "." + mills;
@@ -167,7 +167,7 @@ public class VastTools {
         int mills = 0;
         if (time.contains(".")) {
             timeWithoutMills = time.split("\\.")[0];
-            mills = Integer.valueOf(time.split("\\.")[1]);
+            mills = Integer.parseInt(time.split("\\.")[1]);
         } else {
             timeWithoutMills = time;
         }

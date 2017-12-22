@@ -14,7 +14,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MraidCommandProcessorTest {
-    private MraidCommandProcessor mraidCommandProcessor = new MraidCommandProcessor();
+    private final MraidCommandProcessor mraidCommandProcessor = new MraidCommandProcessor();
 
     @Test
     public void parseBoolean() throws Exception {

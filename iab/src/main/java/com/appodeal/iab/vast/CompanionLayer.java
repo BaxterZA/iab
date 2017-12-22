@@ -10,9 +10,9 @@ import android.widget.RelativeLayout;
 
 @SuppressLint("ViewConstructor")
 public abstract class CompanionLayer extends RelativeLayout {
-    protected VastConfig vastConfig;
+    protected final VastConfig vastConfig;
     protected CompanionListener listener;
-    protected Companion companion;
+    protected final Companion companion;
 
     interface CompanionListener {
         void onCompanionShown(@Nullable Companion companion);
@@ -21,7 +21,7 @@ public abstract class CompanionLayer extends RelativeLayout {
         void onRepeatButtonClicked();
     }
 
-    public CompanionLayer(Context context, @NonNull final VastConfig vastConfig, @NonNull final CompanionListener listener) {
+    CompanionLayer(Context context, @NonNull final VastConfig vastConfig, @NonNull final CompanionListener listener) {
         super(context);
         this.vastConfig = vastConfig;
         this.listener = listener;

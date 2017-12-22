@@ -12,24 +12,27 @@ import java.util.List;
 import java.util.Map;
 
 class VastConfig {
-    @VisibleForTesting List<MediaFile> mediaFiles;
-    @VisibleForTesting List<MediaFile> interactiveCreativeFiles;
-    @VisibleForTesting List<Companion> companions;
-    private Extensions extensions;
-    private List<Icon> icons;
-    private String adParameters;
-    private int skipOffset;
-    private int duration;
-    private Map<TrackingEventsType, List<String>> trackingEventMap;
-    private List<ProgressEvent> progressTrackingList;
-    private List<String> errorTracking;
-    private List<String> impressionTracking;
-    private VideoClicks videoClicks;
-    private List<String> viewableViewableImpressions;
-    private List<String> notViewableViewableImpression;
-    private List<String> viewUndeterminedViewableImpression;
+    @VisibleForTesting
+    final List<MediaFile> mediaFiles;
+    @VisibleForTesting
+    final List<MediaFile> interactiveCreativeFiles;
+    @VisibleForTesting
+    final List<Companion> companions;
+    private final Extensions extensions;
+    private final List<Icon> icons;
+    private final String adParameters;
+    private final int skipOffset;
+    private final int duration;
+    private final Map<TrackingEventsType, List<String>> trackingEventMap;
+    private final List<ProgressEvent> progressTrackingList;
+    private final List<String> errorTracking;
+    private final List<String> impressionTracking;
+    private final VideoClicks videoClicks;
+    private final List<String> viewableViewableImpressions;
+    private final List<String> notViewableViewableImpression;
+    private final List<String> viewUndeterminedViewableImpression;
 
-    private MediaFile mediaFile;
+    private final MediaFile mediaFile;
     private Companion companion;
     private Uri mediaFileLocalUri;
 

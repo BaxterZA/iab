@@ -6,7 +6,7 @@ import java.util.List;
 class IconClicks {
 
 	private String clickThrough;
-	private List<String> clickTracking = new ArrayList<>();
+	private final List<String> clickTracking = new ArrayList<>();
 
 	String getClickThrough() {
 		return clickThrough;

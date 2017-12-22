@@ -54,10 +54,10 @@ class MediaFileLoader {
                 }
                 fileOutput.close();
                 if (totalSize == downloadedSize) {
-                    //noinspection ResultOfMethodCallIgnored
-                    file.renameTo(new File(dir, fileName));
+                    if (file.renameTo(new File(dir, fileName))) {
+                        return Uri.fromFile(new File(dir, fileName));
+                    }
                 }
-                return Uri.fromFile(new File(dir, fileName));
             }
         } catch (Exception e) {
             Logger.e(TAG, e);

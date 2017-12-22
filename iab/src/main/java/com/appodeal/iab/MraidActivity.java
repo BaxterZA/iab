@@ -20,7 +20,7 @@ import com.appodeal.iab.views.CloseableLayout;
 public class MraidActivity extends Activity implements MraidViewControllerListener {
     private final static String TAG = "MraidActivity";
 
-    public static final String ID = "com.appodeal.mraid.MraidViewController.id";
+    private static final String ID = "com.appodeal.mraid.MraidViewController.id";
     private static final String WAS_SHOWN = "com.appodeal.mraid.MraidViewController.wasShown";
     private static final String TIMER_POSITION = "com.appodeal.mraid.MraidViewController.timerPosition";
     private MraidInterstitial mraidInterstitial;

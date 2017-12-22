@@ -2,8 +2,8 @@ package com.appodeal.iab.mraid;
 
 
 class MraidOrientationProperties {
-    public boolean allowOrientationChange;
-    public MraidOrientation forceOrientation;
+    public final boolean allowOrientationChange;
+    public final MraidOrientation forceOrientation;
 
     MraidOrientationProperties() {
         this(true, MraidOrientation.NONE);

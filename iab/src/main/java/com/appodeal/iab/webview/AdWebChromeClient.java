@@ -12,7 +12,7 @@ import com.appodeal.iab.Logger;
 public class AdWebChromeClient extends WebChromeClient {
     private final static String TAG = "AdWebChromeClient";
 
-    private WebViewDebugListener debugListener;
+    private final WebViewDebugListener debugListener;
 
     public AdWebChromeClient(WebViewDebugListener debugListener) {
         super();

@@ -6,8 +6,8 @@ import java.util.List;
 class VideoClicks {
 
 	private String clickThrough;
-	private List<String> clickTracking = new ArrayList<>();
-	private List<String> customClick = new ArrayList<>();
+	private final List<String> clickTracking = new ArrayList<>();
+	private final List<String> customClick = new ArrayList<>();
 
 	String getClickThrough() {
 		return clickThrough;

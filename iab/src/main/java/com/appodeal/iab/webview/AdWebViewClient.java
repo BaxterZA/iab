@@ -14,7 +14,7 @@ public class AdWebViewClient extends WebViewClient {
 
     protected final AdWebViewListener listener;
 
-    public AdWebViewClient(AdWebViewListener listener) {
+    protected AdWebViewClient(AdWebViewListener listener) {
         this.listener = listener;
     }
 

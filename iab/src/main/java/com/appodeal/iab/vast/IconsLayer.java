@@ -11,7 +11,7 @@ import com.appodeal.iab.MraidView;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @SuppressLint("ViewConstructor")
 public class IconsLayer extends RelativeLayout {
@@ -52,13 +52,14 @@ public class IconsLayer extends RelativeLayout {
 
     void updateIcons(int playerPosition) {
         if (iconsMap != null && iconsMap.size() > 0) {
-            Set<Icon> set = iconsMap.keySet();
-            for (Icon icon : set) {
-                if (icon.shouldShow(playerPosition) && icon.viewIsLoaded() && iconsMap.get(icon) != null && iconsMap.get(icon).getVisibility() != VISIBLE) {
-                    iconsMap.get(icon).setVisibility(VISIBLE);
+            for (Map.Entry<Icon, View> mapEntry : iconsMap.entrySet()) {
+                Icon icon = mapEntry.getKey();
+                View view = mapEntry.getValue();
+                if (icon.shouldShow(playerPosition) && icon.viewIsLoaded() && view != null && view.getVisibility() != VISIBLE) {
+                    view.setVisibility(VISIBLE);
                     listener.onIconShown(icon);
-                } else if (!icon.shouldShow(playerPosition) && iconsMap.get(icon) != null && iconsMap.get(icon).getVisibility() == VISIBLE) {
-                    iconsMap.get(icon).setVisibility(GONE);
+                } else if (!icon.shouldShow(playerPosition) && view != null && view.getVisibility() == VISIBLE) {
+                    view.setVisibility(GONE);
                 }
             }
         }

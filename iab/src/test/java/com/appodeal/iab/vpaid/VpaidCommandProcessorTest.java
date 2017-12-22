@@ -8,7 +8,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class VpaidCommandProcessorTest {
-    private VpaidCommandProcessor vpaidCommandProcessor = new VpaidCommandProcessor();
+    private final VpaidCommandProcessor vpaidCommandProcessor = new VpaidCommandProcessor();
 
     @Test
     public void checkParamsForCommand_AdLog() throws Exception {

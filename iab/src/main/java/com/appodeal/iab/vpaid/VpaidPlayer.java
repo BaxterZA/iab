@@ -23,12 +23,11 @@ public class VpaidPlayer extends RelativeLayout implements VpaidCommandListener,
     private final static String TAG = "VpaidPlayer";
 
     private final VpaidBridge vpaidBridge;
-    private String adParameters;
-    @VisibleForTesting
-    AdWebView adWebView;
+    private final String adParameters;
+    private AdWebView adWebView;
     private int currentPosition;
-    private String fileUrl;
-    private PlayerLayerListener listener;
+    private final String fileUrl;
+    private final PlayerLayerListener listener;
 
     private boolean destroyed;
     private boolean loaded;

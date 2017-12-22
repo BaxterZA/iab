@@ -28,7 +28,7 @@ public class CircleCountdownView extends View {
     private int percent;
     private int remainingTime;
 
-    Handler uiThread = new Handler(Looper.getMainLooper());
+    private final Handler uiThread = new Handler(Looper.getMainLooper());
 
     public CircleCountdownView(Context context) {
         super(context);
@@ -50,8 +50,8 @@ public class CircleCountdownView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
-        circleCenterPointX = w / 2;
-        circleCenterPointY = h / 2;
+        circleCenterPointX = w / 2f;
+        circleCenterPointY = h / 2f;
         paddingInContainer = Math.max(w, h) / 4;
         innerSize = (int) ((circleCenterPointX - paddingInContainer) * Math.sqrt(2));
         if (resource != null) {
@@ -99,8 +99,8 @@ public class CircleCountdownView extends View {
     }
 
     private void drawBitmap(Canvas canvas) {
-        int positionX = (int) (circleCenterPointX - innerSize / 2);
-        int positionY = (int) (circleCenterPointY - innerSize / 2);
+        int positionX = (int) (circleCenterPointX - innerSize / 2f);
+        int positionY = (int) (circleCenterPointY - innerSize / 2f);
 
         Paint bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
         bitmapPaint.setStyle(Paint.Style.FILL);
@@ -118,7 +118,7 @@ public class CircleCountdownView extends View {
         textPaint.setTextAlign(Paint.Align.CENTER);
 
         int positionX = (getMeasuredWidth() / 2);
-        int positionY = (int) ((getMeasuredHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
+        int positionY = (int) ((getMeasuredHeight() / 2f) - ((textPaint.descent() + textPaint.ascent()) / 2f));
         canvas.drawText(text, positionX, positionY, textPaint);
     }
 

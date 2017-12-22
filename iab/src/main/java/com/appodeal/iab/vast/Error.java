@@ -16,10 +16,10 @@ class Error {
     static final Error ERROR_CODE_EXCEEDED_WRAPPER_LIMIT = new Error("Wrapper limit reached, as defined by the video player. Too many Wrapper responses have been received with no InLine response", 302);
     static final Error ERROR_CODE_NO_VAST_AFTER_WRAPPER_LIMIT = new Error("No VAST response after one or more Wrappers", 303);
     static final Error ERROR_CODE_NO_FILE = new Error("File not found. Unable to find Linear/MediaFile from URI", 401);
-    static final Error ERROR_CODE_BAD_FILE = new Error("Couldn’t find MediaFile that is supported by this video player, based on the attributes of the MediaFile element", 403);
+    static final Error ERROR_CODE_BAD_FILE = new Error("Couldn't find MediaFile that is supported by this video player, based on the attributes of the MediaFile element", 403);
     static final Error ERROR_CODE_ERROR_SHOWING = new Error("Problem displaying MediaFile.", 405);
     static final Error ERROR_CODE_COMPANION_NODE_NOT_FOUND = new Error("Unable to fetch CompanionAds/Companion resource", 603);
-    static final Error ERROR_CODE_COMPANION_NOT_FOUND = new Error("Couldn’t find Companion resource with supported type", 604);
+    static final Error ERROR_CODE_COMPANION_NOT_FOUND = new Error("Couldn't find Companion resource with supported type", 604);
     static final Error ERROR_CODE_VPAID_ERROR = new Error("General VPAID error", 901);
 
     private final String description;

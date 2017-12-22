@@ -5,16 +5,16 @@ import java.io.Serializable;
 class MediaFile implements Serializable {
 	private static final String SUPPORTED_VIDEO_TYPE_REGEX = "video/.*(?i)(mp4|3gpp)";
 
-	private String url;
-	private String id;
-	private String delivery;
-	private String type;
-	private Integer bitrate;
-	private Integer width;
-	private Integer height;
-	private Boolean scalable;
-	private Boolean maintainAspectRatio;
-	private String apiFramework;
+	private final String url;
+	private final String id;
+	private final String delivery;
+	private final String type;
+	private final Integer bitrate;
+	private final Integer width;
+	private final Integer height;
+	private final Boolean scalable;
+	private final Boolean maintainAspectRatio;
+	private final String apiFramework;
 
 	private MediaFile(Builder builder) {
 		this.url = builder.url;
