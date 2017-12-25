@@ -18,6 +18,7 @@ public class VastInterstitial {
     private VastViewController controller;
     private VastInterstitialListener vastInterstitialListener;
     private boolean isNonSkippable;
+    private boolean isDestroyed;
 
     public VastInterstitial(Context context) {
         this.context = context;
@@ -48,6 +49,9 @@ public class VastInterstitial {
      * @param xml content
      */
     public void loadXml(String xml) {
+        if (isDestroyed) {
+            return;
+        }
         VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, loaderListener());
         vastLoader.loadXml(xml);
     }
@@ -57,6 +61,9 @@ public class VastInterstitial {
      * @param url link to content
      */
     public void loadUrl(String url) {
+        if (isDestroyed) {
+            return;
+        }
         VastLoader vastLoader = new VastLoader(context, ViewHelper.getDisplayAspectRatio(context), VastType.FULLSCREEN, loaderListener());
         vastLoader.loadUrl(url);
     }
@@ -65,6 +72,9 @@ public class VastInterstitial {
      * Start showing
      */
     public void show() {
+        if (isDestroyed) {
+            return;
+        }
         if (controller != null && controller.isLoaded()) {
             String id = VastInterstitialStorage.save(this);
             VastActivity.startIntent(context, id);
@@ -78,6 +88,7 @@ public class VastInterstitial {
      * Destroy vast interstitial, after that it can't be used
      */
     public void destroy() {
+        isDestroyed = true;
         if (controller != null) {
             controller.destroy();
             controller = null;
@@ -91,7 +102,7 @@ public class VastInterstitial {
      * @return {@code true} if vast view was destroyed {@code false} if not
      */
     public boolean isDestroyed() {
-        return controller == null || controller.isDestroyed();
+        return isDestroyed || controller == null || controller.isDestroyed();
     }
 
     /**
@@ -99,13 +110,16 @@ public class VastInterstitial {
      * @return {@code true} if vast view was loaded {@code false} if not
      */
     public boolean isLoaded() {
-        return controller != null && controller.isLoaded();
+        return !isDestroyed && controller != null && controller.isLoaded();
     }
 
     private VastLoader.VastLoaderListener loaderListener() {
         return new VastLoader.VastLoaderListener() {
             @Override
             public void onComplete(@Nullable VastViewController vastViewController) {
+                if (isDestroyed) {
+                    return;
+                }
                 if (vastViewController == null) {
                     if (vastInterstitialListener != null) {
                         vastInterstitialListener.onVastFailedToLoad(VastInterstitial.this);

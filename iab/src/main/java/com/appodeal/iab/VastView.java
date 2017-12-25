@@ -20,6 +20,7 @@ import com.appodeal.iab.vast.VastViewControllerListener;
 public class VastView extends RelativeLayout {
     private VastViewController controller;
     private VastViewListener vastViewListener;
+    private boolean isDestroyed;
 
     public VastView(Context context) {
         super(context);
@@ -42,6 +43,9 @@ public class VastView extends RelativeLayout {
      * @param xml content
      */
     public void loadXml(String xml) {
+        if (isDestroyed) {
+            return;
+        }
         VastLoader vastLoader = new VastLoader(getContext(), 16f / 9, VastType.VIEW, loaderListener());
         vastLoader.loadXml(xml);
     }
@@ -51,6 +55,9 @@ public class VastView extends RelativeLayout {
      * @param url link to content
      */
     public void loadUrl(String url) {
+        if (isDestroyed) {
+            return;
+        }
         VastLoader vastLoader = new VastLoader(getContext(), 16f / 9, VastType.VIEW, loaderListener());
         vastLoader.loadUrl(url);
     }
@@ -59,6 +66,7 @@ public class VastView extends RelativeLayout {
      * Destroy vast view, after that it can't be used
      */
     public void destroy() {
+        isDestroyed = true;
         removeAllViews();
         if (controller != null) {
             controller.destroy();
@@ -72,7 +80,7 @@ public class VastView extends RelativeLayout {
      * @return {@code true} if vast view was destroyed {@code false} if not
      */
     public boolean isDestroyed() {
-        return controller == null || controller.isDestroyed();
+        return isDestroyed || controller == null || controller.isDestroyed();
     }
 
     /**
@@ -80,13 +88,16 @@ public class VastView extends RelativeLayout {
      * @return {@code true} if vast view was loaded {@code false} if not
      */
     public boolean isLoaded() {
-        return controller != null && controller.isLoaded();
+        return !isDestroyed && controller != null && controller.isLoaded();
     }
 
     private VastLoader.VastLoaderListener loaderListener() {
         return new VastLoader.VastLoaderListener() {
             @Override
             public void onComplete(@Nullable VastViewController vastViewController) {
+                if (isDestroyed) {
+                    return;
+                }
                 if (vastViewController == null) {
                     if (vastViewListener != null) {
                         vastViewListener.onVastFailedToLoad(VastView.this);
